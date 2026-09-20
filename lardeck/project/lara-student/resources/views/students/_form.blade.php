@@ -1,11 +1,11 @@
-<!--
+{{--
     Partial form — dipakai bersama oleh create.blade.php dan edit.blade.php.
 
     Perhatikan:
-    - old('name', $student->name ?? '') → saat validasi gagal, input tidak hilang
-    - @error(...) menampilkan pesan error per field
+    - old() mengembalikan input lama saat validasi gagal (input tidak hilang)
+    - @error menampilkan pesan error per field
     Semua ini dulu kita tulis manual di Part 9 deck lama.
--->
+--}}
 <div class="field">
     <label for="name">Nama</label>
     <input type="text" id="name" name="name"

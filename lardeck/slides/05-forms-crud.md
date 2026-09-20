@@ -94,6 +94,11 @@ public function store(Request $request): RedirectResponse
         'name'  => ['required', 'string', 'max:100'],
         'email' => ['required', 'email', 'max:150'],
         'major' => ['required', 'string', 'max:80'],
+    ], [
+        // pesan kustom Bahasa Indonesia (opsional, agar ramah ke user)
+        'name.required'  => 'Nama wajib diisi.',
+        'email.email'    => 'Format email tidak valid.',
+        'major.required' => 'Jurusan wajib diisi.',
     ]);
 
     Student::create($validated);
@@ -104,7 +109,7 @@ public function store(Request $request): RedirectResponse
 }
 ```
 
-<p class="fineprint">Deck lama: <code>prepare()</code> + <code>execute()</code> + <code>setFlash()</code> + <code>header('Location:...')</code> + <code>exit</code>; semuanya jadi 4 baris yang jelas.</p>
+<p class="fineprint">Argumen kedua <code>validate()</code> = pesan error kustom. Tanpa itu, Laravel memakai pesan bawaan berbahasa Inggris. Deck lama: <code>prepare()</code> + <code>execute()</code> + <code>setFlash()</code> + <code>header('Location:...')</code> + <code>exit</code>; semuanya jadi beberapa baris yang jelas.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Live coding pertama di Part 5: menambah data. Dua method. `create()` cuma menampilkan form. `store()` memproses data yang dikirim."
@@ -134,7 +139,8 @@ public function edit(Student $student): View
 
 public function update(Request $request, Student $student): RedirectResponse
 {
-    $validated = $request->validate([ /* aturan sama seperti store */ ]);
+    // aturan + pesan validasi SAMA seperti store()
+    $validated = $request->validate([ /* ... */ ]);
 
     $student->update($validated);
 

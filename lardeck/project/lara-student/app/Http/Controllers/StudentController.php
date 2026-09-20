@@ -51,6 +51,12 @@ class StudentController extends Controller
             'name'  => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'max:150'],
             'major' => ['required', 'string', 'max:80'],
+        ], [
+            'name.required'  => 'Nama wajib diisi.',
+            'name.max'       => 'Nama maksimal 100 karakter.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email'    => 'Format email tidak valid.',
+            'major.required' => 'Jurusan wajib diisi.',
         ]);
 
         Student::create($validated);
