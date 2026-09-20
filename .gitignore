@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output (bisa dibuat ulang dengan `npm run sync-assets`)
+dist/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Laravel runtime
+storage/*.key
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+bootstrap/cache/*
+!storage/**/.gitignore
+!bootstrap/cache/.gitignore
+
+# Database file (SQLite)
+*.sqlite
+*.sqlite-journal
+
+# Editor & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Vercel
+.vercel
