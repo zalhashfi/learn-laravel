@@ -20,9 +20,10 @@ Legenda: `[CORE]` = slide materi &middot; `[LIVE]` = sesi live coding pemateri
 coding. Slide hybrid dihitung di KEDUA kolom `[CORE: x, LIVE: y]` pada setiap
 Part &middot; `roadmap:` = node di roadmap.sh/laravel.
 
-**Total: 29 slide** — mendekati target awal 28. Setelah ditulis dengan prinsip
-"satu ide per slide", deck sempat membengkak ke 42, lalu dipangkas dengan
-menggabungkan slide yang memang bisa menyatu (lihat catatan penomoran).
+**Total: 30 slide.** Setelah ditulis dengan prinsip
+"satu ide per slide", deck sempat membengkak ke 42, dipangkas ke 29, lalu
+slide Request–Response dipisah dari `.env` (diagram butuh ruang penuh) menjadi
+30. Rincian di catatan penomoran.
 
 > **Catatan penomoran:** deck ditulis dengan prinsip "satu ide per slide".
 > Versi pertama membengkak ke 42 slide; atas keputusan pemilik materi, deck
@@ -31,18 +32,19 @@ menggabungkan slide yang memang bisa menyatu (lihat catatan penomoran).
 > | Part | Rencana | Final | Status |
 > |---|---|---|---|
 > | 0 · Opening | 3 | 3 | ✅ selesai |
-> | 1 · Getting Started | 5 | 5 | ✅ selesai |
+> | 1 · Getting Started | 5 | 6 | ✅ selesai |
 > | 2 · Routing & Controllers | 4 | 4 | ✅ selesai |
 > | 3 · Database & Eloquent | 4 | 4 | ✅ selesai |
 > | 4 · Views & Blade | 2 | 3 | ✅ selesai |
 > | 5 · Forms & CRUD | 6 | 6 | ✅ selesai |
 > | 6 · Relasi & Peta Jalan | 4 | 4 | ✅ selesai |
-> | **Total** | **28** | **29** | ✅ selesai |
+> | **Total** | **28** | **30** | ✅ selesai |
 >
 > Semua slide punya speaker notes. Penggabungan yang dilakukan: Composer +
 > create-project (Part 1), route dasar + parameter (Part 2), migration + seeder
 > (Part 3), Eloquent + `$fillable` (Part 3), validasi + tampil error (Part 5),
-> peta roadmap + relationships (Part 6).
+> peta roadmap + relationships (Part 6). Satu pemisahan: Request–Response Flow
+> dan Configuration `.env` jadi slide terpisah (diagram butuh ruang penuh).
 
 ---
 

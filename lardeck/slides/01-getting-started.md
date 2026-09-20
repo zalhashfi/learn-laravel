@@ -133,7 +133,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 1 · Getting Started</p>
 
-## Request–Response Flow &amp; Configuration `.env`
+## Request–Response Flow di Laravel
 
 <div class="mvc">
 
@@ -167,14 +167,61 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 </div>
 
-<p class="fineprint"><b>Konfigurasi:</b> kredensial yang kemarin keras di <code>config/database.php</code> kini pindah ke <code>.env</code> (tidak di-commit): <code>DB_DATABASE</code>, <code>DB_USERNAME</code>, <code>APP_DEBUG</code>. Sama seperti <code>display_errors</code> kemarin; <code>APP_DEBUG</code> <b>wajib <code>false</code> di production</b>. Siapkan <code>.env</code> sekarang: live coding berikutnya butuh koneksi DB.</p>
-
 Note: **🗣️ Ngomong ke Peserta:**
 "Boleh difoto slide ini? Ini peta jalan seluruh sesi, persis seperti diagram Browser-HTTP-PHP-SQL kemarin. Bedanya cuma satu: sekarang tahapnya punya NAMA dan RUMAH. Route itu pintu masuk. Controller itu otaknya. Model itu jembatan ke database. View itu tampilannya. Setiap kali bingung 'kode ini taruh di mana?', jawabannya ada di diagram ini."
 
-"Dan di bawahnya, soal konfigurasi. Kemarin kredensial database kita tulis keras di `config/database.php`, dan file itu ikut masuk git — password kalian bisa dilihat siapa saja yang punya akses repo. Laravel memisahkannya ke `.env` yang tidak di-commit. Sama seperti kita belajar `display_errors` kemarin: `APP_DEBUG=true` itu untuk laptop, dan WAJIB jadi `false` begitu aplikasi online. Siapkan `.env` kalian sekarang, karena live coding berikutnya butuh koneksi database."
+"Perhatikan arahnya. Lajur kiri itu perjalanan REQUEST masuk: dari Browser, ke route, ke Controller, ambil data lewat Model, sampai ke Database. Lajur kanan itu perjalanan RESPONSE balik: Controller meracik hasilnya, View mengubahnya jadi HTML, lalu kembali ke Browser. Dua arah, satu putaran."
 
 **🎯 Poin Kunci di Layar:**
 - Minta peserta memotret diagram; tunjuk tiap kotak yang akan dibahas.
 - Tekankan: alur SAMA seperti yang mereka kuasai di PHP.
-- Ingatkan `APP_DEBUG=false` di production (padanan `display_errors`).
+
+
+
+<p class="part-label">Part 1 · Getting Started</p>
+
+## Configuration `.env`: rahasia tidak masuk git
+
+<div class="cmp">
+<div class="cmp-php">
+<h4>Kemarin: kredensial keras di kode</h4>
+
+```php
+// config/database.php
+$host = '127.0.0.1';
+$db   = 'student_db';
+$user = 'root';
+$pass = '';          // terlihat semua orang
+```
+
+File ini ikut masuk git, dan password terpampang ke siapa pun yang punya akses repo.
+
+</div>
+<div class="cmp-laravel">
+<h4>Hari ini: dipisah ke `.env`</h4>
+
+```bash
+# .env  (tidak di-commit ke git)
+DB_DATABASE=student_db
+DB_USERNAME=root
+APP_DEBUG=true
+```
+
+Kredensial dipisah dari kode. `.env` masuk `.gitignore` sejak awal.
+
+</div>
+</div>
+
+<p class="fineprint"><code>APP_DEBUG=true</code> = padanan <code>display_errors</code> kemarin. <b>Wajib <code>false</code> di production</b>: kalau tidak, pesan error bisa membocorkan isi server. Siapkan <code>.env</code> sekarang, karena live coding berikutnya butuh koneksi database.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Satu hal terakhir di Part 1: konfigurasi. Kemarin, kredensial database kita tulis keras di `config/database.php`. Masalahnya, file itu ikut masuk git. Artinya password database kalian bisa dilihat siapa saja yang punya akses ke repository. Itu kebiasaan yang berbahaya."
+
+"Laravel memisahkan ini ke file `.env`, dan file itu masuk `.gitignore` sejak awal — jadi tidak akan pernah ikut ter-commit. Di `.env` ada `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, dan satu lagi: `APP_DEBUG`."
+
+"Soal `APP_DEBUG` — ingat waktu kita bahas `display_errors` di pertemuan lalu? Bahwa menyalakan tampilan error di production itu berbahaya karena membocorkan struktur server? Ini padanannya. `APP_DEBUG=true` itu untuk belajar di laptop. Begitu aplikasi kalian online, WAJIB jadi `false`. Siapkan `.env` kalian sekarang, karena live coding berikutnya butuh koneksi database."
+
+**🎯 Poin Kunci di Layar:**
+- Tunjukkan file `.env` asli di editor, bukan cuma mockup.
+- Tekankan `APP_DEBUG=false` di production (padanan `display_errors`).
+- Ingatkan: siapkan `.env` sekarang untuk live coding berikutnya.
