@@ -1,6 +1,6 @@
 {
 	"$schema": "https://openapi.vercel.sh/vercel.json",
-	"buildCommand": "npm install && node scripts/sync-reveal.js",
+	"buildCommand": "node scripts/sync-reveal.js",
 	"outputDirectory": ".",
 	"cleanUrls": true,
 	"rewrites": [{ "source": "/", "destination": "/lardeck.html" }]
