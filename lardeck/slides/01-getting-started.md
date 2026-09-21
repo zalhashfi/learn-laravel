@@ -42,28 +42,24 @@ Composer mengunduh, mengurus versi, dan menyiapkan semuanya.
 </div>
 </div>
 
-<p class="filename">terminal (pilih salah satu)</p>
+<p class="filename">terminal</p>
 
 ```bash
-# Cara A: Laravel Installer (pasang sekali, lalu lebih singkat)
-composer global require laravel/installer
-laravel new lara-student
-
-# Cara B: Composer langsung (tanpa installer; dipakai di sesi ini)
+# Satu perintah, tanpa installer global — cukup PHP + Composer
 composer create-project laravel/laravel:^12.0 lara-student
 ```
 
-<p class="fineprint">Keduanya menghasilkan proyek yang <b>sama</b>. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan: <b>Laravel itu sendiri cuma paket Composer</b>. Kita pin ke <code>^12.0</code> agar sama dengan proyek Backend yang sudah berjalan.</p>
+<p class="fineprint">Tidak perlu alat tambahan di luar <b>PHP + Composer</b>. Perintah ini menegaskan: <b>Laravel itu sendiri cuma paket Composer</b>. Kita pin ke <code>^12.0</code> agar sama dengan proyek Backend yang sudah berjalan.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Ingat nggak waktu kita nulis `require 'config/database.php'`? Itu cara manual. Composer menggantikan itu — dia package manager, sama seperti `npm` di JavaScript atau `pip` di Python. Lucunya, Laravel itu sendiri cuma sebuah paket Composer. Jadi begitu paham Composer, kalian paham cara memasang framework ini."
 
-"Ada dua cara membuat proyek. Cara A pakai Laravel Installer — pasang sekali, lalu `laravel new` lebih singkat. Cara B langsung lewat Composer: `composer create-project`. Keduanya sah dan hasilnya identik. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan bahwa Laravel cuma paket Composer."
+"Untuk membuat proyeknya, cukup satu perintah Composer: `composer create-project`. Tidak ada installer global yang perlu dipasang lebih dulu — modal kalian cuma PHP dan Composer. Ini juga menegaskan poinnya: Laravel cuma paket Composer biasa."
 
 "Perhatikan versinya: `^12.0`. Kita sengaja pakai Laravel 12 — versi yang sama dengan proyek Backend kalian. Jadi apa yang kalian pelajari hari ini langsung nyambung ke kode tim nanti."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Tunjukkan perintahnya, pilih Cara B, jalankan.
+- [Aksi Live]: Tunjukkan perintahnya, jalankan `composer create-project`.
 - Sebut nama folder `lara-student` — konsisten sepanjang sesi.
 - Tekankan versi `^12.0` = sama dengan proyek Backend.
 - Analogi: Composer ≈ `npm` / `pip`.
