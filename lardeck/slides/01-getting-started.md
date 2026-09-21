@@ -153,11 +153,11 @@ Note: **🗣️ Ngomong ke Peserta:**
 </div>
 
 <div class="mvc-lane res">
-    <div class="mvc-lane-head">2 · RESPONSE <span>(balik)</span></div>
+    <div class="mvc-lane-head">2 · RESPONSE <span>(keluar)</span></div>
     <div class="mvc-box on">Controller <span class="role">racik hasil</span></div>
-    <div class="mvc-up">&uarr;&nbsp;data dikembalikan</div>
+    <div class="mvc-down res">&darr;&nbsp;data dikembalikan</div>
     <div class="mvc-box on">View <span class="role">tampilan</span></div>
-    <div class="mvc-up">&uarr;&nbsp;HTML response</div>
+    <div class="mvc-down res">&darr;&nbsp;HTML response</div>
     <div class="mvc-box ext">Browser</div>
 </div>
 
@@ -170,7 +170,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 Note: **🗣️ Ngomong ke Peserta:**
 "Boleh difoto slide ini? Ini peta jalan seluruh sesi, persis seperti diagram Browser-HTTP-PHP-SQL kemarin. Bedanya cuma satu: sekarang tahapnya punya NAMA dan RUMAH. Route itu pintu masuk. Controller itu otaknya. Model itu jembatan ke database. View itu tampilannya. Setiap kali bingung 'kode ini taruh di mana?', jawabannya ada di diagram ini."
 
-"Perhatikan arahnya. Lajur kiri itu perjalanan REQUEST masuk: dari Browser, ke route, ke Controller, ambil data lewat Model, sampai ke Database. Lajur kanan itu perjalanan RESPONSE balik: Controller meracik hasilnya, View mengubahnya jadi HTML, lalu kembali ke Browser. Dua arah, satu putaran."
+"Perhatikan arahnya. Lajur kiri itu perjalanan REQUEST masuk: dari Browser, turun ke route, ke Controller, ambil data lewat Model, sampai ke Database. Lajur kanan itu perjalanan RESPONSE keluar: Controller meracik hasilnya, turun ke View yang mengubahnya jadi HTML, lalu sampai ke Browser. Dua lajur, keduanya mengalir dari atas ke bawah, persis seperti urutan kejadiannya."
 
 **🎯 Poin Kunci di Layar:**
 - Minta peserta memotret diagram; tunjuk tiap kotak yang akan dibahas.

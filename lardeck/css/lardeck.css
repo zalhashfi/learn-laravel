@@ -534,6 +534,7 @@
 	white-space: nowrap;
 }
 .reveal .mvc-down { color: var(--pd-c); }
+.reveal .mvc-down.res { color: var(--pd-safe); }
 .reveal .mvc-up { color: var(--pd-safe); }
 .reveal .mvc-note {
 	font-size: 0.38em;
