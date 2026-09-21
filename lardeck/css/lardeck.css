@@ -525,17 +525,16 @@
 	margin-left: 0.4em;
 	font-weight: 400;
 }
-.reveal .mvc-down,
-.reveal .mvc-up {
+/* Panah lajur: keduanya mengalir turun (request biru, response hijau) */
+.reveal .mvc-down {
 	font-family: monospace;
 	font-size: 0.36em;
 	letter-spacing: 0.04em;
 	line-height: 1.5;
 	white-space: nowrap;
+	color: var(--pd-c);
 }
-.reveal .mvc-down { color: var(--pd-c); }
 .reveal .mvc-down.res { color: var(--pd-safe); }
-.reveal .mvc-up { color: var(--pd-safe); }
 .reveal .mvc-note {
 	font-size: 0.38em;
 	color: var(--pd-muted);
