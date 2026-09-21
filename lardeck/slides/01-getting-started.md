@@ -34,7 +34,7 @@ Kita sendiri yang mengurus file mana yang dipanggil. Untuk library dari internet
 
 ```json
 // composer.json
-"require": { "laravel/framework": "^13.0" }
+"require": { "laravel/framework": "^12.0" }
 ```
 
 Composer mengunduh, mengurus versi, dan menyiapkan semuanya.
@@ -50,19 +50,22 @@ composer global require laravel/installer
 laravel new lara-student
 
 # Cara B: Composer langsung (tanpa installer; dipakai di sesi ini)
-composer create-project laravel/laravel lara-student
+composer create-project laravel/laravel:^12.0 lara-student
 ```
 
-<p class="fineprint">Keduanya menghasilkan proyek yang <b>sama</b>. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan: <b>Laravel itu sendiri cuma paket Composer</b>.</p>
+<p class="fineprint">Keduanya menghasilkan proyek yang <b>sama</b>. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan: <b>Laravel itu sendiri cuma paket Composer</b>. Kita pin ke <code>^12.0</code> agar sama dengan proyek Backend yang sudah berjalan.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Ingat nggak waktu kita nulis `require 'config/database.php'`? Itu cara manual. Composer menggantikan itu — dia package manager, sama seperti `npm` di JavaScript atau `pip` di Python. Lucunya, Laravel itu sendiri cuma sebuah paket Composer. Jadi begitu paham Composer, kalian paham cara memasang framework ini."
 
-"Ada dua cara membuat proyek. Cara A pakai Laravel Installer — pasang sekali, lalu `laravel new` lebih singkat. Cara B langsung lewat Composer: `composer create-project`. Keduanya sah dan hasilnya identik. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan bahwa Laravel cuma paket Composer. Kalau di laptop kalian sudah ada Installer, silakan pakai Cara A."
+"Ada dua cara membuat proyek. Cara A pakai Laravel Installer — pasang sekali, lalu `laravel new` lebih singkat. Cara B langsung lewat Composer: `composer create-project`. Keduanya sah dan hasilnya identik. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan bahwa Laravel cuma paket Composer."
+
+"Perhatikan versinya: `^12.0`. Kita sengaja pakai Laravel 12 — versi yang sama dengan proyek Backend kalian. Jadi apa yang kalian pelajari hari ini langsung nyambung ke kode tim nanti."
 
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Tunjukkan perintahnya, pilih Cara B, jalankan.
 - Sebut nama folder `lara-student` — konsisten sepanjang sesi.
+- Tekankan versi `^12.0` = sama dengan proyek Backend.
 - Analogi: Composer ≈ `npm` / `pip`.
 
 
@@ -86,19 +89,19 @@ Halaman selamat datang bawaan: sudah rapi, sudah jalan.
 </div>
 </div>
 
-<p class="fineprint">App jalan di port <b>8001</b>, deck ini di port <b>8000</b>. Dua server, sama seperti pertemuan lalu. Kita pakai <code>php artisan serve</code> saja, karena proyek materi ini tanpa build step, jadi tidak perlu <code>composer run dev</code> (yang sekaligus menyalakan Vite + queue).</p>
+<p class="fineprint">App jalan di port <b>8001</b>, deck ini di port <b>8000</b>. Dua server, sama seperti pertemuan lalu. Kita pakai <code>php artisan serve</code> untuk backend; proses React-nya jalan terpisah lewat Vite.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Sekarang masuk ke foldernya, lalu jalankan `php artisan serve --port=8001`. Artisan itu command-line tool bawaan Laravel — nanti kita pakai terus. Lihat hasilnya: halaman selamat datang, langsung jalan, langsung rapi. Padahal kita belum menulis satu baris kode pun."
 
-"Mungkin kalian pernah lihat `composer run dev` di tutorial. Itu perintah yang sekaligus menyalakan tiga proses: web server, queue, dan Vite. Kita tidak pakai itu di sesi ini karena proyek materi ini sengaja tanpa build step — CSS-nya polos, tidak lewat Vite. Jadi `php artisan serve` saja sudah cukup, dan lebih mudah dibaca mana proses mana. Kalau nanti kalian mengaktifkan Tailwind atau JavaScript, baru `composer run dev` jadi berguna."
+"Bedanya dengan kemarin: sekarang ada dua proses. Satu untuk Laravel — backend dan routing. Satu lagi untuk React — lewat Vite, yang mengompilasi JSX kalian. Kalau nanti kalian buka `composer run dev`, kedua proses ini jalan bareng. Kita mulai dengan `serve` saja dulu supaya jelas mana proses mana."
 
 "Coba renungkan: kemarin butuh 10 bagian sampai aplikasi bisa menampilkan data. Hari ini, satu perintah. Itulah yang saya maksud dengan 'alat yang tepat'."
 
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Buka `http://localhost:8001`, tunjukkan halaman welcome.
 - Tekankan: port 8001 (app) vs 8000 (deck).
-- Jelaskan singkat kenapa `serve`, bukan `composer run dev` (tanpa build step).
+- Sebut dua proses: `php artisan serve` (backend) + `npm run dev` (React/Vite).
 
 
 
@@ -110,7 +113,8 @@ Note: **🗣️ Ngomong ke Peserta:**
 <tr><th>Folder</th><th>Tanggung jawab</th></tr>
 <tr><td><code>app/</code></td><td>Kode aplikasi kita: Controller, Model, dll</td></tr>
 <tr><td><code>routes/</code></td><td>Daftar URL &amp; arahnya (<code>web.php</code>)</td></tr>
-<tr><td><code>resources/views/</code></td><td>Tampilan (file Blade <code>.blade.php</code>)</td></tr>
+<tr><td><code>resources/js/</code></td><td><b>Tampilan React</b>: <code>Pages/</code>, <code>Layouts/</code>, <code>Components/</code></td></tr>
+<tr><td><code>resources/views/</code></td><td>Cuma <code>app.blade.php</code>: kerangka kosong tempat React dipasang</td></tr>
 <tr><td><code>database/</code></td><td>Migration &amp; seeder: pengganti <code>schema.sql</code></td></tr>
 <tr><td><code>public/</code></td><td>Document root: satu-satunya folder yang dilihat browser</td></tr>
 <tr><td><code>vendor/</code></td><td>Library Composer: <b>jangan diedit / di-commit</b> (<code>composer install</code> mengembalikannya)</td></tr>
@@ -120,14 +124,63 @@ Note: **🗣️ Ngomong ke Peserta:**
 <div class="ask"><b>Di plain PHP, kenapa kita pakai <code>php -S localhost:8001 -t phpdeck/project</code>, ada flag <code>-t</code>? Apa artinya?</b></div>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Ini peta folder Laravel. Jangan dihafal semua — cukup yang akan kita pakai hari ini. `app/` itu kode kita. `routes/` itu daftar URL. `resources/views/` itu tampilannya. `database/` itu schema dan data awal."
+"Ini peta folder Laravel. Jangan dihafal semua — cukup yang akan kita pakai hari ini. `app/` itu kode kita. `routes/` itu daftar URL. `database/` itu schema dan data awal."
+
+"Perhatikan satu hal yang berbeda dari tutorial Laravel kebanyakan: `resources/views/` di proyek kita cuma berisi SATU file — `app.blade.php`. Itu bukan tampilan. Itu cuma kerangka kosong tempat React dipasang. Semua tampilan sesungguhnya ada di `resources/js/` sebagai komponen React. Jadi kalau kalian cari halaman, jangan cari di `views/` — cari di `resources/js/Pages/`."
 
 "Satu yang penting: `public/`. Ingat flag `-t` yang kita pakai untuk server PHP kemarin? Itu menandakan document root. Laravel selalu menunjuk ke `public/` — supaya file sensitif seperti `.env` tidak bisa dibuka lewat URL. Dan `vendor/` itu isi library Composer: jangan diedit, jangan di-commit, karena bisa dibuat ulang dengan `composer install`."
 
 **🎯 Poin Kunci di Layar:**
 - Jawab `.ask`: flag `-t` = document root.
-- Tekankan `public/` = satu-satunya yang dilihat browser; `vendor/` jangan disentuh.
+- Tekankan `views/` cuma `app.blade.php`; tampilan sebenarnya di `resources/js/`.
 - Sebut `storage/`, `tests/`, `bootstrap/` sekilas — tidak dibahas hari ini.
+
+
+
+<p class="part-label">Part 1 · Getting Started</p>
+
+## Memasang React: Inertia sebagai jembatan
+
+<p class="filename">terminal</p>
+
+```bash
+composer require inertiajs/inertia-laravel   # sisi Laravel
+npm install react react-dom @inertiajs/react  # sisi React
+```
+
+<p class="filename">resources/views/app.blade.php</p>
+
+```blade
+{{-- Satu-satunya file Blade di proyek ini: kerangka kosong --}}
+<body>
+    @inertia
+</body>
+```
+
+<p class="filename">resources/js/app.jsx</p>
+
+```jsx
+createInertiaApp({
+    resolve: (name) => {
+        const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true });
+        return pages[`./Pages/${name}.jsx`];
+    },
+});
+```
+
+<p class="fineprint"><b>Inertia</b> = jembatan antara Laravel dan React. Controller Laravel mengirim <b>data</b>, Inertia menyerahkannya ke komponen React, React yang menggambar HTML-nya. Tidak ada REST API terpisah, tidak ada CORS, dan routing tetap di <code>routes/web.php</code>.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Satu pertanyaan yang mungkin sudah kalian pikirkan: React itu frontend, Laravel itu backend. Bagaimana keduanya nyambung? Jawabannya Inertia."
+
+"Cara kerjanya begini. Kalian tahu React biasanya perlu API terpisah — Laravel bikin endpoint JSON, React fetch ke situ. Itu ribet: harus atur CORS, token, dua codebase. Inertia menghilangkan semua itu. Controller Laravel cukup mengembalikan DATA, dan Inertia menyerahkannya langsung ke komponen React. Routing tetap satu tempat di `routes/web.php`. Jadi kalian tidak perlu belajar REST API dulu."
+
+"Perhatikan file `app.blade.php` di kiri. Itu SATU-SATUNYA file Blade di proyek kita, dan isinya cuma `@inertia` — semacam lubang tempat React dipasang. Di kanan, `app.jsx`: Inertia membaca folder `Pages/` dan memetakan nama halaman ke komponen React. Jadi kalau controller bilang `Inertia::render('Students/Index')`, Inertia mencari `Pages/Students/Index.jsx`."
+
+**🎯 Poin Kunci di Layar:**
+- Tekankan: Inertia = jembatan, tanpa REST API terpisah, tanpa CORS.
+- Tunjukkan `@inertia` = satu-satunya Blade; sisanya React.
+- Jelaskan pemetaan nama halaman → file JSX.
 
 
 
@@ -154,9 +207,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <div class="mvc-lane res">
     <div class="mvc-lane-head">2 · RESPONSE <span>(keluar)</span></div>
-    <div class="mvc-box on">Controller <span class="role">racik hasil</span></div>
-    <div class="mvc-down res">&darr;&nbsp;data dikembalikan</div>
-    <div class="mvc-box on">View <span class="role">tampilan</span></div>
+    <div class="mvc-box on">Controller <span class="role">racik data</span></div>
+    <div class="mvc-down res">&darr;&nbsp;data (props) via Inertia</div>
+    <div class="mvc-box on">React Page <span class="role">tampilan</span></div>
     <div class="mvc-down res">&darr;&nbsp;HTML response</div>
     <div class="mvc-box ext">Browser</div>
 </div>
@@ -168,13 +221,16 @@ Note: **🗣️ Ngomong ke Peserta:**
 </div>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Boleh difoto slide ini? Ini peta jalan seluruh sesi, persis seperti diagram Browser-HTTP-PHP-SQL kemarin. Bedanya cuma satu: sekarang tahapnya punya NAMA dan RUMAH. Route itu pintu masuk. Controller itu otaknya. Model itu jembatan ke database. View itu tampilannya. Setiap kali bingung 'kode ini taruh di mana?', jawabannya ada di diagram ini."
+"Boleh difoto slide ini? Ini peta jalan seluruh sesi, persis seperti diagram Browser-HTTP-PHP-SQL kemarin. Bedanya cuma satu: sekarang tahapnya punya NAMA dan RUMAH. Route itu pintu masuk. Controller itu otaknya. Model itu jembatan ke database. React Page itu tampilannya. Setiap kali bingung 'kode ini taruh di mana?', jawabannya ada di diagram ini."
 
-"Perhatikan arahnya. Lajur kiri itu perjalanan REQUEST masuk: dari Browser, turun ke route, ke Controller, ambil data lewat Model, sampai ke Database. Lajur kanan itu perjalanan RESPONSE keluar: Controller meracik hasilnya, turun ke View yang mengubahnya jadi HTML, lalu sampai ke Browser. Dua lajur, keduanya mengalir dari atas ke bawah, persis seperti urutan kejadiannya."
+"Perhatikan arahnya. Lajur kiri itu perjalanan REQUEST masuk: dari Browser, turun ke route, ke Controller, ambil data lewat Model, sampai ke Database. Lajur kanan itu perjalanan RESPONSE keluar: Controller meracik datanya, lalu Inertia menyerahkan data itu ke React Page — dan React yang mengubahnya jadi HTML. Dua lajur, keduanya mengalir dari atas ke bawah, persis seperti urutan kejadiannya."
+
+"Satu hal yang perlu kalian sadari: di PHP kemarin, View itu file PHP yang langsung mencetak HTML. Sekarang View itu komponen React, dan datanya datang sebagai props. Alurnya sama — cuma cara menyampaikannya yang beda."
 
 **🎯 Poin Kunci di Layar:**
 - Minta peserta memotret diagram; tunjuk tiap kotak yang akan dibahas.
 - Tekankan: alur SAMA seperti yang mereka kuasai di PHP.
+- Sorot: View = React Page, data masuk sebagai props.
 
 
 

@@ -57,26 +57,40 @@ Gagal? **Otomatis** redirect balik, bawa error + input lama.
 </div>
 </div>
 
-<p class="filename">resources/views/students/_form.blade.php</p>
+<p class="filename">resources/js/Components/StudentForm.jsx</p>
 
-```blade
-<input name="name" value="{{ old('name', $student->name ?? '') }}">
-@error('name') <span class="error">{{ $message }}</span> @enderror
+```jsx
+const { data, setData, post, put, processing, errors } = useForm({
+    name: student?.name ?? '',
+    email: student?.email ?? '',
+    major: student?.major ?? '',
+});
+
+<Input
+    id="name"
+    label="Nama"
+    value={data.name}
+    onChange={(e) => setData('name', e.target.value)}
+    error={errors.name}
+/>
 ```
 
-<p class="fineprint"><code>old()</code> mengembalikan input lama (user tak perlu ketik ulang); <code>@error</code> menampilkan pesan khusus per field. Argumen kedua <code>validate()</code> = pesan kustom; tanpa itu, Laravel memakai pesan bawaan berbahasa Inggris. Aturan <code>max:100</code> disamakan dengan <code>VARCHAR(100)</code> di migration.</p>
+<p class="fineprint"><code>useForm()</code> dari Inertia menyimpan nilai input <b>dan</b> error validasi otomatis: user tak perlu ketik ulang saat validasi gagal, dan <code>errors.name</code> berisi pesan khusus per field. Argumen kedua <code>validate()</code> = pesan kustom; tanpa itu, Laravel memakai pesan bawaan berbahasa Inggris. Aturan <code>max:100</code> disamakan dengan <code>VARCHAR(100)</code> di migration.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Coba lihat kiri — validasi yang kalian tulis di Part 9 kemarin. Kumpulkan error dalam array, cek satu-satu dengan `empty`, `trim`, `strlen`, `filter_var`. Belasan baris, dan tiap kolom baru tambah lagi. Kanan: satu panggilan `validate()`. Kita cuma nyatakan aturannya, Laravel urus sisanya."
+"Coba lihat kiri — validasi yang kalian tulis kemarin. Kumpulkan error dalam array, cek satu-satu dengan `empty`, `trim`, `strlen`, `filter_var`. Belasan baris, dan tiap kolom baru tambah lagi. Kanan: satu panggilan `validate()`. Kita cuma nyatakan aturannya, Laravel urus sisanya."
 
-"Bonusnya besar: kalau validasi gagal, Laravel OTOMATIS mengarahkan user balik ke form, membawa pesan error, DAN membawa kembali yang tadi mereka ketik. Semua yang di Part 9 kita kerjakan manual — sekarang gratis."
+"Bonusnya besar: kalau validasi gagal, Laravel OTOMATIS mengarahkan user balik ke form, membawa pesan error, DAN membawa kembali yang tadi mereka ketik. Semua yang kemarin kita kerjakan manual — sekarang gratis."
 
-"Perhatikan baris Blade di bawah. `old('name', ...)` mengembalikan input lama — user tidak perlu ketik ulang. Argumen keduanya, `$student->name ?? ''`, untuk form edit: ada data lama? pakai itu. Jadi SATU file form ini dipakai untuk create DAN edit. Dan `@error('name')` menampilkan pesan hanya di field yang salah. Perhatikan juga `max:100` — angkanya sama dengan `VARCHAR(100)` di migration kita; validasi PHP dan batas database terjaga sinkron."
+"Perhatikan kode React di bawah. `useForm()` mengembalikan beberapa hal sekaligus: `data` (nilai input saat ini), `setData` (mengubah nilai), `post`/`put` (mengirim), `processing` (sedang dikirim?), dan `errors` (pesan validasi dari Laravel). Semuanya dari satu tempat — kalian tidak perlu mengurus state form secara manual."
+
+"Dan satu hal yang elegan: `student?.name ?? ''`. Untuk form edit, pakai data lama; untuk form create, string kosong. Jadi SATU komponen `StudentForm` ini dipakai untuk create DAN edit — persis seperti niat `_form` php kemarin. `errors.name` menampilkan pesan hanya di field yang salah. Perhatikan juga `max:100` — angkanya sama dengan `VARCHAR(100)` di migration kita; validasi PHP dan batas database terjaga sinkron."
 
 **🎯 Poin Kunci di Layar:**
 - Hitung kasar baris: kiri ~12, kanan ~5.
 - Tekankan "otomatis redirect + old input" — penghemat terbesar.
-- Tunjukkan `_form.blade.php` asli: satu form untuk create + edit.
+- Tunjukkan `StudentForm.jsx` asli: satu form untuk create + edit.
+- Sebut `errors.name` = pesan validasi khusus field itu.
 
 
 
@@ -87,9 +101,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 <p class="filename">StudentController.php</p>
 
 ```php
-public function create(): View
+public function create(): Response
 {
-    return view('students.create');
+    return Inertia::render('Students/Create');
 }
 
 public function store(Request $request): RedirectResponse
@@ -118,12 +132,15 @@ public function store(Request $request): RedirectResponse
 Note: **🗣️ Ngomong ke Peserta:**
 "Live coding pertama di Part 5: menambah data. Dua method. `create()` cuma menampilkan form. `store()` memproses data yang dikirim."
 
-"Perhatikan urutannya: validasi DULU, baru simpan. Jangan pernah menyentuh database sebelum validasi lolos. Setelah `Student::create($validated)`, data masuk. Lalu redirect ke daftar dengan pesan sukses."
+"Perhatikan `create()`: `Inertia::render('Students/Create')`. Tidak ada view, tidak ada data — cuma nama halaman. Inertia akan mencari `Pages/Students/Create.jsx`. Kalau kalian mau kirim data tambahan, tambahkan argumen kedua."
+
+"Lalu `store()`. Perhatikan urutannya: validasi DULU, baru simpan. Jangan pernah menyentuh database sebelum validasi lolos. Setelah `Student::create($validated)`, data masuk. Lalu redirect ke daftar dengan pesan sukses."
 
 "Bandingkan dengan kemarin: `prepare()`, `execute()`, `setFlash()`, `header('Location: ...')`, lalu `exit`. Lima langkah dengan detail yang harus diingat. Sekarang empat baris. Ingat pembahasan PRG dan kenapa `exit` wajib setelah `header`? Di `redirect()` Laravel, itu sudah diurus."
 
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Tulis `create()` dan `store()` di proyektor.
+- Tekankan `Inertia::render('Students/Create')` = panggil halaman React.
 - Tekankan urutan: validasi → simpan → redirect+flash.
 
 
@@ -136,9 +153,11 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ```php
 // Route model binding: {student} otomatis jadi objek Student, 404 kalau tak ada
-public function edit(Student $student): View
+public function edit(Student $student): Response
 {
-    return view('students.edit', compact('student'));
+    return Inertia::render('Students/Edit', [
+        'student' => $student,
+    ]);
 }
 
 public function update(Request $request, Student $student): RedirectResponse
@@ -182,7 +201,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 <p class="filename">StudentController.php</p>
 
 ```php
-public function index(Request $request): View
+public function index(Request $request): Response
 {
     $q = $request->input('q');
 
@@ -192,28 +211,38 @@ public function index(Request $request): View
         ->paginate(10)
         ->withQueryString();
 
-    return view('students.index', compact('students', 'q'));
+    return Inertia::render('Students/Index', [
+        'students' => $students,
+        'q' => $q,
+    ]);
 }
 ```
 
-<p class="filename">resources/views/students/index.blade.php</p>
+<p class="filename">resources/js/Pages/Students/Index.jsx</p>
 
-```blade
-{{ $students->links() }}
+```jsx
+{students.last_page > 1 && (
+    <div className="pagination">
+        {students.links.map((link, i) =>
+            link.url ? <Link key={i} href={link.url}>{link.label}</Link> : null
+        )}
+    </div>
+)}
 ```
 
-<p class="fineprint">Deck lama: <code>prepare()</code> + <code>execute(['q' => '%'.$q.'%'])</code> untuk search, dan <code>LIMIT/OFFSET</code> manual untuk pagination. Sekarang <code>when()</code> + <code>paginate()</code>.</p>
+<p class="fineprint">Deck lama: <code>prepare()</code> + <code>execute(['q' => '%'.$q.'%'])</code> untuk search, dan <code>LIMIT/OFFSET</code> manual untuk pagination. Sekarang <code>when()</code> + <code>paginate()</code> untuk data, dan React menggambar tombol halamannya dari <code>students.links</code>.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Terakhir, search dan pagination. Perhatikan `when()` — cara elegan menulis query kondisional: 'kalau `$q` ada isinya, tambahkan kondisi where; kalau kosong, jangan'. Satu query, dua situasi."
 
-"Dan soal keamanan — ingat Part 6 kemarin, search yang rentan SQL Injection? Di situ kita belajar input user tidak boleh disambung langsung ke SQL. Di sini `where('name', 'like', ...)` otomatis pakai prepared statement. `$q` masuk sebagai DATA, bukan bagian perintah. Rentan SQL Injection tidak akan terjadi — bukan karena kita ingat-ingat, tapi karena itu cara kerja Eloquent."
+"Dan soal keamanan — ingat search yang rentan SQL Injection kemarin? Di situ kita belajar input user tidak boleh disambung langsung ke SQL. Di sini `where('name', 'like', ...)` otomatis pakai prepared statement. `$q` masuk sebagai DATA, bukan bagian perintah. Rentan SQL Injection tidak akan terjadi — bukan karena kita ingat-ingat, tapi karena itu cara kerja Eloquent."
 
-"`paginate(10)` satu baris untuk memotong 10 per halaman. Kemarin kita bahas LIMIT/OFFSET di self-study. Sekarang tinggal bilang '10 per halaman', dan `{{ $students->links() }}` menggambar tombol halamannya."
+"`paginate(10)` satu baris untuk memotong 10 per halaman. Kemarin kita bahas LIMIT/OFFSET. Sekarang tinggal bilang '10 per halaman'. Lalu React menerima `students.links` — daftar link halaman yang disiapkan Laravel — dan menggambar tombolnya. Perhatikan pembagian tugasnya lagi: Laravel menyiapkan data pagination, React menggambar. Kalian tidak menghitung halaman sendiri."
 
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Tulis `index()` dengan `when()` + `paginate()`.
-- Sambungkan ke search SQL Injection Part 6 deck lama.
+- Sambungkan ke search SQL Injection deck lama.
+- Tekankan: `students.links` datang dari Laravel; React cuma menggambar.
 
 
 

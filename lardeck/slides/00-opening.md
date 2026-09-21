@@ -45,10 +45,10 @@ lara-student/
 │   └── StudentController.php
 ├── app/Models/
 │   └── Student.php
-└── resources/views/students/
-    ├── index.blade.php
-    ├── create.blade.php
-    └── edit.blade.php
+└── resources/js/Pages/Students/
+    ├── Index.jsx
+    ├── Create.jsx
+    └── Edit.jsx
 ```
 
 </div>
@@ -85,8 +85,8 @@ Kumpulan **keputusan bagus** yang sudah diambil orang lain untuk kita:
 
 - Routing bawaan
 - ORM (Eloquent): tak perlu tulis PDO manual
-- Template (Blade): aman dari XSS
-- Keamanan &amp; validasi bawaan
+- Validasi bawaan: aman &amp; pesan error otomatis
+- Bisa dipasangkan React: tampilan modern dengan backend Laravel
 
 </div>
 </div>

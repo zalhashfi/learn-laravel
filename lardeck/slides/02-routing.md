@@ -101,7 +101,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 2 · Routing &amp; Controllers</p>
 
-## Controller &amp; Named Routes
+## Controller &amp; Link antar-halaman
 
 <table class="plain">
 <tr><th>Method controller</th><th>File lama (plain PHP)</th><th>Tugas</th></tr>
@@ -114,7 +114,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <div class="cmp">
 <div class="cmp-php">
-<h4>Rawan: URL ditulis keras</h4>
+<h4>Plain PHP: URL ditulis keras</h4>
 
 ```php
 <a href="edit.php?id=<?= $s['id'] ?>">Edit</a>
@@ -124,23 +124,28 @@ Nama file berubah? Semua link rusak.
 
 </div>
 <div class="cmp-laravel">
-<h4>Aman: panggil lewat nama</h4>
+<h4>React: path relatif yang bersih</h4>
 
-```blade
-<a href="{{ route('students.edit', $s) }}">Edit</a>
+```jsx
+<Link href={`/students/${student.id}/edit`}>Edit</Link>
 ```
 
-URL berubah? Cukup ubah di satu tempat.
+Komponen <code>&lt;Link&gt;</code> dari Inertia: navigasi tanpa reload halaman.
 
 </div>
 </div>
+
+<p class="fineprint">Route tetap punya <b>nama</b> (<code>students.edit</code>, dari <code>Route::resource</code>) dan itu berguna di sisi Laravel. Untuk memanggil nama route dari React ada paket tambahan bernama <b>Ziggy</b> — tidak kita pakai di sesi ini agar tidak menambah setup. Kita tulis path relatifnya langsung; jumlahnya sedikit dan mudah dilacak.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Tabel ini penting banget — menjawab 'file saya yang kemarin ke mana?'. `index.php` jadi `index()`. Logika POST di `create.php` jadi `store()`. `edit.php` dan `delete.php` jadi `edit`/`update`/`destroy`. Perhatikan: `create.php` kemarin menangani DUA tugas (tampil form kalau GET, proses kalau POST). Di Laravel dipisah: `create()` untuk form, `store()` untuk simpan. Itu yang membuat kode lebih rapi."
 
-"Lalu soal Named Routes. Di kiri, kita tulis URL langsung di HTML. Bayangkan ada 50 link ke halaman edit — URL berubah sedikit saja, kalian harus cari-ganti 50 tempat. Di kanan, kita beri NAMA pada route, dan memanggilnya lewat nama itu. URL berubah? Cukup ubah di satu tempat. Bonusnya: tujuh route dari `Route::resource` tadi sudah otomatis punya nama standar."
+"Lalu soal link. Di kiri, PHP murni: kita tulis URL file langsung di HTML. Di kanan, React: kita pakai komponen `<Link>` dari Inertia. Dua keunggulannya: pertama, navigasinya tidak me-reload seluruh halaman — terasa seperti aplikasi modern. Kedua, kalian tidak perlu menulis `href` biasa yang memicu reload penuh."
+
+"Satu catatan jujur: route kita punya NAMA — `students.edit`, `students.index`, dan seterusnya; itu otomatis dari `Route::resource`. Nama itu berguna di sisi Laravel, misalnya di `redirect()->route('students.index')`. Untuk memanggil nama route dari React, ada paket tambahan namanya Ziggy. Kita tidak pakai di sesi ini supaya setup-nya tidak makin panjang. Jadi kita tulis path-nya langsung seperti di contoh. Kalau nanti di proyek kalian ada Ziggy, tinggal ganti jadi `route('students.edit', student.id)`."
 
 **🎯 Poin Kunci di Layar:**
 - Telusuri tabel baris per baris — jembatan pemahaman utama.
 - Tekankan pemisahan `create`/`store` dan `edit`/`update`.
-- Tunjukkan `route('students.edit', $student)` di kode asli.
+- Tunjukkan `<Link>` di kode asli: navigasi tanpa reload.
+- Sebut Ziggy sebagai opsi lanjutan, bukan bagian sesi ini.

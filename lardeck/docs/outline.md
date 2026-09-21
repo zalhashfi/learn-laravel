@@ -35,7 +35,7 @@ slide Request–Response dipisah dari `.env` (diagram butuh ruang penuh) menjadi
 > | 1 · Getting Started | 5 | 6 | ✅ selesai |
 > | 2 · Routing & Controllers | 4 | 4 | ✅ selesai |
 > | 3 · Database & Eloquent | 4 | 4 | ✅ selesai |
-> | 4 · Views & Blade | 2 | 3 | ✅ selesai |
+> | 4 · Views dengan React | 2 | 3 | ✅ selesai |
 > | 5 · Forms & CRUD | 6 | 6 | ✅ selesai |
 > | 6 · Relasi & Peta Jalan | 4 | 4 | ✅ selesai |
 > | **Total** | **28** | **30** | ✅ selesai |
@@ -63,7 +63,7 @@ peta jalan untuk dipelajari mandiri &middot; `[LIVE]` = didemokan langsung.
 | 6 | Basic & Resource Controllers | 10–11 | `[CORE]` + `[LIVE]` |
 | 7 | Migrations, seeders | 13–14 | `[CORE]` + `[LIVE]` |
 | 8 | Eloquent ORM / CRUD Operations | 15 | `[CORE]` |
-| 9 | Blade Templating / Displaying data / Directives | 17–18 | `[CORE]` + `[LIVE]` |
+| 9 | Views: React, props, JSX rendering | 17–18 | `[CORE]` + `[LIVE]` |
 | 10 | Layouts | 18 | `[LIVE]` |
 | 11 | Forms | 19 | `[CORE]` |
 | 12 | Validation / Error messages | 19 | `[CORE]` |
@@ -216,15 +216,18 @@ Main Content: Tabel method controller ↔ file lama: `index()`↔`index.php`,
 `create()`/`store()`↔`create.php`, `edit()`/`update()`↔`edit.php`,
 `destroy()`↔`delete.php`.
 Speaker Notes: Pemetaan 1:1 ini inti Part 2. Peserta melihat file lama mereka
-"dipecah" jadi method bernama. Sebut Named routes (`route('students.index')`)
-sebagai cara menghindari hardcode URL — muncul di Blade nanti.
+"dipecah" jadi method bernama. Sebut route punya nama otomatis dari
+`Route::resource` (`students.index`), dipakai di sisi Laravel lewat
+`redirect()->route(...)`.
 
 ### SLIDE 12 `[CORE]`
-Title: Named Routes
-`roadmap: Routing → Named routes`
-Main Content: `->name('students.index')` + `route('students.edit', $id)`.
-Speaker Notes: Bandingkan: di plain PHP kita menulis href manual dan kalau
-nama file berubah, semua link rusak.
+Title: Controller & Link antar-halaman
+`roadmap: Routing → Named routes (di sisi Laravel), Inertia Link`
+Main Content: `.cmp` — plain PHP `edit.php?id=5` versus React
+`<Link href={\`/students/${student.id}/edit\`}>`. Sebut nama route tetap ada
+dan berguna di Laravel; dari React butuh Ziggy (tidak dipakai di sesi ini).
+Speaker Notes: Fokus ke `<Link>` Inertia: navigasi tanpa reload halaman.
+Jujur soal Ziggy: opsi lanjutan, bukan bagian sesi ini.
 
 ---
 
@@ -261,9 +264,9 @@ payah di Part 3 deck lama sekarang "ada di belakang layar". `$fillable` =
 whitelist field (sejajar prinsip whitelist Part 9 deck lama).
 
 ### SLIDE 16 `[CORE]`
-Title: Creating Responses — View, Redirect, JSON
+Title: Creating Responses — Inertia, Redirect, JSON
 `roadmap: Views → Views, Redirects, Creating Responses, JSON`
-Main Content: `return view('students.index', compact('students'));` +
+Main Content: `return Inertia::render('Students/Index', ['students' => $students]);` +
 `return redirect()->route('students.index');` +
 `return response()->json($students);`
 Speaker Notes: Inilah "PHP yang mengirim output" di deck lama, tapi sekarang
@@ -272,28 +275,29 @@ lama; `response()->json()` = pintu menuju API.
 
 ---
 
-## Part 4 — Views & Blade `[CORE: 3, LIVE: 1]`
+## Part 4 — Views dengan React `[CORE: 3, LIVE: 1]`
 
-*roadmap: Views & Blade*
+*roadmap: Views (via Inertia + React)*
 
 ### SLIDE 17 `[CORE]`
-Title: Blade — HTML yang dulu campur `<?php ?>`
-`roadmap: Views → Blade Templating, Displaying data, Blade Directives, loops, if else`
-Main Content: `.cmp` — `foreach(...): ... endforeach;` + `<?= e($s['name']) ?>`
-versus `@foreach($students as $s) {{ $s->name }} @endforeach`.
-Tunjukkan `{{ }}` auto-escape vs `{!! !!}` raw.
-Speaker Notes: Ini payoff XSS Part 6 — peserta tidak perlu ingat `e()` lagi.
-Momen "aha" keamanan. Recall: `foreach ($students as $s): ?><tr>...` di Part 3
-deck lama.
+Title: Props — data dari Laravel masuk ke React
+`roadmap: Views → React rendering, props`
+Main Content: `.cmp` — controller `Inertia::render('Students/Index', ['students' => ...])`
+versus komponen React `Index({ students })`. Tekankan: nama key harus sama;
+React tidak menyentuh database.
+Speaker Notes: Konsep paling penting Part 4: data mengalir SATU ARAH. Sumber
+bug paling umum = salah ketik nama key props.
 
-### SLIDE 18 `[LIVE]`
-Title: 🎬 Live Coding #4 — `index.blade.php` + Layout
-Main Content: Layout (`@extends`, `@yield`) + `@forelse/@empty` + tabel HTML +
-tombol edit/hapus (form POST).
-`roadmap: Views → Blade Templating, Layouts, Blade Directives, Displaying data`
-Speaker Notes: Tunjukkan `@forelse/@empty` menangani tabel kosong otomatis —
-persis masalah "belum ada data" di Part 3 deck lama, tapi gratis. Tulis tombol
-hapus sebagai `<form method="POST">` — jangan regresi ke `<a href>`. (Live #4.)
+### SLIDE 18 `[CORE]` → `[LIVE]`
+Title: JSX — `{}` menggantikan `<?= ?>`, aman default + Layout & kondisi kosong
+Main Content: `.cmp` — `<?php foreach` + `htmlspecialchars()` versus
+`{students.map((s) => <tr key={s.id}><td>{s.name}</td></tr>)}`.
+Lalu `AppLayout` (`{children}`) + ternary kondisi kosong + flash via
+`usePage().props.flash`.
+`roadmap: Views → React rendering, Layouts, conditional rendering`
+Speaker Notes: Payoff XSS deck lama: `htmlspecialchars()` yang dulu harus
+diingat tiap output kini perilaku default JSX. Sebut `key` wajib di `map()`.
+`dangerouslySetInnerHTML` sengaja dinamai menakutkan. (Live #4.)
 
 ---
 
@@ -308,7 +312,8 @@ Main Content: `.cmp` — 15 baris `trim`/`empty`/`filter_var` versus
 `$request->validate(['name' => 'required|string|max:100', 'email' => 'required|email'])`.
 Speaker Notes: Recall Part 9 deck lama: kumpulkan error, cek `empty()`,
 `filter_var` — sekarang satu panggilan. Kalau gagal, Laravel otomatis redirect
-balik + bawa error + old input. Sebut `@error('name') ... @enderror` di Blade.
+balik + bawa error + old input. Sebut `useForm()` di React: `data`/`setData`
+untuk nilai input, `errors` untuk pesan per field.
 
 ### SLIDE 20 `[CORE]`
 Title: update & Route Model Binding
@@ -368,7 +373,7 @@ menangkap exception dan menampilkan halaman error rapi. (Live #8.)
 Title: Ke mana setelah ini — melacak progres di roadmap.sh
 `roadmap: seluruh node [PETA]`
 Main Content: Screenshot http://roadmap.sh/laravel dengan tanda "kita di sini"
-di request–response/route/Eloquent/Blade, dan "selanjutnya" pada Auth,
+di request–response/route/Eloquent/React, dan "selanjutnya" pada Auth,
 Testing, Advanced.
 [IMAGE PLACEHOLDER]
 Screenshot roadmap.sh/laravel dengan penanda posisi.

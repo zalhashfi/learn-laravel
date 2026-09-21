@@ -143,31 +143,42 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 3 · Database &amp; Eloquent</p>
 
-## Creating Responses: View, Redirect, JSON
+## Creating Responses: Inertia, Redirect, JSON
 
 <p class="filename">app/Http/Controllers/StudentController.php</p>
 
 ```php
-// 1. Kembalikan tampilan (HTML)
-return view('students.index', compact('students'));
+use Inertia\Inertia;
 
-// 2. Redirect ke halaman lain (pola PRG Part 5 deck lama)
-return redirect()->route('students.index');
+// 1. Kembalikan halaman React (paling umum)
+return Inertia::render('Students/Index', [
+    'students' => $students,
+    'q' => $q,
+]);
 
-// 3. Kembalikan data (untuk API / debugging)
+// 2. Redirect ke halaman lain (pola PRG)
+return redirect()->route('students.index')
+    ->with('success', 'Data siswa berhasil ditambahkan.');
+
+// 3. Kembalikan data mentah (untuk API / debugging)
 return response()->json($students);
 ```
 
 <div class="ask"><b>Di deck lama, "PHP mengirim output" itu seperti apa?</b> (petunjuk: <code>echo</code>, <code>header('Location: ...')</code>)</div>
 
-<p class="fineprint">Sekarang <b>eksplisit</b>: controller <i>mengembalikan</i> sebuah Response, dan kita pilih jenisnya. <code>redirect()</code> juga otomatis mengurus <code>exit</code> yang kemarin gampang terlupa.</p>
+<p class="fineprint">Sekarang <b>eksplisit</b>: controller <i>mengembalikan</i> Response, dan kita pilih jenisnya. Perhatikan <code>Inertia::render()</code>: argumen kedua adalah <b>data</b> yang dikirim ke React sebagai <i>props</i>. React tidak pernah menyentuh database — dia hanya menerima.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Terakhir untuk Part 3: bagaimana controller 'menjawab'? Di PHP kemarin, jawabannya implisit — kita `echo` HTML, atau `header('Location: ...')` lalu `exit`. Sekarang eksplisit: controller MENGEMBALIKAN sesuatu, dan kita pilih jenisnya."
 
-"Tiga yang sering dipakai. Satu: `view()` — halaman HTML, paling umum. Dua: `redirect()` — mengarahkan ke halaman lain; ini pola PRG yang kita pelajari di Part 5 kemarin, dan Laravel otomatis menambahkan `exit` yang gampang kita lupakan. Tiga: `response()->json()` — data mentah, untuk API atau debugging."
+"Tiga yang sering dipakai. Satu: `Inertia::render()` — ini yang paling sering kalian pakai. Perhatikan argumen keduanya: itu DATA yang dikirim ke React. Jadi controller tidak menggambar HTML; dia menyerahkan data, React yang menggambar. Ini pemisahan yang bersih: Laravel urus data, React urus tampilan."
+
+"Dua: `redirect()` — mengarahkan ke halaman lain; ini pola PRG yang kita pelajari kemarin, dan Laravel otomatis menambahkan `exit` yang gampang kita lupakan. Tiga: `response()->json()` — data mentah, untuk API atau debugging."
+
+"Satu hal penting yang perlu kalian pegang: React TIDAK PERNAH menyentuh database. Tidak ada query di JSX. Semua data datang dari controller lewat props. Kalau kalian lihat kode React yang mencoba akses database langsung, itu tanda ada yang salah."
 
 **🎯 Poin Kunci di Layar:**
-- Tunjukkan `return view(...)` di controller `index()` asli.
+- Tunjukkan `Inertia::render('Students/Index', [...])` di controller asli.
+- Tekankan: argumen kedua = data yang jadi props di React.
 - Sebut `redirect()->route(...)` = PRG deck lama; `json()` = pintu ke API.
 - Jawab `.ask`: `echo` / `header()` — sekarang jadi Response object.
