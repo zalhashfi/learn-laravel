@@ -16,55 +16,6 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 6 · Relasi &amp; Peta Jalan</p>
 
-## Sekilas: di proyek nyata, kalian mulai dari Starter Kit
-
-<div class="cmp">
-<div class="cmp-php">
-<h4>Yang kita lakukan hari ini</h4>
-
-Memasang <b>satu per satu</b> dari nol:
-
-- <code>composer create-project</code>
-- <code>composer require inertiajs/inertia-laravel</code>
-- <code>npm install react react-dom @inertiajs/react</code>
-- Menulis <code>app.blade.php</code>, <code>app.jsx</code>, layout, halaman
-
-Tujuannya: <b>paham setiap lapis</b>.
-
-</div>
-<div class="cmp-laravel">
-<h4>Di proyek nyata: Starter Kit</h4>
-
-```bash
-laravel new lara-student
-# pilih: React (Inertia)
-```
-
-Laravel menyiapkan <b>semuanya</b> sekaligus: React + Inertia, <b>auth lengkap</b> (login, register, reset password), dashboard, halaman settings, dan komponen UI.
-
-</div>
-</div>
-
-<p class="fineprint">Kita sengaja merakit manual supaya kalian tahu <b>apa</b> yang sebenarnya dipasang. Starter kit resmi React untuk Laravel 12 memakai <b>TypeScript</b> secara default; di sesi ini kita pakai JavaScript/JSX agar fokusnya ke alur, bukan ke sistem tipe. Kalau tim kalian pakai TypeScript, tinggal ganti ekstensi <code>.jsx</code> jadi <code>.tsx</code>.</p>
-
-Note: **🗣️ Ngomong ke Peserta:**
-"Satu hal jujur yang perlu kalian tahu sebelum masuk ke proyek nyata. Hari ini kita memasang React dan Inertia satu per satu, manual. Itu bukan cara tercepat — itu cara yang sengaja saya pilih supaya kalian PAHAM apa yang sebenarnya terpasang. Kalau kalian tidak tahu Inertia itu apa, lalu tiba-tiba project sudah punya Inertia, kalian akan bingung saat ada masalah."
-
-"Di proyek nyata, kebanyakan orang pakai yang namanya Starter Kit. Cukup `laravel new`, pilih React, dan Laravel menyiapkan semuanya: React, Inertia, autentikasi lengkap — login, register, lupa password, verifikasi email — dashboard, halaman pengaturan profil. Termasuk komponen UI siap pakai. Jauh lebih cepat."
-
-"Jadi kenapa kita tidak pakai itu dari awal? Karena kalau kita pakai, ada RATUSAN file yang sudah jadi, dan kalian tidak akan tahu mana yang penting. Hari ini kalian menulis sendiri beberapa komponen React, satu layout, satu controller. Jumlahnya sedikit, tapi kalian paham setiap barisnya. Nanti begitu buka starter kit, kalian akan mengenali polanya — 'oh, ini sama seperti yang saya tulis, cuma lebih banyak'."
-
-"Satu catatan teknis: starter kit resmi React untuk Laravel 12 memakai TypeScript secara default. Kita pakai JavaScript dan JSX supaya fokus kalian ke alur CRUD, bukan ke sistem tipe. Kalau nanti tim kalian pakai TypeScript, konsepnya sama — tinggal tambah anotasi tipe."
-
-**🎯 Poin Kunci di Layar:**
-- Jujur: kita merakit manual supaya paham; starter kit lebih cepat.
-- `laravel new` → pilih React = React + Inertia + auth + dashboard.
-- Starter kit resmi L12 = TypeScript default; kita pakai JSX agar fokus ke alur.
-
-
-
-<p class="part-label">Part 6 · Relasi &amp; Peta Jalan</p>
-
 ## Peta jalan roadmap.sh &amp; Relationships
 
 <table class="plain">
@@ -103,7 +54,12 @@ $table->foreignId('student_id')
 </div>
 </div>
 
-<p class="fineprint">Materi kita mengikuti <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a> dari atas ke bawah. Relasi tidak didemokan penuh; cukup memancing rasa ingin tahu; detailnya di dokumentasi resmi.</p>
+<p class="fineprint">Materi kita mengikuti <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a> dari atas ke bawah. Relasi tidak didemokan penuh; cukup memancing rasa ingin tahu; detailnya di dokumentasi resmi. Starter kit resmi React untuk Laravel 12 memakai <b>TypeScript</b> secara default; di sesi ini kita pakai JavaScript/JSX agar fokusnya ke alur CRUD, bukan ke sistem tipe &mdash; kalau tim kalian pakai TypeScript, konsepnya sama, tinggal ganti ekstensi <code>.jsx</code> jadi <code>.tsx</code>.</p>
+
+<div class="checkpoint">
+<b>Di proyek nyata, kalian mulai dari Starter Kit</b><br>
+Hari ini kita memasang <b>satu per satu</b> dari nol &mdash; <code>composer create-project</code>, <code>composer require inertiajs/inertia-laravel</code>, <code>npm install react react-dom @inertiajs/react</code>, lalu menulis <code>app.blade.php</code>, <code>app.jsx</code>, layout, dan halaman. Tujuannya: <b>paham setiap lapis</b>. Di proyek nyata kalian cukup <code>laravel new lara-student</code> dan memilih <b>React (Inertia)</b>: Laravel menyiapkan <b>semuanya</b> sekaligus &mdash; React + Inertia, <b>auth lengkap</b> (login, register, reset password), dashboard, halaman settings, dan komponen UI siap pakai. Karena kalian sudah merakit manual, kalian akan mengenali pola di dalamnya, bukan sekadar menerima ratusan file misterius.
+</div>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Saya mau tunjukkan sesuatu. Ada situs bernama roadmap.sh — peta belajar dari komunitas, dengan jalur khusus Laravel. Materi kita hari ini mengikuti peta itu dari atas ke bawah. Kolom kiri: yang sudah kita sentuh. Kolom kanan: yang belum — bukan berarti tidak penting, hanya butuh sesi tersendiri. Buka roadmap.sh/laravel nanti, tandai sendiri mana yang sudah kalian pahami."
@@ -112,10 +68,15 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Saya tidak akan demokan penuh hari ini — satu sesi tidak cukup. Tapi saya ingin kalian tahu: pertanyaan yang kemarin menggantung itu jawabannya ada dan elegan."
 
+"Satu hal jujur sebelum kalian masuk ke proyek nyata. Hari ini kita memasang React dan Inertia satu per satu, manual. Itu bukan cara tercepat — itu cara yang sengaja saya pilih supaya kalian PAHAM apa yang sebenarnya terpasang. Di proyek nyata, kebanyakan orang pakai Starter Kit: cukup `laravel new`, pilih React, dan Laravel menyiapkan semuanya — React, Inertia, autentikasi lengkap, dashboard, halaman pengaturan profil, sampai komponen UI. Jauh lebih cepat."
+
+"Kenapa kita tidak pakai itu dari awal? Karena kalau kita pakai, ada RATUSAN file yang sudah jadi, dan kalian tidak akan tahu mana yang penting. Hari ini kalian menulis sendiri beberapa komponen React, satu layout, satu controller. Jumlahnya sedikit, tapi kalian paham setiap barisnya. Nanti begitu buka starter kit, kalian akan mengenali polanya — 'oh, ini sama seperti yang saya tulis, cuma lebih banyak'. Satu catatan teknis: starter kit resmi React untuk Laravel 12 memakai TypeScript secara default; kita pakai JSX supaya fokus ke alur CRUD."
+
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Buka roadmap.sh/laravel di tab browser, tunjukkan nodenya.
 - Sambungkan eksplisit ke pertanyaan capstone deck lama.
 - Jujur: "tidak didemokan penuh" — itu tidak apa-apa.
+- Jujur: kita merakit manual supaya paham; Starter Kit (`laravel new` → React) lebih cepat.
 
 
 
