@@ -40,9 +40,9 @@ Dijalankan manual. Tidak ada riwayat perubahan.
 ```php
 Schema::create('students', function (Blueprint $table) {
     $table->id();
-    $table->string('name', 100);
-    $table->string('email', 150);
-    $table->string('major', 80);
+    $table->string('name');
+    $table->string('email');
+    $table->string('major');
     $table->timestamps();
 });
 ```
