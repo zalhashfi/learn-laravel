@@ -45,6 +45,10 @@ $validated = $request->validate([
     'name'  => ['required', 'string', 'max:100'],
     'email' => ['required', 'email', 'max:150'],
     'major' => ['required', 'string', 'max:80'],
+], [
+    // pesan kustom (opsional); tanpa ini, pesan bawaan Inggris
+    'name.required' => 'Nama wajib diisi.',
+    'email.email'   => 'Format email tidak valid.',
 ]);
 ```
 
@@ -60,7 +64,7 @@ Gagal? **Otomatis** redirect balik, bawa error + input lama.
 @error('name') <span class="error">{{ $message }}</span> @enderror
 ```
 
-<p class="fineprint"><code>old()</code> mengembalikan input lama (user tak perlu ketik ulang); <code>@error</code> menampilkan pesan khusus per field. Aturan <code>max:100</code> disamakan dengan <code>VARCHAR(100)</code> di migration.</p>
+<p class="fineprint"><code>old()</code> mengembalikan input lama (user tak perlu ketik ulang); <code>@error</code> menampilkan pesan khusus per field. Argumen kedua <code>validate()</code> = pesan kustom; tanpa itu, Laravel memakai pesan bawaan berbahasa Inggris. Aturan <code>max:100</code> disamakan dengan <code>VARCHAR(100)</code> di migration.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Coba lihat kiri — validasi yang kalian tulis di Part 9 kemarin. Kumpulkan error dalam array, cek satu-satu dengan `empty`, `trim`, `strlen`, `filter_var`. Belasan baris, dan tiap kolom baru tambah lagi. Kanan: satu panggilan `validate()`. Kita cuma nyatakan aturannya, Laravel urus sisanya."
