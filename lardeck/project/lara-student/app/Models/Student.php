@@ -12,7 +12,7 @@ class Student extends Model
     /**
      * Kolom yang boleh diisi secara massal (mass assignment).
      *
-     * Ini adalah WHITELIST — hanya field di sini yang boleh diisi lewat
+     * Ini adalah WHITELIST, hanya field di sini yang boleh diisi lewat
      * Student::create([...]) atau $student->update([...]).
      *
      * Paralel dengan prinsip whitelist di Part 9 deck lama
