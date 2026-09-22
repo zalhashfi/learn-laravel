@@ -14,9 +14,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 
 
-<p class="part-label">Part 3 · Database &amp; Eloquent <span class="badge badge-live">Live #3</span></p>
+<p class="part-label">Part 3 · Database &amp; Eloquent</p>
 
-## Migration &amp; Seeder: schema + data sebagai kode
+## Migration: Skema Database sebagai Kode
 
 <div class="cmp">
 <div class="cmp-php">
@@ -46,29 +46,51 @@ Schema::create('students', function (Blueprint $table) {
     $table->timestamps();
 });
 ```
+
 <code>up()</code> / <code>down()</code>: maju &amp; mundur.
+
 </div>
 </div>
+
+<p class="fineprint">Migration = <code>schema.sql</code> yang bisa di-<i>rollback</i> dan di-<i>diff</i> di git. File-nya punya dua method: <code>up()</code> untuk membuat, <code>down()</code> untuk membatalkan.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Lihat dua kolom ini. Di kiri: `schema.sql` kemarin. Di kanan: migration. Kolomnya sama persis — `id`, `name`, `email`, `major`. Bedanya cuma cara menulis, plus `timestamps()` yang otomatis menambah `created_at` dan `updated_at`."
+
+"Perhatikan juga: tidak ada `VARCHAR(100)` lagi. Kita cukup bilang `$table->string('name')`. Laravel yang mengurus detail panjangnya. Yang penting kalian lihat polanya: satu baris PHP mewakili satu kolom."
+
+"Kenapa migration lebih baik? Tiga alasan. Bisa di-rollback — ada `down()`. Bisa di-diff di git. Dan siapa pun yang clone proyek cukup jalankan satu perintah, database-nya jadi identik. Bayangkan tim berlima: semuanya dapat struktur sama tanpa kirim-kiriman file SQL."
+
+**🎯 Poin Kunci di Layar:**
+- Tunjukkan kedua file (schema.sql vs migration) berdampingan.
+- Tekankan: kolom sama, tapi migration punya `up()` dan `down()`.
+- Sebut tabel `migrations` = catatan migrasi mana yang sudah jalan.
+
+
+
+<p class="part-label">Part 3 · Database &amp; Eloquent <span class="badge badge-live">Live #3</span></p>
+
+## Menjalankan Migration &amp; Seeder
 
 <p class="filename">terminal</p>
 
 ```bash
-php artisan make:model Student -m && php artisan migrate --seed
-php artisan migrate:fresh --seed     # reset sekali jalan
+php artisan make:model Student -m   # model + file migration sekaligus
+php artisan migrate --seed          # buat tabel &amp; isi data awal
+php artisan migrate:fresh --seed    # reset sekali jalan
 ```
 
 <p class="fineprint">Seeder = pengganti <code>seed.sql</code>, tapi bisa dijalankan ulang. <code>migrate:fresh --seed</code> = bersih dalam hitungan detik.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Lihat dua kolom ini. Di kiri: `schema.sql` kemarin. Di kanan: migration. Kolomnya sama persis — `id`, `name`, `email`, `major`. Bedanya cuma cara menulis, plus `timestamps()` yang otomatis menambah `created_at` dan `updated_at`."
+"Ini urutan perintah yang akan kita pakai live. Perhatikan `-m` di `make:model Student -m` — itu sekaligus membuat file migration. Lalu `migrate` membuat tabelnya. Seeder mengisi data awal."
 
-"Kenapa migration lebih baik? Tiga alasan. Bisa di-rollback — ada `down()`. Bisa di-diff di git. Dan siapa pun yang clone proyek cukup jalankan satu perintah, database-nya jadi identik. Bayangkan tim berlima: semuanya dapat struktur sama tanpa kirim-kiriman file SQL."
+"Dan ini yang paling menyelamatkan saat ngoding: `migrate:fresh --seed` — satu perintah, database dihapus, dibuat ulang, diisi ulang. Kemarin itu tiga langkah manual di phpMyAdmin: drop tabel, import schema, import seed. Sekarang satu baris."
 
-"Perhatikan `-m` di `make:model Student -m` — itu sekaligus membuat file migration. Lalu `migrate` membuat tabelnya. Seeder mengisi data awal. Dan ini yang paling menyelamatkan saat ngoding: `migrate:fresh --seed` — satu perintah, database dihapus, dibuat ulang, diisi ulang. Kemarin itu tiga langkah manual di phpMyAdmin."
+"Ayo kita kerjakan bersama sekarang. [Aksi Live] Jalankan `make:model Student -m`, buka file migration-nya, isi kolomnya, lalu `migrate --seed`."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: `make:model Student -m` → isi kolom → `migrate` → `db:seed`.
-- Tunjukkan kedua file (schema.sql vs migration) berdampingan.
+- [Aksi Live]: `make:model Student -m` → isi kolom → `migrate --seed`.
 - Tekankan `migrate:fresh --seed` sebagai "reset sekali jalan".
 - Sebut tabel `migrations` = catatan migrasi mana yang sudah jalan.
 
@@ -76,7 +98,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 3 · Database &amp; Eloquent</p>
 
-## Eloquent &amp; `$fillable`: PDO digantikan
+## Eloquent ORM: Menggantikan PDO Manual
 
 <div class="cmp">
 <div class="cmp-php">
@@ -110,6 +132,24 @@ Tidak ada SQL. Akses kolom seperti properti objek.
 </div>
 </div>
 
+Note: **🗣️ Ngomong ke Peserta:**
+"Ini momen paling penting di Part 3. Kiri: kode PDO kemarin — koneksi, prepare, query, fetchAll, akses array. Kanan: `Student::all()`. Satu baris."
+
+"Perhatikan perbedaan aksesnya: kemarin `$s['name']` pakai kurung siku karena hasil query itu array; sekarang `$s->name` pakai panah karena Eloquent mengembalikan objek. Satu perbedaan kecil, tapi ini yang akan kalian tulis ratusan kali."
+
+"Yang perlu kalian sadari: koneksi database yang kemarin kita konfigurasi manual TIDAK hilang. Dia ada di belakang layar, dan Eloquent yang memakainya. Jadi semua pemahaman kalian tentang koneksi dan query tetap berlaku — kita cuma naik satu tingkat abstraksi."
+
+**🎯 Poin Kunci di Layar:**
+- Tunjuk `$s['name']` (array) vs `$s->name` (objek).
+- Tekankan: PDO tidak hilang, hanya disembunyikan Eloquent.
+- `Student::all()` = satu baris menggantikan query + fetchAll.
+
+
+
+<p class="part-label">Part 3 · Database &amp; Eloquent</p>
+
+## Model &amp; Mass Assignment (`$fillable`)
+
 <p class="filename">app/Models/Student.php</p>
 
 ```php
@@ -121,16 +161,16 @@ class Student extends Model {
 <p class="fineprint"><code>$fillable</code> = <b>whitelist</b> kolom yang boleh diisi massal. Sejajar dengan prinsip whitelist di Part 9 deck lama: <code>in_array($_POST['major'], $jurusanValid)</code>: sebut yang <b>boleh</b>, bukan yang dilarang.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Ini momen paling penting di Part 3. Kiri: kode PDO kemarin — koneksi, prepare, query, fetchAll, akses array. Kanan: `Student::all()`. Satu baris. Perhatikan perbedaan aksesnya: kemarin `$s['name']` pakai kurung siku karena hasil query itu array; sekarang `$s->name` pakai panah karena Eloquent mengembalikan objek."
+"`$fillable`. Ini daftar kolom yang BOLEH diisi lewat `Student::create()`. Ingat whitelist di Part 9 kemarin — kita cek `in_array($_POST['major'], $jurusanValid)`? Ini prinsip yang sama: sebutkan yang BOLEH, bukan yang dilarang."
 
-"Yang perlu kalian sadari: koneksi database yang kemarin kita konfigurasi manual TIDAK hilang. Dia ada di belakang layar, dan Eloquent yang memakainya. Jadi semua pemahaman kalian tentang koneksi dan query tetap berlaku."
+"Tanpa ini, Laravel justru menolak `create()`, demi mencegah user menimpa kolom seperti `id` lewat form. Jadi ini bukan formalitas — ini pertahanan pertama kalian terhadap mass assignment attack."
 
-"Terakhir, `$fillable`. Ini daftar kolom yang BOLEH diisi lewat `Student::create()`. Ingat whitelist di Part 9 kemarin — kita cek `in_array($_POST['major'], $jurusanValid)`? Ini prinsip yang sama: sebutkan yang BOLEH, bukan yang dilarang. Tanpa ini, Laravel justru menolak, demi mencegah user menimpa kolom seperti `id` lewat form."
+"Ingat tiga kolomnya: `name`, `email`, `major`. Persis seperti di migration tadi. Kalau kalian tambah kolom di migration, tambahkan juga di sini, kalau tidak, `create()` akan mengabaikannya diam-diam."
 
 **🎯 Poin Kunci di Layar:**
-- Tunjuk `$s['name']` (array) vs `$s->name` (objek).
-- Tekankan: PDO tidak hilang, hanya disembunyikan Eloquent.
 - Sambungkan `$fillable` ke prinsip whitelist Part 9 deck lama.
+- Tekankan: sebut yang BOLEH, bukan yang dilarang.
+- `$fillable` harus sinkron dengan kolom di migration.
 
 
 
