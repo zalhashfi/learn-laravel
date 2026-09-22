@@ -20,31 +20,22 @@ Legenda: `[CORE]` = slide materi &middot; `[LIVE]` = sesi live coding pemateri
 coding. Slide hybrid dihitung di KEDUA kolom `[CORE: x, LIVE: y]` pada setiap
 Part &middot; `roadmap:` = node di roadmap.sh/laravel.
 
-**Total: 30 slide.** Setelah ditulis dengan prinsip
-"satu ide per slide", deck sempat membengkak ke 42, dipangkas ke 29, lalu
-slide Request–Response dipisah dari `.env` (diagram butuh ruang penuh) menjadi
-30. Rincian di catatan penomoran.
+**Total: 40 slide.** Ditulis dengan prinsip ketat "satu ide per slide" untuk mencegah teks terpotong (*zero overflow*) pada layar laptop beresolusi standar.
 
-> **Catatan penomoran:** deck ditulis dengan prinsip "satu ide per slide".
-> Versi pertama membengkak ke 42 slide; atas keputusan pemilik materi, deck
-> dipangkas kembali dengan menggabungkan slide yang berkaitan. **Status akhir:**
+> **Catatan penomoran:** Deck didekomposisi agar setiap slide memiliki ruang vertikal yang lega dan dapat ditampilkan penuh di layar laptop tanpa vertical overflow. **Status akhir:**
 >
 > | Part | Rencana | Final | Status |
 > |---|---|---|---|
 > | 0 · Opening | 3 | 3 | ✅ selesai |
-> | 1 · Getting Started | 5 | 6 | ✅ selesai |
-> | 2 · Routing & Controllers | 4 | 4 | ✅ selesai |
-> | 3 · Database & Eloquent | 4 | 4 | ✅ selesai |
-> | 4 · Views dengan React | 2 | 3 | ✅ selesai |
-> | 5 · Forms & CRUD | 6 | 6 | ✅ selesai |
+> | 1 · Getting Started | 6 | 8 | ✅ selesai |
+> | 2 · Routing & Controllers | 4 | 7 | ✅ selesai |
+> | 3 · Database & Eloquent | 4 | 6 | ✅ selesai |
+> | 4 · Views dengan React | 3 | 4 | ✅ selesai |
+> | 5 · Forms & CRUD | 6 | 8 | ✅ selesai |
 > | 6 · Relasi & Peta Jalan | 4 | 4 | ✅ selesai |
-> | **Total** | **28** | **30** | ✅ selesai |
+> | **Total** | **30** | **40** | ✅ selesai |
 >
-> Semua slide punya speaker notes. Penggabungan yang dilakukan: Composer +
-> create-project (Part 1), route dasar + parameter (Part 2), migration + seeder
-> (Part 3), Eloquent + `$fillable` (Part 3), validasi + tampil error (Part 5),
-> peta roadmap + relationships (Part 6). Satu pemisahan: Request–Response Flow
-> dan Configuration `.env` jadi slide terpisah (diagram butuh ruang penuh).
+> Seluruh 40 slide dilengkapi dengan speaker notes instruktur (`Note:`), bebas kebocoran teks, dan lulus guardrail dimensi kanvas Reveal.js ($1280 \times 800$). Sesi Live Coding (9 sesi, `badge-live`) tetap utuh 100%.
 
 ---
 
