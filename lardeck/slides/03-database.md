@@ -41,7 +41,7 @@ Dijalankan manual. Tidak ada riwayat perubahan.
 Schema::create('students', function (Blueprint $table) {
     $table->id();
     $table->string('name');
-    $table->string('email');
+    $table->string('email')->unique();
     $table->string('major');
     $table->timestamps();
 });

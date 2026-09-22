@@ -82,7 +82,7 @@ check(
 
 // --- Schema integrity: generic string columns, no arbitrary length --------
 check("03-database has string('name')", content.includes("$table->string('name');"));
-check("03-database has string('email')", content.includes("$table->string('email');"));
+check("03-database has string('email')->unique()", content.includes("$table->string('email')->unique();"));
 check("03-database has string('major')", content.includes("$table->string('major');"));
 check('03-database has no numeric string length', !/\$table->string\('[a-z]+',\s*\d+\)/.test(content));
 

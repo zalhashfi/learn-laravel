@@ -38,7 +38,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL))
 ```php
 $validated = $request->validate([
     'name'  => ['required', 'string', 'max:100'],
-    'email' => ['required', 'email'],
+    'email' => ['required', 'email', 'max:150', 'unique:students,email'],
     'major' => ['required', 'string'],
 ]);
 ```
@@ -73,6 +73,8 @@ const { data, setData, post, processing, errors } = useForm({
 });
 
 <Input id="name" label="Nama" value={data.name} onChange={e => setData('name', e.target.value)} error={errors.name} />
+
+<button type="submit" disabled={processing}>{submitLabel}</button>
 ```
 
 <p class="fineprint"><code>useForm()</code> otomatis mengelola state dan <code>errors</code>: input tersimpan saat validasi gagal.</p>
@@ -104,12 +106,12 @@ public function store(Request $request): RedirectResponse
 {
     $validated = $request->validate([
         'name'  => ['required', 'string', 'max:100'],
-        'email' => ['required', 'email', 'max:150'],
+        'email' => ['required', 'email', 'max:150', 'unique:students,email'],
         'major' => ['required', 'string', 'max:80'],
     ], [
-        // pesan kustom Bahasa Indonesia (opsional, agar ramah ke user)
         'name.required'  => 'Nama wajib diisi.',
         'email.email'    => 'Format email tidak valid.',
+        'email.unique'   => 'Email sudah terdaftar.',
         'major.required' => 'Jurusan wajib diisi.',
     ]);
 
