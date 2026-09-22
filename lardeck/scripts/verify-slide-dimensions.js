@@ -189,7 +189,10 @@ async function waitForDeckReady(sendCmd, attempts = 60) {
                 expression: '(function () { try { return Reveal.getSlides().length } catch (e) { return -1 } })()',
                 returnByValue: true,
             });
-            if (typeof res?.result?.value === 'number' && res.result.value >= EXPECTED_SLIDE_COUNT) return true;
+            if (typeof res?.result?.value === 'number' && res.result.value >= EXPECTED_SLIDE_COUNT) {
+                await sleep(500);
+                return true;
+            }
         } catch (e) {
             // dokumen masih berpindah / reveal.js belum attach
         }

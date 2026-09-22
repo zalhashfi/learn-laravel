@@ -22,8 +22,8 @@ if (!/composer require laravel\/breeze --dev/.test(content)) {
   failures.push('Part 1 dropped `composer require laravel/breeze --dev`');
 }
 
-if (!/php artisan breeze:install react --pest=false/.test(content)) {
-  failures.push('Part 1 dropped `php artisan breeze:install react --pest=false`');
+if (!/php artisan breeze:install react(\s|$)/.test(content)) {
+  failures.push('Part 1 dropped `php artisan breeze:install react`');
 }
 
 if (!/cd lara-student/.test(content)) {

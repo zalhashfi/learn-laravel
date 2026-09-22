@@ -68,7 +68,7 @@ composer create-project laravel/laravel:^12.0 lara-student
 cd lara-student
 composer require inertiajs/inertia-laravel
 composer require laravel/breeze --dev
-php artisan breeze:install react --pest=false
+php artisan breeze:install react
 ```
 
 <div class="mock-browser">
@@ -88,9 +88,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Setelah masuk foldernya, kita pasang jembatannya dulu: `composer require inertiajs/inertia-laravel`. Inertia inilah yang menyambungkan Laravel dan React tanpa kita bikin REST API dan CORS sendiri. Baru setelah itu kita pasang Breeze dengan `composer require laravel/breeze --dev`."
 
-"Lalu satu perintah sakti: `php artisan breeze:install react --pest=false`. Breeze mengonfigurasi React, Inertia, dan Tailwind v4 secara otomatis — termasuk merapikan jembatan Inertia yang tadi kita pasang."
+"Lalu satu perintah sakti: `php artisan breeze:install react`. Breeze mengonfigurasi React, Inertia, dan Tailwind v4 secara otomatis — termasuk merapikan jembatan Inertia yang tadi kita pasang."
 
-"Kita pakai `--pest=false` supaya test bawaan tetap memakai PHPUnit — sama seperti yang sudah kalian kenal. Dan soal folder Auth bawaan Breeze: biarkan saja di background, kita tidak akan menyentuhnya. Fokus kita murni di `Pages/Students/`."
+"Secara bawaan tanpa flag `--pest`, Breeze tetap memakai PHPUnit — sama seperti yang sudah kalian kenal (tekan Enter / pilih 'no' jika ditanya opsi Pest). Dan soal folder Auth bawaan Breeze: biarkan saja di background, kita tidak akan menyentuhnya. Fokus kita murni di `Pages/Students/`."
 
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Tunjukkan perintahnya, jalankan `composer create-project` lalu `breeze:install react`.
