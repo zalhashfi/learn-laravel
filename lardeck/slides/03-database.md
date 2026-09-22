@@ -46,24 +46,18 @@ Schema::create('students', function (Blueprint $table) {
     $table->timestamps();
 });
 ```
-
-<code>up()</code> / <code>down()</code>: bisa maju &amp; mundur.
-
+<code>up()</code> / <code>down()</code>: maju &amp; mundur.
 </div>
 </div>
 
 <p class="filename">terminal</p>
 
 ```bash
-php artisan make:model Student -m   # -m sekaligus buat migration
-php artisan migrate                 # buat tabel di database
-php artisan db:seed                 # isi data awal (StudentSeeder)
-
-# reset database + isi ulang sekali jalan:
-php artisan migrate:fresh --seed
+php artisan make:model Student -m && php artisan migrate --seed
+php artisan migrate:fresh --seed     # reset sekali jalan
 ```
 
-<p class="fineprint">Seeder = pengganti <code>seed.sql</code>, tapi bisa dijalankan ulang. <code>migrate:fresh --seed</code> = bersih dalam hitungan detik; kemarin butuh drop tabel + import schema + import seed manual.</p>
+<p class="fineprint">Seeder = pengganti <code>seed.sql</code>, tapi bisa dijalankan ulang. <code>migrate:fresh --seed</code> = bersih dalam hitungan detik.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Lihat dua kolom ini. Di kiri: `schema.sql` kemarin. Di kanan: migration. Kolomnya sama persis — `id`, `name`, `email`, `major`. Bedanya cuma cara menulis, plus `timestamps()` yang otomatis menambah `created_at` dan `updated_at`."
@@ -119,8 +113,7 @@ Tidak ada SQL. Akses kolom seperti properti objek.
 <p class="filename">app/Models/Student.php</p>
 
 ```php
-class Student extends Model
-{
+class Student extends Model {
     protected $fillable = ['name', 'email', 'major'];
 }
 ```
@@ -164,11 +157,11 @@ return redirect()->route('students.index')
 return response()->json($students);
 ```
 
-<div class="ask"><b>Di deck lama, "PHP mengirim output" itu seperti apa?</b> (petunjuk: <code>echo</code>, <code>header('Location: ...')</code>)</div>
-
 <p class="fineprint">Sekarang <b>eksplisit</b>: controller <i>mengembalikan</i> Response, dan kita pilih jenisnya. Perhatikan <code>Inertia::render()</code>: argumen kedua adalah <b>data</b> yang dikirim ke React sebagai <i>props</i>. React tidak pernah menyentuh database — dia hanya menerima.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
+"Tanya ke peserta: Di deck lama, 'PHP mengirim output' itu seperti apa? Jawab: echo, header('Location: ...') — sekarang eksplisit jadi Response object."
+
 "Terakhir untuk Part 3: bagaimana controller 'menjawab'? Di PHP kemarin, jawabannya implisit — kita `echo` HTML, atau `header('Location: ...')` lalu `exit`. Sekarang eksplisit: controller MENGEMBALIKAN sesuatu, dan kita pilih jenisnya."
 
 "Tiga yang sering dipakai. Satu: `Inertia::render()` — ini yang paling sering kalian pakai. Perhatikan argumen keduanya: itu DATA yang dikirim ke React. Jadi controller tidak menggambar HTML; dia menyerahkan data, React yang menggambar. Ini pemisahan yang bersih: Laravel urus data, React urus tampilan."

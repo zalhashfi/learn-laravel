@@ -45,10 +45,7 @@ Composer mengunduh, mengurus versi, dan menyiapkan semuanya.
 <p class="filename">terminal</p>
 
 ```bash
-# Satu perintah, tanpa installer global — cukup PHP + Composer
 composer create-project laravel/laravel:^12.0 lara-student
-
-# Pasang jembatan Inertia (Laravel) & React
 composer require inertiajs/inertia-laravel
 npm install react react-dom @inertiajs/react
 ```

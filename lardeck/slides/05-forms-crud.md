@@ -20,20 +20,15 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <div class="cmp">
 <div class="cmp-php">
-<h4>Deck lama: manual, belasan baris</h4>
+<h4>Deck lama: manual</h4>
 
 ```php
 $errors = [];
 $name = trim($_POST['name'] ?? '');
-if (empty($name)) $errors[] = 'Nama wajib diisi.';
-elseif (strlen($name) > 100) $errors[] = 'Nama terlalu panjang.';
-
+if (empty($name)) $errors[] = 'Nama wajib.';
 $email = trim($_POST['email'] ?? '');
-if (empty($email)) $errors[] = 'Email wajib diisi.';
-elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
-    $errors[] = 'Format email tidak valid.';
-
-if (empty($errors)) { /* INSERT */ }
+if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+    $errors[] = 'Format email invalid.';
 ```
 
 </div>
@@ -48,7 +43,7 @@ $validated = $request->validate([
 ]);
 ```
 
-Gagal? **Otomatis** redirect balik, bawa error + input lama.
+Gagal? Otomatis redirect balik bawa error + input lama.
 
 </div>
 </div>
@@ -57,16 +52,13 @@ Gagal? **Otomatis** redirect balik, bawa error + input lama.
 
 ```jsx
 const { data, setData, post, processing, errors } = useForm({
-    name: student?.name ?? '',
-    email: student?.email ?? '',
-    major: student?.major ?? '',
+    name: student?.name ?? '', email: student?.email ?? '', major: student?.major ?? ''
 });
 
-<Input id="name" label="Nama" value={data.name}
-    onChange={(e) => setData('name', e.target.value)} error={errors.name} />
+<Input id="name" label="Nama" value={data.name} onChange={e => setData('name', e.target.value)} error={errors.name} />
 ```
 
-<p class="fineprint"><code>useForm()</code> dari Inertia menyimpan nilai input <b>dan</b> error validasi otomatis: user tak perlu ketik ulang saat validasi gagal, dan <code>errors.name</code> berisi pesan khusus per field. Argumen kedua <code>validate()</code> bisa diisi pesan kustom Bahasa Indonesia.</p>
+<p class="fineprint"><code>useForm()</code> otomatis mengelola state dan <code>errors</code>: input tersimpan saat validasi gagal. <code>validate()</code> bisa diberi pesan kustom.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Coba lihat kiri — validasi yang kalian tulis kemarin. Kumpulkan error dalam array, cek satu-satu dengan `empty`, `trim`, `strlen`, `filter_var`. Belasan baris, dan tiap kolom baru tambah lagi. Kanan: satu panggilan `validate()`. Kita cuma nyatakan aturannya, Laravel urus sisanya."
@@ -189,6 +181,8 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ## Live Coding: search &amp; pagination
 
+<div class="code-duo">
+<div>
 <p class="filename">StudentController.php</p>
 
 ```php
@@ -197,7 +191,8 @@ public function index(Request $request): Response
     $q = $request->input('q');
 
     $students = Student::query()
-        ->when($q, fn ($query) => $query->where('name', 'like', "%{$q}%"))
+        ->when($q, fn ($query) => 
+            $query->where('name', 'like', "%{$q}%"))
         ->latest()
         ->paginate(10)
         ->withQueryString();
@@ -208,18 +203,25 @@ public function index(Request $request): Response
     ]);
 }
 ```
-
-<p class="filename">resources/js/Pages/Students/Index.jsx</p>
+</div>
+<div>
+<p class="filename">Pages/Students/Index.jsx</p>
 
 ```jsx
 {students.last_page > 1 && (
     <div className="pagination">
         {students.links.map((link, i) =>
-            link.url ? <Link key={i} href={link.url}>{link.label}</Link> : null
+            link.url ? (
+                <Link key={i} href={link.url}>
+                    {link.label}
+                </Link>
+            ) : null
         )}
     </div>
 )}
 ```
+</div>
+</div>
 
 <p class="fineprint">Deck lama: <code>prepare()</code> + <code>execute(['q' => '%'.$q.'%'])</code> untuk search, dan <code>LIMIT/OFFSET</code> manual untuk pagination. Sekarang <code>when()</code> + <code>paginate()</code> untuk data, dan React menggambar tombol halamannya dari <code>students.links</code>.</p>
 
@@ -255,13 +257,8 @@ abort_if(! $student, 404);  // hentikan KALAU kondisi terpenuhi
 ```
 
 <div class="checkpoint">
-<b>Route model binding = error handling gratis</b><br>
-<code>{student}</code> yang tidak ditemukan &rarr; Laravel otomatis <code>abort(404)</code>. Kita tidak perlu menulis cek manual.
-</div>
-
-<div class="checkpoint">
-<b>Inertia Modal Debugger</b><br>
-<code>dd()</code> &amp; HTTP 500 ditangkap oleh Inertia dan ditampilkan di jendela modal melayang di atas halaman aktif tanpa memicu reload penuh.
+<b>Error Handling &amp; Inertia Error Modal</b><br>
+Route model binding otomatis <code>abort(404)</code> saat data kosong. Saat <code>dd()</code> atau HTTP 500 terjadi, Inertia menampilkannya di <b>Inertia Error Modal</b> tanpa reload penuh.
 </div>
 
 Note: **🗣️ Ngomong ke Peserta:**

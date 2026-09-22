@@ -5,18 +5,23 @@
 
 ## Props: data dari Laravel masuk ke React
 
-<p class="filename">app/Http/Controllers/StudentController.php &nbsp;&middot;&nbsp; resources/js/Pages/Students/Index.jsx</p>
+<div class="code-duo">
+<div>
+<p class="filename">StudentController.php</p>
 
 ```php
-// Controller: kirim data sebagai props
+// Kirim data sebagai props
 return Inertia::render('Students/Index', [
     'students' => $students,
     'q' => $q,
 ]);
 ```
+</div>
+<div>
+<p class="filename">Pages/Students/Index.jsx</p>
 
 ```jsx
-// React: terima lewat parameter props
+// Terima lewat props
 export default function Index({ students, q }) {
     return (
         <h1>Daftar Siswa</h1>
@@ -24,6 +29,8 @@ export default function Index({ students, q }) {
     );
 }
 ```
+</div>
+</div>
 
 <p class="fineprint">Perhatikan pemetaannya: key di <code>Inertia::render()</code> (<code>'students'</code>) = nama parameter di React. Satu arah, eksplisit. React tidak tahu-menahu soal database: dia cuma menerima.</p>
 
@@ -53,27 +60,23 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ```php
 <?php foreach ($students as $s): ?>
-  <tr>
-    <td><?= htmlspecialchars($s['name']) ?></td>
-  </tr>
+    <p><?= htmlspecialchars($s['name']) ?></p>
 <?php endforeach; ?>
 ```
 
-`<?php`, `?>`, dan `htmlspecialchars` ditulis manual. Lupa satu = celah XSS.
+Lupa <code>htmlspecialchars</code>? Celah XSS terbuka.
 
 </div>
 <div class="cmp-laravel">
-<h4>React/JSX: aman default</h4>
+<h4>React JSX: aman secara default</h4>
 
 ```jsx
 {students.map((s) => (
-  <tr key={s.id}>
-    <td>{s.name}</td>
-  </tr>
+    <p key={s.id}>{s.name}</p>
 ))}
 ```
 
-`{ }` menampilkan data dan otomatis meng-escape.
+Otomatis di-escape. <code>key</code> unik per baris wajib untuk efisiensi render.
 
 </div>
 </div>
@@ -98,6 +101,8 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ## Layout, kondisi kosong, &amp; flash message
 
+<div class="code-duo">
+<div>
 <p class="filename">resources/js/Layouts/AppLayout.jsx</p>
 
 ```jsx
@@ -106,18 +111,17 @@ export default function AppLayout({ children }) {
 
     return (
         <div>
-            <header>Student Management System</header>
-
+            <header>Student Management</header>
             {flash?.success && (
                 <div className="alert">{flash.success}</div>
             )}
-
             <main>{children}</main>
         </div>
     );
 }
 ```
-
+</div>
+<div>
 <p class="filename">resources/js/Pages/Students/Index.jsx</p>
 
 ```jsx
@@ -125,10 +129,12 @@ export default function AppLayout({ children }) {
     {students.data.length === 0 ? (
         <div>Belum ada data siswa.</div>
     ) : (
-        <table>{/* ... */}</table>
+        <table>{/* data */}</table>
     )}
 </AppLayout>
 ```
+</div>
+</div>
 
 <p class="fineprint"><b>Layout</b> menggantikan copy-paste <code>&lt;head&gt;</code> kemarin: sekali tulis, semua halaman pakai. <b><code>children</code></b> = tempat isi halaman dimasukkan. <b>Kondisi kosong</b> ditangani langsung di JSX dengan ternary. <b>Flash</b>: controller cukup <code>-&gt;with('success', ...)</code>, React membacanya dari <code>usePage().props.flash</code>.</p>
 

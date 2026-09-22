@@ -18,26 +18,21 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ## Peta jalan roadmap.sh &amp; Relationships
 
-<table class="plain">
-<tr><th>Sudah kita sentuh hari ini</th><th>Arah lanjutan (belum)</th></tr>
-<tr><td>Installing &amp; Project Structure</td><td>Authentication (Breeze/Sanctum)</td></tr>
+<div class="code-duo" style="grid-template-columns: 1fr 1fr; gap: 1em; align-items: stretch;">
+<div>
+<table class="plain" style="margin: 0; width: 100%;">
+<tr><th>Sudah disentuh</th><th>Arah lanjutan</th></tr>
+<tr><td>Install &amp; Structure</td><td>Auth (Breeze/Sanctum)</td></tr>
 <tr><td>Routing &amp; Controllers</td><td>Testing (Pest / PHPUnit)</td></tr>
-<tr><td>Migrations &amp; Eloquent</td><td>Queues, Events, Notifications</td></tr>
-<tr><td>React + Inertia (views &amp; forms)</td><td>Caching, File Storage, Deployment</td></tr>
-<tr><td>Forms, Validation &amp; CRUD</td><td>TypeScript, Inertia SSR, Telescope, Octane</td></tr>
+<tr><td>Migrations &amp; Eloquent</td><td>Queues &amp; Notifications</td></tr>
+<tr><td>React + Inertia</td><td>Caching, Storage, Deploy</td></tr>
+<tr><td>Forms &amp; CRUD</td><td>TypeScript, SSR, Octane</td></tr>
 </table>
-
-<div class="cmp">
-<div class="cmp-php">
-<h4>Pertanyaan capstone (deck lama)</h4>
-
-&ldquo;Buat tabel penghubung <code>enrollments(student_id, course_id)</code>... ini memunculkan pertanyaan <code>ON DELETE CASCADE</code> vs <code>RESTRICT</code>, sengaja belum dijawab.&rdquo;
-
-Menulis JOIN manual untuk menggabungkan dua tabel.
-
 </div>
-<div class="cmp-laravel">
-<h4>Jawaban Laravel: relasi Eloquent</h4>
+
+<div class="cmp" style="margin: 0;">
+<div class="cmp-laravel" style="width: 100%;">
+<h4>Jawaban Relasi: Eloquent</h4>
 
 ```php
 class Student extends Model {
@@ -45,20 +40,16 @@ class Student extends Model {
         return $this->hasMany(Enrollment::class);
     }
 }
-
-// CASCADE vs RESTRICT: satu method:
+// CASCADE vs RESTRICT:
 $table->foreignId('student_id')
       ->constrained()->cascadeOnDelete();
 ```
-
 </div>
 </div>
+</div>
 
-<p class="fineprint">Materi kita mengikuti <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a> dari atas ke bawah. Relasi tidak didemokan penuh; cukup memancing rasa ingin tahu; detailnya di dokumentasi resmi. Starter kit resmi React untuk Laravel 12 memakai <b>TypeScript</b> secara default; di sesi ini kita pakai JavaScript/JSX agar fokusnya ke alur CRUD, bukan ke sistem tipe &mdash; kalau tim kalian pakai TypeScript, konsepnya sama, tinggal ganti ekstensi <code>.jsx</code> jadi <code>.tsx</code>.</p>
-
-<div class="checkpoint">
-<b>Di proyek nyata: Starter Kit (Breeze / Jetstream)</b><br>
-Kita merakit dari nol agar paham setiap lapis. Di proyek nyata, cukup <code>laravel new</code> &rarr; pilih <b>React (Inertia)</b> untuk auth lengkap, dashboard, dan scaffolding otomatis.
+<div class="checkpoint" style="margin-top: 0.35em;">
+<b>Di proyek nyata: Starter Kit</b>: Kita merakit via <code>composer create-project</code> &amp; <code>composer require inertiajs/inertia-laravel</code> agar paham setiap lapis. Di proyek nyata, cukup <code>laravel new</code> &rarr; React untuk auth lengkap. Panduan: <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a>.
 </div>
 
 Note: **🗣️ Ngomong ke Peserta:**

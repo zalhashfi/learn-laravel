@@ -61,6 +61,8 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ## Resource Controller: 7 route dalam 1 baris
 
+<div class="code-duo">
+<div>
 <p class="filename">routes/web.php</p>
 
 ```php
@@ -68,13 +70,16 @@ use App\Http\Controllers\StudentController;
 
 Route::resource('students', StudentController::class);
 ```
-
+</div>
+<div>
 <p class="filename">terminal</p>
 
 ```bash
 php artisan make:controller StudentController --resource
 php artisan route:list
 ```
+</div>
+</div>
 
 <div class="mock-terminal">
 <div class="out">GET|HEAD  students .......... students.index   &rsaquo; StudentController@index</div>

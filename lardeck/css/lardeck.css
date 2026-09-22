@@ -31,7 +31,7 @@
 }
 .reveal h2 {
 	font-size: 1.55em;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.35em;
 }
 .reveal h3 {
 	font-size: 1.15em;
@@ -57,13 +57,13 @@
 
 .reveal pre {
 	width: 100%;
-	margin: 0.6em auto;
+	margin: 0.35em auto;
 	box-shadow: none;
 	font-size: 0.5em;
 }
 .reveal pre code {
-	max-height: 460px;
-	padding: 1em 1.1em;
+	max-height: 400px;
+	padding: 0.75em 1em;
 	line-height: 1.35;
 	border-radius: 6px;
 	overflow: auto;
@@ -129,15 +129,15 @@
 .reveal .cmp {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 1.1em;
+	gap: 1em;
 	align-items: start;
-	margin-top: 0.6em;
+	margin-top: 0.35em;
 }
 .reveal .cmp > div {
 	background: var(--pd-panel);
 	border: 1px solid var(--pd-border);
 	border-radius: 8px;
-	padding: 0.5em 0.7em 0.7em;
+	padding: 0.35em 0.6em 0.45em;
 }
 .reveal .cmp h4 {
 	font-size: 0.5em;
@@ -162,13 +162,34 @@
 	font-size: 0.46em;
 }
 .reveal .cmp pre code {
-	max-height: 340px;
+	max-height: 280px;
+	padding: 0.5em 0.7em;
 }
 
 @media (max-width: 800px) {
 	.reveal .cmp {
 		grid-template-columns: 1fr;
 	}
+}
+
+/* Dua blok kode / cuplikan berdampingan (mis. Controller & View) */
+.reveal .code-duo {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.9em;
+	align-items: start;
+	margin-top: 0.4em;
+	text-align: left;
+}
+.reveal .code-duo > div {
+	min-width: 0;
+}
+.reveal .code-duo pre {
+	margin: 0.2em 0 0;
+	font-size: 0.46em;
+}
+.reveal .code-duo pre code {
+	max-height: 380px;
 }
 
 /* ------------------------------------------------------------------ *
@@ -319,13 +340,13 @@
 	background: #0c0c14;
 	border: 1px solid var(--pd-border);
 	border-radius: 8px;
-	padding: 0.9em 1.1em;
+	padding: 0.5em 0.8em;
 	text-align: left;
 	font-family: monospace;
 	font-size: 0.46em;
-	line-height: 1.6;
+	line-height: 1.35;
 	color: #d4d4d8;
-	margin: 0.6em auto;
+	margin: 0.35em auto;
 	max-width: 90%;
 }
 .reveal .mock-terminal .prompt::before {
@@ -373,11 +394,11 @@
 .reveal .ask {
 	border-left: 4px solid var(--pd-self);
 	background: rgba(251, 191, 36, 0.08);
-	padding: 0.6em 1em;
-	margin: 0.7em auto;
+	padding: 0.4em 0.8em;
+	margin: 0.35em auto;
 	max-width: 88%;
 	text-align: left;
-	font-size: 0.85em;
+	font-size: 0.8em;
 	font-style: italic;
 }
 .reveal .ask b {
@@ -389,11 +410,11 @@
 	border: 1px solid var(--pd-core);
 	background: rgba(74, 222, 128, 0.08);
 	border-radius: 8px;
-	padding: 0.6em 1em;
-	margin: 0.7em auto;
+	padding: 0.4em 0.8em;
+	margin: 0.35em auto;
 	max-width: 88%;
 	text-align: left;
-	font-size: 0.85em;
+	font-size: 0.8em;
 }
 .reveal .checkpoint b {
 	color: var(--pd-core);
@@ -406,12 +427,12 @@
 .reveal table.plain {
 	font-size: 0.5em;
 	border-collapse: collapse;
-	margin: 0.6em auto;
+	margin: 0.35em auto;
 }
 .reveal table.plain th,
 .reveal table.plain td {
 	border-bottom: 1px solid var(--pd-border);
-	padding: 0.35em 0.9em;
+	padding: 0.22em 0.65em;
 	text-align: left;
 }
 .reveal table.plain th {
@@ -425,7 +446,7 @@
 .reveal .fineprint {
 	font-size: 0.45em;
 	color: var(--pd-muted);
-	margin-top: 0.8em;
+	margin-top: 0.35em;
 }
 
 /* Hint bahwa ada slide self-study di bawah */
