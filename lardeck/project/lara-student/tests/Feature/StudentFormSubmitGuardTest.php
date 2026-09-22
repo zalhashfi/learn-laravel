@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,7 +10,9 @@ class StudentFormSubmitGuardTest extends TestCase
     use RefreshDatabase;
 
     private const FORM = 'resources/js/Components/StudentForm.jsx';
+
     private const CREATE_PAGE = 'resources/js/Pages/Students/Create.jsx';
+
     private const EDIT_PAGE = 'resources/js/Pages/Students/Edit.jsx';
 
     /**

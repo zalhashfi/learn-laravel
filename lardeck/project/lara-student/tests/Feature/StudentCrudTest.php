@@ -115,4 +115,3 @@ class StudentCrudTest extends TestCase
         $this->delete('/students/999999')->assertStatus(404);
     }
 }
-

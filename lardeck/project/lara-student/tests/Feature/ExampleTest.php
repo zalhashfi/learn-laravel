@@ -8,6 +8,7 @@ use Tests\TestCase;
 class ExampleTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * Memastikan endpoint root mengalihkan pengguna ke /students.
      */

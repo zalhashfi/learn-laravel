@@ -125,8 +125,8 @@ class SlideDimensionScriptGuardTest extends TestCase
         $this->assertStringContainsString(
             'res.result.value >= EXPECTED_SLIDE_COUNT',
             $source,
-            'Kesiapan harus diukur dari jumlah slide ter-render: deck memuat markdown asinkron, ' .
-                'dan `Reveal.slide()` yang dipanggil sebelum semua slide ada akan melempar ' .
+            'Kesiapan harus diukur dari jumlah slide ter-render: deck memuat markdown asinkron, '.
+                'dan `Reveal.slide()` yang dipanggil sebelum semua slide ada akan melempar '.
                 '`controlsLeft is not iterable`.'
         );
     }
