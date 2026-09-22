@@ -24,4 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/students');
 
-Route::resource('students', StudentController::class);
+/*
+| Route tulis (store & update) diberi pembatas laju `throttle:10,1`.
+| Ini lapis kedua proteksi double-submit: `disabled={processing}` di React
+| baru aktif setelah request didispatch, sehingga klik ganda pada tick yang
+| sama masih bisa lolos. Throttle menutup celah itu di sisi server.
+*/
+Route::resource('students', StudentController::class)->middleware([
+    'store' => 'throttle:10,1',
+    'update' => 'throttle:10,1',
+]);
