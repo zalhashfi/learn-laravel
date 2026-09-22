@@ -49,7 +49,7 @@ $table->foreignId('student_id')
 </div>
 
 <div class="checkpoint" style="margin-top: 0.35em;">
-<b>Di proyek nyata: Starter Kit</b>: Kita merakit via <code>composer create-project</code> &amp; <code>composer require inertiajs/inertia-laravel</code> agar paham setiap lapis. Di proyek nyata, cukup <code>laravel new</code> &rarr; React untuk auth lengkap. Panduan: <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a>.
+<b>Di proyek nyata: Starter Kit</b>: Kita merakit via <code>composer create-project</code> &amp; <code>composer require inertiajs/inertia-laravel</code> agar paham setiap lapis. Di proyek nyata, Starter Kit menghemat waktu paling banyak di bagian <b>Auth scaffolding</b> — login, register, reset password, dashboard — yang kalau dirakit manual butuh berhari-hari. Cukup <code>laravel new</code> &rarr; React. Panduan: <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a>.
 </div>
 
 Note: **🗣️ Ngomong ke Peserta:**
@@ -61,6 +61,8 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Satu hal jujur sebelum kalian masuk ke proyek nyata. Hari ini kita memasang React dan Inertia satu per satu, manual. Itu bukan cara tercepat — itu cara yang sengaja saya pilih supaya kalian PAHAM apa yang sebenarnya terpasang. Di proyek nyata, kebanyakan orang pakai Starter Kit: cukup `laravel new`, pilih React, dan Laravel menyiapkan semuanya — React, Inertia, autentikasi lengkap, dashboard, halaman pengaturan profil, sampai komponen UI. Jauh lebih cepat."
 
+"Dan bagian yang paling menghemat waktu itu justru autentikasi. Auth scaffolding — login, register, lupa password, verifikasi email, dashboard — kalau kalian rakit sendiri dari nol, itu kerjaan berhari-hari. Di Starter Kit, itu semua sudah ada sebelum kalian menulis satu baris pun. Itu contoh paling nyata kenapa 'alat yang tepat' itu penting."
+
 "Kenapa kita tidak pakai itu dari awal? Karena kalau kita pakai, ada RATUSAN file yang sudah jadi, dan kalian tidak akan tahu mana yang penting. Hari ini kalian menulis sendiri beberapa komponen React, satu layout, satu controller. Jumlahnya sedikit, tapi kalian paham setiap barisnya. Nanti begitu buka starter kit, kalian akan mengenali polanya — 'oh, ini sama seperti yang saya tulis, cuma lebih banyak'. Satu catatan teknis: starter kit resmi React untuk Laravel 12 memakai TypeScript secara default; kita pakai JSX supaya fokus ke alur CRUD."
 
 **🎯 Poin Kunci di Layar:**
@@ -68,6 +70,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Sambungkan eksplisit ke pertanyaan capstone deck lama.
 - Jujur: "tidak didemokan penuh" — itu tidak apa-apa.
 - Jujur: kita merakit manual supaya paham; Starter Kit (`laravel new` → React) lebih cepat.
+- Sorot: penghematan terbesar Starter Kit = Auth scaffolding (berhari-hari jadi instan).
 
 
 

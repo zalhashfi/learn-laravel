@@ -59,13 +59,14 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 1 · Getting Started <span class="badge badge-live">Live #1</span></p>
 
-## Create a New Project &amp; Pasang Breeze React
+## Create a New Project, Pasang Inertia &amp; Breeze React
 
 <p class="filename">terminal</p>
 
 ```bash
 composer create-project laravel/laravel:^12.0 lara-student
 cd lara-student
+composer require inertiajs/inertia-laravel
 composer require laravel/breeze --dev
 php artisan breeze:install react --pest=false
 ```
@@ -85,7 +86,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Perhatikan versinya: `^12.0`. Kita sengaja pakai Laravel 12 — versi yang sama dengan proyek Backend kalian. Jadi apa yang kalian pelajari hari ini langsung nyambung ke kode tim nanti."
 
-"Setelah masuk foldernya, kita pasang Breeze dengan `composer require laravel/breeze --dev`. Lalu satu perintah sakti: `php artisan breeze:install react --pest=false`. Breeze inilah yang mengonfigurasi React, Inertia, dan Tailwind v4 secara otomatis — jembatan antara Laravel dan React, tanpa kita bikin REST API dan CORS sendiri."
+"Setelah masuk foldernya, kita pasang jembatannya dulu: `composer require inertiajs/inertia-laravel`. Inertia inilah yang menyambungkan Laravel dan React tanpa kita bikin REST API dan CORS sendiri. Baru setelah itu kita pasang Breeze dengan `composer require laravel/breeze --dev`."
+
+"Lalu satu perintah sakti: `php artisan breeze:install react --pest=false`. Breeze mengonfigurasi React, Inertia, dan Tailwind v4 secara otomatis — termasuk merapikan jembatan Inertia yang tadi kita pasang."
 
 "Kita pakai `--pest=false` supaya test bawaan tetap memakai PHPUnit — sama seperti yang sudah kalian kenal. Dan soal folder Auth bawaan Breeze: biarkan saja di background, kita tidak akan menyentuhnya. Fokus kita murni di `Pages/Students/`."
 
@@ -94,6 +97,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Sebut nama folder `lara-student` — konsisten sepanjang sesi.
 - Tekankan versi `^12.0` = sama dengan proyek Backend.
 - Sebut Breeze otomatis menyiapkan React + Inertia + Tailwind v4; folder Auth dibiarkan di background.
+- Tekankan urutan: `inertia-laravel` (jembatan) dulu, baru `breeze:install react` (konfigurasi otomatis).
 
 
 
@@ -141,12 +145,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 <tr><td><code>app/</code></td><td>Kode aplikasi kita: Controller, Model, dll</td></tr>
 <tr><td><code>routes/</code></td><td>Daftar URL &amp; arahnya (<code>web.php</code>)</td></tr>
 <tr><td><code>resources/js/</code></td><td><b>Tampilan React</b>: <code>Pages/</code>, <code>Layouts/</code>, <code>Components/</code></td></tr>
+<tr><td><code>resources/js/Pages/Auth/</code></td><td>Bonus bawaan Breeze: login/register. <b>Biarkan di background</b> — kita tidak menyentuhnya</td></tr>
 <tr><td><code>resources/views/</code></td><td>Cuma <code>app.blade.php</code>: kerangka kosong tempat React dipasang</td></tr>
 <tr><td><code>database/</code></td><td>Migration &amp; seeder: pengganti <code>schema.sql</code></td></tr>
 <tr><td><code>vendor/</code></td><td>Library Composer: <b>jangan diedit / di-commit</b> (<code>composer install</code> mengembalikannya)</td></tr>
 </table>
 
-<p class="fineprint">Jangan dihafal semua — cukup yang akan kita pakai hari ini. Mulai dari <code>app/</code>, lalu <code>routes/</code>, lalu <code>resources/js/</code> tempat React kalian tinggal.</p>
+<p class="fineprint">Jangan dihafal semua — cukup yang akan kita pakai hari ini. Mulai dari <code>app/</code>, lalu <code>routes/</code>, lalu <code>resources/js/</code> tempat React kalian tinggal. <b>Fokus kita: <code>Pages/Students/</code></b>.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Ini peta folder Laravel. Jangan dihafal semua — cukup yang akan kita pakai hari ini. `app/` itu kode kita. `routes/` itu daftar URL. `database/` itu schema dan data awal."
@@ -155,9 +160,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Dan `vendor/` itu isi library Composer: jangan diedit, jangan di-commit, karena bisa dibuat ulang kapan saja dengan `composer install`. Kalau kalian clone proyek orang, `vendor/` memang tidak ikut — kalian yang membuat ulang."
 
+"Satu folder yang perlu kalian tahu tapi TIDAK akan kita sentuh: `resources/js/Pages/Auth/`. Itu bonus bawaan Breeze — halaman login dan register sudah jadi. Biarkan saja di background. Hari ini kita fokus penuh di `Pages/Students/`, supaya kalian benar-benar paham alur CRUD dari nol. Auth itu topik sesi tersendiri, bukan sekarang."
+
 **🎯 Poin Kunci di Layar:**
 - Tekankan `views/` cuma `app.blade.php`; tampilan sebenarnya di `resources/js/`.
 - Sebut `vendor/` = jangan diedit, jangan di-commit.
+- Sebut `resources/js/Pages/Auth/` = bonus bawaan Breeze, biarkan di background.
+- Tegaskan fokus hari ini: `Pages/Students/`.
 - Sebut `storage/`, `tests/`, `bootstrap/` sekilas — tidak dibahas hari ini.
 
 
@@ -175,7 +184,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 // Browser hanya boleh melihat isi folder public/.
 ```
 
-<p class="fineprint"><b><code>-t</code> = document root.</b> Laravel selalu menunjuk ke <code>public/</code> agar file sensitif seperti <code>.env</code> tidak bisa dibuka lewat URL. <br><b>Inertia</b> = jembatan tanpa REST API/CORS: Controller mengirim data, React di <code>resources/js/Pages/</code> menggambar HTML. <code>resources/views/</code> cukup satu file (<code>app.blade.php</code>) sebagai penampung <code>@inertia</code>.</p>
+<p class="fineprint"><b><code>-t</code> = document root.</b> Laravel selalu menunjuk ke <code>public/</code> agar file sensitif seperti <code>.env</code> tidak bisa dibuka lewat URL. <br><b>Inertia</b> = jembatan tanpa REST API/CORS: Controller mengirim data, React di <code>resources/js/Pages/</code> menggambar HTML. <code>resources/views/</code> cukup satu file (<code>app.blade.php</code>) sebagai penampung <code>@inertia</code>.<br><b>Bonus bawaan Breeze:</b> folder <code>resources/js/Pages/Auth/</code> (login/register) sudah tersedia — biarkan di background, kita tetap fokus di <code>Pages/Students/</code>.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Satu yang penting soal folder `public/`. Ingat flag `-t` yang kita pakai untuk server PHP kemarin? Itu menandakan document root — folder mana yang boleh dilihat browser. Laravel selalu menunjuk ke `public/`, dan itu sebabnya file sensitif seperti `.env` tidak bisa dibuka lewat URL."
@@ -184,10 +193,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Terakhir, soal Inertia. Inertia itu jembatan tanpa REST API dan tanpa CORS: Controller mengirim data, React di `resources/js/Pages/` yang menggambar HTML-nya. Dan `resources/views/` cukup satu file saja — `app.blade.php` — yang isinya cuma penampung `@inertia`. Jadi tidak ada duplikasi tampilan."
 
+"Dan ingat tadi: Breeze meninggalkan satu bonus di `Pages/Auth/` — login dan register yang sudah jadi. Anggap saja itu hadiah yang belum kita buka. Hari ini kita tetap bekerja di `Pages/Students/` saja."
+
 **🎯 Poin Kunci di Layar:**
 - Jawab `.ask`: flag `-t` = document root.
 - Tekankan: `public/index.php` = titik masuk tunggal.
 - Jelaskan `@inertia` di `app.blade.php` = tempat React dipasang.
+- Ulangi: `Pages/Auth/` = bonus Breeze, biarkan di background; fokus tetap `Pages/Students/`.
 
 
 

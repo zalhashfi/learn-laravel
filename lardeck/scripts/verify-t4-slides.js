@@ -19,6 +19,7 @@ const check = (label, ok, detail) => {
     }
 };
 
+const c1 = read('01-getting-started.md');
 const c5 = read('05-forms-crud.md');
 const c6 = read('06-relasi-peta.md');
 
@@ -64,6 +65,42 @@ check(
 check(
     'Part 6 recap slide is intact',
     c6.includes('## Recap: 6 file plain PHP'),
+);
+
+// Slide 7A ("Struktur Folder") & 7B ("Document Root") must state the
+// Ignore & Co-exist policy for Breeze's bundled Auth folder.
+const s7a = c1.split(/\n\n\n\n/).find((s) => /^## .*Struktur Folder/m.test(s));
+const s7b = c1.split(/\n\n\n\n/).find((s) => /^## .*Document Root/m.test(s));
+check('Part 1 has a "Struktur Folder" slide (7A)', Boolean(s7a));
+check('Part 1 has a "Document Root" slide (7B)', Boolean(s7b));
+if (s7a) {
+    check(
+        'Slide 7A calls out the bundled Auth folder',
+        /Pages\/Auth\//.test(s7a) && /Breeze/i.test(s7a),
+        'expected "resources/js/Pages/Auth/" + Breeze',
+    );
+    check(
+        'Slide 7A keeps the audience on Pages/Students/',
+        /Pages\/Students\//.test(s7a),
+    );
+}
+if (s7b) {
+    check(
+        'Slide 7B frames the bundled Auth folder as a bonus',
+        /Pages\/Auth\//.test(s7b) && /(bonus|bawaan)/i.test(s7b),
+        'expected "Pages/Auth/" + "bonus"/"bawaan"',
+    );
+    check(
+        'Slide 7B reaffirms the Pages/Students/ focus',
+        /Pages\/Students\//.test(s7b),
+    );
+}
+
+// Part 6 roadmap slide must explain the Starter Kit as a time-saver for
+// Auth scaffolding in real-world projects.
+check(
+    'Part 6 frames the Starter Kit as an Auth-scaffolding time saver',
+    /Starter Kit/i.test(c6) && /(Auth|autentikasi|auth)/.test(c6) && /(waktu|hemat|cepat)/i.test(c6),
 );
 
 if (failed) {
