@@ -1,4 +1,6 @@
 // T4 verification: Part 5 Inertia debugger documentation + Part 6 slide consolidation.
+// Bagian ini adalah guardrail dasar (dimensi & jumlah slide E2E ditangani
+// lardeck/scripts/verify-slide-dimensions.js di T5).
 import fs from 'node:fs';
 import path from 'node:path';
 

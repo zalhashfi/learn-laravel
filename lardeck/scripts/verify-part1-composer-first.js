@@ -3,7 +3,8 @@
  * T5 verification: Part 1 must present a Composer-first-only install flow.
  * The global Laravel Installer (`composer global require laravel/installer`
  * + `laravel new`) must no longer be offered as a co-equal path inside the
- * Part 1 "Getting Started" slide.
+ * Part 1 "Getting Started" slide, and the part must stay decomposed into
+ * exactly 8 focused slides (plan 01-01 T1).
  */
 import fs from 'node:fs';
 
@@ -28,7 +29,7 @@ for (const [needle, label] of forbidden) {
 }
 
 const count = (content.match(/\n\n\n\n/g) || []).length + 1;
-if (count !== 6) failures.push(`Part 1 expected 6 slides but got ${count}`);
+if (count !== 8) failures.push(`Part 1 expected 8 slides but got ${count}`);
 
 if (failures.length) {
   console.error('T5 PART 1 COMPOSER-FIRST VERIFICATION FAILED:');
@@ -36,4 +37,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('T5 PART 1 COMPOSER-FIRST VERIFICATION PASSED: Composer-only install flow, 6 slides.');
+console.log('T5 PART 1 COMPOSER-FIRST VERIFICATION PASSED: Composer-only install flow, 8 slides.');

@@ -13,7 +13,8 @@ import path from 'node:path';
 
 import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const file = path.join(__dirname, '..', 'slides', '03-database.md');
+const slidesDir = path.join(__dirname, '..', 'slides');
+const file = path.join(slidesDir, '03-database.md');
 const content = fs.readFileSync(file, 'utf8');
 const slides = content.split(/\n\n\n\n/);
 
@@ -22,9 +23,15 @@ const check = (label, ok, detail) => {
     if (!ok) failures.push(`${label}${detail ? ' -> ' + detail : ''}`);
 };
 
-// --- Slide count guardrail ------------------------------------------------
+// --- Slide count guardrails -----------------------------------------------
 const count = (content.match(/\n\n\n\n/g) || []).length + 1;
 check('Part 3 is 6 slides', count === 6, `got ${count}`);
+
+// Part 4 "React & Views" ikut dijaga di sini karena T3/T4 adalah satu wave
+// dekomposisi: Part 4 harus tetap 4 slide (plan 01-01 T4).
+const part4 = fs.readFileSync(path.join(slidesDir, '04-react.md'), 'utf8');
+const count4 = (part4.match(/\n\n\n\n/g) || []).length + 1;
+check('Part 4 is 4 slides', count4 === 4, `got ${count4}`);
 
 // --- Spec-mandated decomposed topics -------------------------------------
 check(
@@ -93,4 +100,4 @@ if (failures.length) {
     for (const f of failures) console.error('  - ' + f);
     process.exit(1);
 }
-console.log('T3 VERIFICATION PASSED: Part 3 decomposed into 6 focused slides.');
+console.log('T3 VERIFICATION PASSED: Part 3 decomposed into 6 focused slides; Part 4 is 4 slides.');
