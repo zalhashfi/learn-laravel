@@ -59,20 +59,21 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 1 · Getting Started <span class="badge badge-live">Live #1</span></p>
 
-## Create a New Project &amp; Pasang Inertia
+## Create a New Project &amp; Pasang Breeze React
 
 <p class="filename">terminal</p>
 
 ```bash
 composer create-project laravel/laravel:^12.0 lara-student
-composer require inertiajs/inertia-laravel
-npm install react react-dom @inertiajs/react
+cd lara-student
+composer require laravel/breeze --dev
+php artisan breeze:install react --pest=false
 ```
 
 <div class="mock-browser">
 <div class="bar">lara-student/</div>
 <div class="body">
-Proyek Laravel siap, Inertia terpasang, React terpasang.<br>
+Proyek Laravel siap, React + Inertia + Tailwind terpasang lewat Breeze.<br>
 Belum ada satu baris kode pun yang kita tulis.
 </div>
 </div>
@@ -84,12 +85,15 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Perhatikan versinya: `^12.0`. Kita sengaja pakai Laravel 12 — versi yang sama dengan proyek Backend kalian. Jadi apa yang kalian pelajari hari ini langsung nyambung ke kode tim nanti."
 
-"Baris kedua memasang Inertia, dan baris ketiga memasang React. Inertia inilah jembatan antara Laravel dan React — tanpa dia, kita harus bikin REST API dan CORS sendiri. Nanti kita lihat cara kerjanya."
+"Setelah masuk foldernya, kita pasang Breeze dengan `composer require laravel/breeze --dev`. Lalu satu perintah sakti: `php artisan breeze:install react --pest=false`. Breeze inilah yang mengonfigurasi React, Inertia, dan Tailwind v4 secara otomatis — jembatan antara Laravel dan React, tanpa kita bikin REST API dan CORS sendiri."
+
+"Kita pakai `--pest=false` supaya test bawaan tetap memakai PHPUnit — sama seperti yang sudah kalian kenal. Dan soal folder Auth bawaan Breeze: biarkan saja di background, kita tidak akan menyentuhnya. Fokus kita murni di `Pages/Students/`."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Tunjukkan perintahnya, jalankan `composer create-project`.
+- [Aksi Live]: Tunjukkan perintahnya, jalankan `composer create-project` lalu `breeze:install react`.
 - Sebut nama folder `lara-student` — konsisten sepanjang sesi.
 - Tekankan versi `^12.0` = sama dengan proyek Backend.
+- Sebut Breeze otomatis menyiapkan React + Inertia + Tailwind v4; folder Auth dibiarkan di background.
 
 
 
