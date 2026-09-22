@@ -57,8 +57,8 @@ $table->foreignId('student_id')
 <p class="fineprint">Materi kita mengikuti <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a> dari atas ke bawah. Relasi tidak didemokan penuh; cukup memancing rasa ingin tahu; detailnya di dokumentasi resmi. Starter kit resmi React untuk Laravel 12 memakai <b>TypeScript</b> secara default; di sesi ini kita pakai JavaScript/JSX agar fokusnya ke alur CRUD, bukan ke sistem tipe &mdash; kalau tim kalian pakai TypeScript, konsepnya sama, tinggal ganti ekstensi <code>.jsx</code> jadi <code>.tsx</code>.</p>
 
 <div class="checkpoint">
-<b>Di proyek nyata, kalian mulai dari Starter Kit</b><br>
-Hari ini kita memasang <b>satu per satu</b> dari nol &mdash; <code>composer create-project</code>, <code>composer require inertiajs/inertia-laravel</code>, <code>npm install react react-dom @inertiajs/react</code>, lalu menulis <code>app.blade.php</code>, <code>app.jsx</code>, layout, dan halaman. Tujuannya: <b>paham setiap lapis</b>. Di proyek nyata kalian cukup <code>laravel new lara-student</code> dan memilih <b>React (Inertia)</b>: Laravel menyiapkan <b>semuanya</b> sekaligus &mdash; React + Inertia, <b>auth lengkap</b> (login, register, reset password), dashboard, halaman settings, dan komponen UI siap pakai. Karena kalian sudah merakit manual, kalian akan mengenali pola di dalamnya, bukan sekadar menerima ratusan file misterius.
+<b>Di proyek nyata: Starter Kit (Breeze / Jetstream)</b><br>
+Kita merakit dari nol agar paham setiap lapis. Di proyek nyata, cukup <code>laravel new</code> &rarr; pilih <b>React (Inertia)</b> untuk auth lengkap, dashboard, dan scaffolding otomatis.
 </div>
 
 Note: **🗣️ Ngomong ke Peserta:**

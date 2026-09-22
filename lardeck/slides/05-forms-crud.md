@@ -43,12 +43,8 @@ if (empty($errors)) { /* INSERT */ }
 ```php
 $validated = $request->validate([
     'name'  => ['required', 'string', 'max:100'],
-    'email' => ['required', 'email', 'max:150'],
-    'major' => ['required', 'string', 'max:80'],
-], [
-    // pesan kustom (opsional); tanpa ini, pesan bawaan Inggris
-    'name.required' => 'Nama wajib diisi.',
-    'email.email'   => 'Format email tidak valid.',
+    'email' => ['required', 'email'],
+    'major' => ['required', 'string'],
 ]);
 ```
 
@@ -60,22 +56,17 @@ Gagal? **Otomatis** redirect balik, bawa error + input lama.
 <p class="filename">resources/js/Components/StudentForm.jsx</p>
 
 ```jsx
-const { data, setData, post, put, processing, errors } = useForm({
+const { data, setData, post, processing, errors } = useForm({
     name: student?.name ?? '',
     email: student?.email ?? '',
     major: student?.major ?? '',
 });
 
-<Input
-    id="name"
-    label="Nama"
-    value={data.name}
-    onChange={(e) => setData('name', e.target.value)}
-    error={errors.name}
-/>
+<Input id="name" label="Nama" value={data.name}
+    onChange={(e) => setData('name', e.target.value)} error={errors.name} />
 ```
 
-<p class="fineprint"><code>useForm()</code> dari Inertia menyimpan nilai input <b>dan</b> error validasi otomatis: user tak perlu ketik ulang saat validasi gagal, dan <code>errors.name</code> berisi pesan khusus per field. Argumen kedua <code>validate()</code> = pesan kustom; tanpa itu, Laravel memakai pesan bawaan berbahasa Inggris. Aturan <code>max:100</code> disamakan dengan <code>VARCHAR(100)</code> di migration.</p>
+<p class="fineprint"><code>useForm()</code> dari Inertia menyimpan nilai input <b>dan</b> error validasi otomatis: user tak perlu ketik ulang saat validasi gagal, dan <code>errors.name</code> berisi pesan khusus per field. Argumen kedua <code>validate()</code> bisa diisi pesan kustom Bahasa Indonesia.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Coba lihat kiri — validasi yang kalian tulis kemarin. Kumpulkan error dalam array, cek satu-satu dengan `empty`, `trim`, `strlen`, `filter_var`. Belasan baris, dan tiap kolom baru tambah lagi. Kanan: satu panggilan `validate()`. Kita cuma nyatakan aturannya, Laravel urus sisanya."
@@ -269,8 +260,8 @@ abort_if(! $student, 404);  // hentikan KALAU kondisi terpenuhi
 </div>
 
 <div class="checkpoint">
-<b>Kenapa <code>dd()</code> tidak mengganti halaman?</b><br>
-Karena halaman kita hidup di dalam Inertia, <code>dd()</code> dan error fatal <b>HTTP 500</b> tidak memicu reload penuh. Inertia menangkap respons server itu dan menampilkannya di dalam <b>Inertia Error Modal Dialog</b> &mdash; sebuah jendela melayang di atas halaman yang sedang aktif. Halaman tetap ada di belakangnya; kalian cukup menutup modal untuk kembali, <b>tanpa pindah halaman</b> dan tanpa kehilangan state aplikasi.
+<b>Inertia Modal Debugger</b><br>
+<code>dd()</code> &amp; HTTP 500 ditangkap oleh Inertia dan ditampilkan di jendela modal melayang di atas halaman aktif tanpa memicu reload penuh.
 </div>
 
 Note: **🗣️ Ngomong ke Peserta:**
