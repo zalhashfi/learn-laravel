@@ -20,11 +20,12 @@ const check = (label, ok, detail) => {
 const c3 = read('03-database.md');
 const c4 = read('04-react.md');
 
-// Part 4 must be exactly 3 slides.
+// Part 3 must be decomposed from 4 packed slides into 6 focused slides
+// (plan 01-01 Task 3), Part 4 from 3 to 4 (plan 01-01 Task 4).
 const count3 = (c3.match(/\n\n\n\n/g) || []).length + 1;
 const count4 = (c4.match(/\n\n\n\n/g) || []).length + 1;
-check('Part 3 is 4 slides', count3 === 4, `got ${count3}`);
-check('Part 4 is 3 slides', count4 === 3, `got ${count4}`);
+check('Part 3 is 6 slides (plan 01-01 T3)', count3 === 6, `got ${count3}`);
+check('Part 4 is 4 slides (plan 01-01 T4)', count4 === 4, `got ${count4}`);
 
 // Part 3 Live #3 migration snippet must match the simplified schema.
 check("03-database has string('name')", c3.includes("$table->string('name');"));

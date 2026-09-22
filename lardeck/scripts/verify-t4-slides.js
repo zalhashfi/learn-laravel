@@ -20,11 +20,12 @@ const check = (label, ok, detail) => {
 const c5 = read('05-forms-crud.md');
 const c6 = read('06-relasi-peta.md');
 
-// Slide counts: Part 5 stays at 6, Part 6 shrinks from 5 to 4.
+// Slide counts per plan 01-01: Part 5 grows from 6 to 8 (Task 4),
+// Part 6 stays consolidated at 4.
 const count5 = (c5.match(/\n\n\n\n/g) || []).length + 1;
 const count6 = (c6.match(/\n\n\n\n/g) || []).length + 1;
-check('Part 5 is 6 slides', count5 === 6, `got ${count5}`);
-check('Part 6 is 4 slides', count6 === 4, `got ${count6}`);
+check('Part 5 is 8 slides (plan 01-01 T4)', count5 === 8, `got ${count5}`);
+check('Part 6 is 4 slides (plan 01-01 T5)', count6 === 4, `got ${count6}`);
 
 // Part 5 Live #8 must document Inertia's client-side modal for dd() and HTTP 500.
 const live8 = c5.split(/\n\n\n\n/).find((s) => s.includes('Live #8'));

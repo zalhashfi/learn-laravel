@@ -81,6 +81,23 @@ php artisan route:list
 </div>
 </div>
 
+<p class="fineprint">Tujuh route, satu baris. Bandingkan dengan <b>6 file terpisah</b> di proyek plain PHP.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Ini momen 'oh, banyak yang gratis'. Satu baris `Route::resource()` dan Laravel membuatkan TUJUH route sekaligus: index, store, create, show, update, destroy, edit. Lengkap untuk CRUD."
+
+"Ingat proyek kemarin? Kita bikin `index.php`, `create.php`, `edit.php`, `delete.php` — manual satu-satu. Sekarang satu baris menggantikan semuanya. Tapi perhatikan: route ini cuma PINTU. Isi logikanya tetap harus kita tulis di controller — itu slide berikutnya."
+
+**🎯 Poin Kunci di Layar:**
+- [Aksi Live]: Jalankan `make:controller --resource` — perhatikan 7 method kosong yang dibuat.
+- Sebut bahwa daftar route lengkapnya kita lihat di slide berikutnya.
+
+
+
+<p class="part-label">Part 2 · Routing &amp; Controllers</p>
+
+## Peta 7 route standar RESTful
+
 <div class="mock-terminal">
 <div class="out">GET|HEAD  students .......... students.index   &rsaquo; StudentController@index</div>
 <div class="out">POST      students .......... students.store   &rsaquo; StudentController@store</div>
@@ -88,25 +105,25 @@ php artisan route:list
 <div class="out">GET|HEAD  students/{student}  students.show    &rsaquo; StudentController@show</div>
 <div class="out">PUT|PATCH students/{student}  students.update  &rsaquo; StudentController@update</div>
 <div class="out">DELETE    students/{student}  students.destroy &rsaquo; StudentController@destroy</div>
-<div class="out">GET|HEAD  students/{student}/edit  students.edit &rsaquo; StudentController@edit&nbsp;&nbsp;<span style="color:var(--pd-core)">(7 route)</span></div>
+<div class="out">GET|HEAD  students/{student}/edit  students.edit &rsaquo; StudentController@edit&nbsp;&nbsp;<span style="color:var(--pd-laravel)">(7 route)</span></div>
 </div>
 
-<p class="fineprint">Tujuh route, satu baris. Bandingkan dengan <b>6 file terpisah</b> di proyek plain PHP.</p>
+<p class="fineprint">Output nyata <code>php artisan route:list</code>. Empat route pertama untuk <b>membaca</b> dan menampilkan form; tiga sisanya untuk <b>mengubah</b> data.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Ini momen 'oh, banyak yang gratis'. Satu baris `Route::resource()` dan Laravel membuatkan TUJUH route sekaligus — lihat output `route:list` di layar: index, store, create, show, update, destroy, edit. Lengkap untuk CRUD."
+"Ini hasil nyata `php artisan route:list`. Baca kolom demi kolom: paling kiri method HTTP, tengah URL, paling kanan nama route dan method controller yang menjawabnya."
 
-"Ingat proyek kemarin? Kita bikin `index.php`, `create.php`, `edit.php`, `delete.php` — manual satu-satu. Sekarang satu baris menggantikan semuanya. Tapi perhatikan: route ini cuma PINTU. Isi logikanya tetap harus kita tulis di controller — itu slide berikutnya."
+"Perhatikan pola RESTful-nya. Empat baris pertama untuk membaca: index nampilkan daftar, store simpan baru, create nampilkan form, show tampilkan satu data. Tiga baris terakhir untuk mengubah: update, destroy, edit. Jadi tabel ini bukan hafalan — ini pola yang sama di Laravel mana pun."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Jalankan `make:controller` lalu `route:list`, tunjukkan 7 baris nyata.
-- Tekankan: `--resource` membuat 7 method kosong di controller.
+- Tunjukkan: nama route (`students.index`, dst.) dihasilkan otomatis.
+- Tekankan: URL `{student}` dipakai ulang oleh beberapa method HTTP berbeda.
 
 
 
 <p class="part-label">Part 2 · Routing &amp; Controllers</p>
 
-## Controller &amp; Link antar-halaman
+## StudentController: dari 6 file jadi 1 class
 
 <table class="plain">
 <tr><th>Method controller</th><th>File lama (plain PHP)</th><th>Tugas</th></tr>
@@ -117,40 +134,113 @@ Note: **🗣️ Ngomong ke Peserta:**
 <tr><td><code>destroy()</code></td><td><code>delete.php</code></td><td>Hapus data</td></tr>
 </table>
 
+<p class="fineprint">Divisi tugasnya sama, tapi terpisah rapi: <b>method controller</b> menyiapkan data, <b>React</b> merender tampilan. Satu method = satu tugas.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Tabel ini penting banget — menjawab 'file saya yang kemarin ke mana?'. `index.php` jadi `index()`. Logika POST di `create.php` jadi `store()`. `edit.php` dan `delete.php` jadi `edit`/`update`/`destroy`."
+
+"Perhatikan: `create.php` kemarin menangani DUA tugas — tampil form kalau GET, proses kalau POST. Di Laravel dipisah: `create()` untuk form, `store()` untuk simpan. Itu yang membuat kode lebih rapi dan mudah dites."
+
+"Jadi enam file terpisah kemarin, sekarang jadi satu class bernama `StudentController` dengan tujuh method. Bukan karena Laravel memaksa, tapi karena memisahkan satu tugas per method itu memang lebih enak dirawat."
+
+**🎯 Poin Kunci di Layar:**
+- Telusuri tabel baris per baris — jembatan pemahaman utama.
+- Tekankan pemisahan `create`/`store` dan `edit`/`update`.
+
+
+
+<p class="part-label">Part 2 · Routing &amp; Controllers</p>
+
+## index(): mengirim data ke React
+
 <div class="cmp">
 <div class="cmp-php">
-<h4>Plain PHP: URL ditulis keras</h4>
+<h4>Plain PHP: query + include view</h4>
 
 ```php
-<a href="edit.php?id=<?= $s['id'] ?>">Edit</a>
+$rows = $pdo->query("SELECT * FROM students");
+foreach ($rows as $s) { include 'row.php'; }
+```
+
+Data mentah, template dirakit manual.
+
+</div>
+<div class="cmp-laravel">
+<h4>Laravel: index() mengirim data</h4>
+
+```php
+public function index()
+{
+    return Inertia::render('Students/Index', [
+        'students' => Student::all(),
+    ]);
+}
+```
+
+Satu baris <code>Inertia::render()</code> menggantikan <code>include</code> + loop.
+
+</div>
+</div>
+
+<p class="fineprint">Isi <code>index()</code> di proyek kalian. Data dari <code>Student::all()</code> masuk ke React sebagai <i>props</i> — kita bongkar di Part 4.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Lihat `index()`. Di kiri, cara lama: ambil data lalu `include` view sambil loop. Di kanan, `Student::all()` mengambil semua baris, lalu `Inertia::render()` mengirimkannya ke komponen React `Students/Index`."
+
+"Satu baris itu menggantikan include plus loop. Tapi divisi tugasnya tetap sama: controller menyiapkan data, tampilan merender. Bedanya sekarang datanya menyeberang ke React, bukan ke file PHP."
+
+"`Inertia::render()` menerima dua hal: nama komponen React-nya, dan data yang mau dikirim. Data itu nanti sampai di React sebagai `props` — persis konsep props yang kita bahas di Part 4."
+
+**🎯 Poin Kunci di Layar:**
+- Bandingkan `include` manual vs `Inertia::render()`.
+- Sebut: data yang dikirim akan jadi `props` di React (Part 4).
+
+
+
+<p class="part-label">Part 2 · Routing &amp; Controllers</p>
+
+## SPA Navigation: &lt;Link&gt; vs &lt;a&gt;
+
+<div class="code-duo">
+<div>
+<p class="filename">react: Students/Index.jsx</p>
+
+```jsx
+import { Link } from '@inertiajs/react';
+
+<a href={`/students/${student.id}/edit`}>
+  Edit  ⟳ reload penuh
+</a>
+
+<Link href={`/students/${student.id}/edit`}>
+  Edit  ⚡ tanpa reload
+</Link>
+```
+</div>
+<div>
+<p class="filename">plain PHP</p>
+
+```php
+<a href="edit.php?id=<?= $s['id'] ?>">
+  Edit
+</a>
 ```
 
 Nama file berubah? Semua link rusak.
 
 </div>
-<div class="cmp-laravel">
-<h4>React: path relatif yang bersih</h4>
-
-```jsx
-<Link href={`/students/${student.id}/edit`}>Edit</Link>
-```
-
-Komponen <code>&lt;Link&gt;</code> dari Inertia: navigasi tanpa reload halaman.
-
-</div>
 </div>
 
-<p class="fineprint">Route tetap punya <b>nama</b> (<code>students.edit</code>, dari <code>Route::resource</code>) dan itu berguna di sisi Laravel. Untuk memanggil nama route dari React ada paket tambahan bernama <b>Ziggy</b> — tidak kita pakai di sesi ini agar tidak menambah setup. Kita tulis path relatifnya langsung; jumlahnya sedikit dan mudah dilacak.</p>
+<p class="fineprint">Route tetap punya <b>nama</b> (<code>students.edit</code>) dan itu berguna di sisi Laravel. Untuk memanggil nama route dari React ada paket tambahan bernama <b>Ziggy</b> — tidak kita pakai di sesi ini agar tidak menambah setup.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Tabel ini penting banget — menjawab 'file saya yang kemarin ke mana?'. `index.php` jadi `index()`. Logika POST di `create.php` jadi `store()`. `edit.php` dan `delete.php` jadi `edit`/`update`/`destroy`. Perhatikan: `create.php` kemarin menangani DUA tugas (tampil form kalau GET, proses kalau POST). Di Laravel dipisah: `create()` untuk form, `store()` untuk simpan. Itu yang membuat kode lebih rapi."
+"Sekarang soal link. Dua-duanya jalan, tapi bedanya besar. `<a>` biasa itu cara kuno: browser memuat ulang SELURUH halaman, semua state React hilang, ada kedipan putih. `<Link>` dari Inertia itu navigasi SPA — Inertia mengambil data halaman baru lewat `fetch`, lalu hanya menukar komponen yang berubah. Tidak ada reload penuh, rasanya seperti aplikasi modern."
 
-"Lalu soal link. Di kiri, PHP murni: kita tulis URL file langsung di HTML. Di kanan, React: kita pakai komponen `<Link>` dari Inertia. Dua keunggulannya: pertama, navigasinya tidak me-reload seluruh halaman — terasa seperti aplikasi modern. Kedua, kalian tidak perlu menulis `href` biasa yang memicu reload penuh."
+"Di kiri juga ada pembanding plain PHP: URL file ditulis keras. Nama file berubah, semua link rusak."
 
 "Satu catatan jujur: route kita punya NAMA — `students.edit`, `students.index`, dan seterusnya; itu otomatis dari `Route::resource`. Nama itu berguna di sisi Laravel, misalnya di `redirect()->route('students.index')`. Untuk memanggil nama route dari React, ada paket tambahan namanya Ziggy. Kita tidak pakai di sesi ini supaya setup-nya tidak makin panjang. Jadi kita tulis path-nya langsung seperti di contoh. Kalau nanti di proyek kalian ada Ziggy, tinggal ganti jadi `route('students.edit', student.id)`."
 
 **🎯 Poin Kunci di Layar:**
-- Telusuri tabel baris per baris — jembatan pemahaman utama.
-- Tekankan pemisahan `create`/`store` dan `edit`/`update`.
-- Tunjukkan `<Link>` di kode asli: navigasi tanpa reload.
+- Tunjukkan `<Link>` di kode asli: navigasi tanpa reload halaman.
+- Tekankan: ganti `<a>` jadi `<Link>`, satu perubahan kecil, hasil besar.
 - Sebut Ziggy sebagai opsi lanjutan, bukan bagian sesi ini.

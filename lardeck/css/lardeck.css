@@ -161,8 +161,12 @@
 	margin: 0;
 	font-size: 0.46em;
 }
-.reveal .cmp pre code {
-	max-height: 280px;
+/* Batas aman tinggi satu panel perbandingan (termasuk h4 + kode + narasi).
+ * Tanpa ini, panel dengan kode panjang + 2 baris penjelasan mendorong
+ * slide melewati kanvas laptop 1280x800. Aturan ini berlaku untuk SEMUA
+ * blok .cmp sehingga tidak ada slide baru yang bisa diam-diam meluap. */
+.reveal .cmp > div > pre code {
+	max-height: 200px;
 	padding: 0.5em 0.7em;
 }
 
