@@ -31,6 +31,10 @@ class StudentSchemaTest extends TestCase
      * Migration adalah sumber kebenaran skema. Test ini memeriksa langsung
      * deklarasi kolom pada file migration sehingga penambahan panjang
      * eksplisit (mis. string('name', 100)) akan terdeteksi.
+     *
+     * Modifier seperti ->unique() diizinkan: yang dijaga adalah LEBAR kolom,
+     * bukan ada tidaknya indeks. Batas atas yang diizinkan inilah budget
+     * yang membuat kolom fleksibel sampai 255 karakter (default Laravel).
      */
     public function test_student_string_columns_declared_without_explicit_length(): void
     {
@@ -38,7 +42,7 @@ class StudentSchemaTest extends TestCase
 
         foreach (['name', 'email', 'major'] as $column) {
             $this->assertMatchesRegularExpression(
-                "/\\\$table->string\('{$column}'\);/",
+                "/\\\$table->string\('{$column}'\)(?:->\w+\(\))*;/",
                 $source,
                 "Kolom [{$column}] harus dideklarasikan sebagai string tanpa panjang eksplisit."
             );

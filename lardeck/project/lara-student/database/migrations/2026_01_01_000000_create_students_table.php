@@ -14,9 +14,14 @@ return new class extends Migration
      *   CREATE TABLE students (
      *       id    INT AUTO_INCREMENT PRIMARY KEY,
      *       name  VARCHAR(255) NOT NULL,
-     *       email VARCHAR(255) NOT NULL,
+     *       email VARCHAR(255) NOT NULL UNIQUE,
      *       major VARCHAR(255) NOT NULL
      *   );
+     *
+     * Email diberi indeks UNIQUE supaya database sendiri yang menolak duplikat.
+     * Validasi di controller saja tidak cukup: dua request yang datang hampir
+     * bersamaan sama-sama lolos pengecekan "email sudah dipakai?" sebelum salah
+     * satunya sempat INSERT (race condition).
      *
      * Kolom yang sama, tapi sekarang sebagai KODE yang bisa di-version-control.
      */
@@ -25,7 +30,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();                      // = INT AUTO_INCREMENT PRIMARY KEY
             $table->string('name');            // = VARCHAR(255) NOT NULL
-            $table->string('email');           // = VARCHAR(255) NOT NULL
+            $table->string('email')->unique(); // = VARCHAR(255) NOT NULL UNIQUE
             $table->string('major');           // = VARCHAR(255) NOT NULL
             $table->timestamps();              // created_at & updated_at (otomatis)
         });
