@@ -18,7 +18,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ## Peta jalan roadmap.sh &amp; Relationships
 
-<div class="code-duo" style="grid-template-columns: 1fr 1fr; gap: 1em; align-items: stretch;">
+<div class="code-duo" style="grid-template-columns: 1fr 1fr; gap: 1em; align-items: stretch; margin-top: 0.1em;">
 <div>
 <table class="plain" style="margin: 0; width: 100%;">
 <tr><th>Sudah disentuh</th><th>Arah lanjutan</th></tr>
@@ -48,8 +48,8 @@ $table->foreignId('student_id')
 </div>
 </div>
 
-<div class="checkpoint" style="margin-top: 0.35em;">
-<b>Di proyek nyata: Starter Kit</b>: Kita merakit via <code>composer create-project</code> &amp; <code>composer require inertiajs/inertia-laravel</code> agar paham setiap lapis. Di proyek nyata, Starter Kit menghemat waktu paling banyak di bagian <b>Auth scaffolding</b> — login, register, reset password, dashboard — yang kalau dirakit manual butuh berhari-hari. Cukup <code>laravel new</code> &rarr; React. Panduan: <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a>.
+<div class="checkpoint" style="margin-top: 0.1em; padding: 0.3em 0.7em; font-size: 0.72em;">
+<b>Di proyek nyata: Starter Kit</b>: Kita merakit via <code>composer create-project</code> &amp; <code>composer require inertiajs/inertia-laravel</code> agar paham setiap lapis. Starter Kit menghemat waktu paling banyak di <b>Auth scaffolding</b> — login, register, reset password, dashboard. Cukup <code>laravel new</code> &rarr; React. Panduan: <a href="https://roadmap.sh/laravel">roadmap.sh/laravel</a>.
 </div>
 
 Note: **🗣️ Ngomong ke Peserta:**

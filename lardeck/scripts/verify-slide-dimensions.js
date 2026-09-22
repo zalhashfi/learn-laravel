@@ -10,9 +10,10 @@
 // Ambang batas dihitung dari konfigurasi deck (`width/height/margin`) supaya
 // tetap sahih walau ukuran viewport berubah, dan diukur pada skala fit asli
 // (bukan skala paksa) sehingga `scrollHeight` selalu terisi konsisten.
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import http from 'node:http';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -112,13 +113,89 @@ function getJson(url) {
 }
 
 /**
- * Memilih target halaman deck dari daftar CDP. Vite mengarahkan
- * `/lardeck.html` ke `/lardeck`, jadi pencocokan dilakukan longgar
- * (slug `lardeck`) dan menolak target non-HTML (mis. service worker).
+ * Memilih target halaman deck dari daftar CDP.
+ *
+ * Sengaja ketat: hanya halaman HTML sungguhan yang boleh lolos. Chrome dengan
+ * `--headless` baru tetap bisa memunculkan target `chrome://` (mis. Omnibox
+ * Popup) yang teksnya kebetulan memuat kata "lardeck"; target seperti itu tidak
+ * punya objek `Reveal` dan pernah membuat pengukuran gagal.
  */
 function isDeckTarget(target) {
-    if (target.type !== 'page' || !target.url) return false;
-    return /^https?:/.test(target.url) && /lardeck(\b|\.|\/|$)/.test(target.url);
+    if (target.type !== 'page') return false;
+    if (typeof target.url !== 'string') return false;
+    return /^https?:\/\//.test(target.url) && /\/lardeck(\b|\.|\/|$|\?|#)/.test(target.url);
+}
+
+/**
+ * Mematikan Chrome yang KITA luncurkan saja, sampai ke seluruh anak prosesnya,
+ * lalu menghapus profil sementara.
+ *
+ * Dua jebakan Windows yang harus dihindari:
+ *   1. `child.kill()` hanya membunuh proses induk dan menyisakan puluhan
+ *      `chrome.exe` yatim (pernah terjadi: 44 proses menumpuk).
+ *   2. `taskkill /IM chrome.exe /T` membunuh SEMUA Chrome di mesin, termasuk
+ *      jendela browser milik pengguna — dilarang.
+ *
+ * Karena itu pembunuhan dilakukan berbasis PID kita sendiri: `taskkill /PID`
+ * dengan `/T` cukup untuk merobohkan pohon anak (renderer/GPU) tanpa menyentuh
+ * proses Chrome lain.
+ */
+function killBrowser(child, profileDir) {
+    if (child && child.pid && !child.killed) {
+        try {
+            if (process.platform === 'win32') {
+                // Sinkron: kita harus menunggu proses benar-benar mati sebelum
+                // menghapus profil, kalau tidak Chrome masih mengunci file.
+                spawnSync('taskkill', ['/PID', String(child.pid), '/T', '/F'], {
+                    stdio: 'ignore',
+                });
+            } else {
+                child.kill('SIGKILL');
+            }
+        } catch (e) {
+            // proses mungkin sudah berhenti sendiri
+        }
+    }
+    if (profileDir) {
+        // Chrome kadang masih melepas handle-nya sesaat setelah taskkill;
+        // coba beberapa kali dengan jeda nyata sebelum menyerah.
+        for (let attempt = 0; attempt < 8; attempt++) {
+            try {
+                fs.rmSync(profileDir, { recursive: true, force: true });
+                return;
+            } catch (e) {
+                // masih terkunci — tunggu sebentar lalu ulangi
+            }
+            Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 150);
+        }
+    }
+}
+
+/**
+ * Menunggu deck benar-benar siap diukur.
+ *
+ * Deck memuat markdown-nya secara asinkron (plugin RevealMarkdown), sehingga
+ * `typeof Reveal === 'function'` saja TIDAK cukup: pada jendela waktu itu
+ * `Reveal.getSlides` bahkan belum ada, dan `Reveal.slide()` yang dipanggil
+ * terlalu dini melempar `TypeError: this.controlsLeft is not iterable`.
+ *
+ * Jadi kesiapan diukur dari jumlah slide yang benar-benar sudah ter-render
+ * (harus mencapai plafon `EXPECTED_SLIDE_COUNT`).
+ */
+async function waitForDeckReady(sendCmd, attempts = 60) {
+    for (let i = 0; i < attempts; i++) {
+        try {
+            const res = await sendCmd('Runtime.evaluate', {
+                expression: '(function () { try { return Reveal.getSlides().length } catch (e) { return -1 } })()',
+                returnByValue: true,
+            });
+            if (typeof res?.result?.value === 'number' && res.result.value >= EXPECTED_SLIDE_COUNT) return true;
+        } catch (e) {
+            // dokumen masih berpindah / reveal.js belum attach
+        }
+        await sleep(250);
+    }
+    return false;
 }
 
 /**
@@ -126,9 +203,17 @@ function isDeckTarget(target) {
  * @returns {Promise<{total: number, scale: number, budget: number, measurements: Array}>}
  */
 async function measureSlides() {
+    // Profil sekali pakai: mencegah ekstensi/status profil pengguna nyata
+    // (Google Hangouts dll.) ikut termuat dan menyusup ke daftar target CDP.
+    const profileDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lardeck-cdp-'));
+
     const chrome = spawn(CHROME_PATH, [
         '--headless=new',
         `--remote-debugging-port=${CDP_PORT}`,
+        `--user-data-dir=${profileDir}`,
+        '--disable-extensions',
+        '--no-first-run',
+        '--no-default-browser-check',
         '--disable-gpu',
         `--window-size=${VIEWPORT.width},${VIEWPORT.height}`,
         TARGET_URL,
@@ -150,7 +235,7 @@ async function measureSlides() {
     }
 
     if (!wsUrl) {
-        chrome.kill();
+        killBrowser(chrome, profileDir);
         throw new Error(
             `Could not connect to Chrome DevTools Protocol at ${TARGET_URL}. ` +
                 'Pastikan dev server (`npm run start`) sudah jalan di port 8000.',
@@ -189,8 +274,17 @@ async function measureSlides() {
         mobile: false,
     });
 
-    // Tunggu reveal.js selesai merender markdown.
-    await sleep(1500);
+    // Tunggu reveal.js benar-benar siap (bukan sekadar sleep tetap): deck di
+    // Vite di-serve asinkron, dan pengukuran sebelum `Reveal` ada akan gagal.
+    const ready = await waitForDeckReady(sendCmd);
+    if (!ready) {
+        ws.close();
+        killBrowser(chrome, profileDir);
+        throw new Error(
+            'reveal.js (`Reveal`) tidak pernah siap di ' +
+                `${TARGET_URL}. Pastikan deck memuat reveal.js dengan benar.`,
+        );
+    }
 
     const evalExpression = `(async () => {
         Reveal.configure({ transition: 'none' });
@@ -222,7 +316,7 @@ async function measureSlides() {
     });
 
     ws.close();
-    chrome.kill();
+    killBrowser(chrome, profileDir);
 
     if (res?.exceptionDetails) {
         throw new Error('Chrome eval exception: ' + JSON.stringify(res.exceptionDetails));
