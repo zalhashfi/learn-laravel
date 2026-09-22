@@ -16,7 +16,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 5 · Forms, Validation &amp; CRUD</p>
 
-## Validasi &amp; menampilkan error
+## Validasi Otomatis di Controller
 
 <div class="cmp">
 <div class="cmp-php">
@@ -48,6 +48,23 @@ Gagal? Otomatis redirect balik bawa error + input lama.
 </div>
 </div>
 
+<p class="fineprint"><code>validate()</code> bisa diberi pesan kustom sebagai argumen kedua.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Coba lihat kiri — validasi yang kalian tulis kemarin. Kumpulkan error dalam array, cek satu-satu dengan `empty`, `trim`, `strlen`, `filter_var`. Belasan baris, dan tiap kolom baru tambah lagi. Kanan: satu panggilan `validate()`. Kita cuma nyatakan aturannya, Laravel urus sisanya."
+
+"Bonusnya besar: kalau validasi gagal, Laravel OTOMATIS mengarahkan user balik ke form, membawa pesan error, DAN membawa kembali yang tadi mereka ketik. Semua yang kemarin kita kerjakan manual — sekarang gratis. Itu penghemat terbesar di slide ini."
+
+**🎯 Poin Kunci di Layar:**
+- Hitung kasar baris: kiri ~12, kanan ~5.
+- Tekankan "otomatis redirect + old input" — penghemat terbesar.
+
+
+
+<p class="part-label">Part 5 · Forms, Validation &amp; CRUD</p>
+
+## Menampilkan Pesan Error di React
+
 <p class="filename">resources/js/Components/StudentForm.jsx</p>
 
 ```jsx
@@ -58,20 +75,14 @@ const { data, setData, post, processing, errors } = useForm({
 <Input id="name" label="Nama" value={data.name} onChange={e => setData('name', e.target.value)} error={errors.name} />
 ```
 
-<p class="fineprint"><code>useForm()</code> otomatis mengelola state dan <code>errors</code>: input tersimpan saat validasi gagal. <code>validate()</code> bisa diberi pesan kustom.</p>
+<p class="fineprint"><code>useForm()</code> otomatis mengelola state dan <code>errors</code>: input tersimpan saat validasi gagal.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Coba lihat kiri — validasi yang kalian tulis kemarin. Kumpulkan error dalam array, cek satu-satu dengan `empty`, `trim`, `strlen`, `filter_var`. Belasan baris, dan tiap kolom baru tambah lagi. Kanan: satu panggilan `validate()`. Kita cuma nyatakan aturannya, Laravel urus sisanya."
+"Perhatikan kode React ini. `useForm()` mengembalikan beberapa hal sekaligus: `data` (nilai input saat ini), `setData` (mengubah nilai), `post`/`put` (mengirim), `processing` (sedang dikirim?), dan `errors` (pesan validasi dari Laravel). Semuanya dari satu tempat — kalian tidak perlu mengurus state form secara manual."
 
-"Bonusnya besar: kalau validasi gagal, Laravel OTOMATIS mengarahkan user balik ke form, membawa pesan error, DAN membawa kembali yang tadi mereka ketik. Semua yang kemarin kita kerjakan manual — sekarang gratis."
-
-"Perhatikan kode React di bawah. `useForm()` mengembalikan beberapa hal sekaligus: `data` (nilai input saat ini), `setData` (mengubah nilai), `post`/`put` (mengirim), `processing` (sedang dikirim?), dan `errors` (pesan validasi dari Laravel). Semuanya dari satu tempat — kalian tidak perlu mengurus state form secara manual."
-
-"Dan satu hal yang elegan: `student?.name ?? ''`. Untuk form edit, pakai data lama; untuk form create, string kosong. Jadi SATU komponen `StudentForm` ini dipakai untuk create DAN edit — persis seperti niat `_form` php kemarin. `errors.name` menampilkan pesan hanya di field yang salah. Perhatikan juga `max:100` — angkanya sama dengan `VARCHAR(100)` di migration kita; validasi PHP dan batas database terjaga sinkron."
+"Dan satu hal yang elegan: `student?.name ?? ''`. Untuk form edit, pakai data lama; untuk form create, string kosong. Jadi SATU komponen `StudentForm` ini dipakai untuk create DAN edit — persis seperti niat `_form` php kemarin. `errors.name` menampilkan pesan hanya di field yang salah."
 
 **🎯 Poin Kunci di Layar:**
-- Hitung kasar baris: kiri ~12, kanan ~5.
-- Tekankan "otomatis redirect + old input" — penghemat terbesar.
 - Tunjukkan `StudentForm.jsx` asli: satu form untuk create + edit.
 - Sebut `errors.name` = pesan validasi khusus field itu.
 
@@ -241,7 +252,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 5 · Forms, Validation &amp; CRUD <span class="badge badge-live">Live #8</span></p>
 
-## Live Coding: debugging &amp; error handling
+## Debugging: Inertia Error Modal
 
 <p class="filename">StudentController.php &amp; di mana saja</p>
 
@@ -256,10 +267,7 @@ abort(404);                 // hentikan dengan status HTTP 404
 abort_if(! $student, 404);  // hentikan KALAU kondisi terpenuhi
 ```
 
-<div class="checkpoint">
-<b>Error Handling &amp; Inertia Error Modal</b><br>
-Route model binding otomatis <code>abort(404)</code> saat data kosong. Saat <code>dd()</code> atau HTTP 500 terjadi, Inertia menampilkannya di <b>Inertia Error Modal</b> tanpa reload penuh.
-</div>
+<p class="fineprint">Saat <code>dd()</code> atau HTTP 500 terjadi, Inertia menampilkannya di <b>Inertia Error Modal</b> tanpa reload penuh.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Terakhir: bagaimana kalau ada yang salah? Kemarin alat utama kita `var_dump`. Sekarang ada `dd()` — 'dump and die'. Isi variabel, lalu hentikan program tepat di situ. Ini cara tercepat memahami apa yang terjadi di tengah alur."
@@ -268,10 +276,37 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Dan `abort(404)` — ingat route model binding tadi? Kalau `{student}` tidak ditemukan, Laravel sudah otomatis memanggil ini. Ingat `try { new PDO } catch (PDOException $e)` kemarin? Laravel juga menangkap semua exception dan menampilkan halaman error yang rapi — atau JSON untuk API."
 
-"Ada satu perilaku yang akan kalian temui dan mungkin membingungkan. Saat kalian panggil `dd()` di tengah request Inertia, atau server kalian melempar error fatal HTTP 500, halaman TIDAK akan berganti menjadi full page reload. Inertia menangkap respons error itu dan menampilkannya di dalam Inertia Error Modal Dialog — jendela melayang di atas halaman yang sedang terbuka. Jadi kalau kalian lihat dump variabel muncul dalam kotak melayang, itu bukan bug: itu Inertia yang bekerja. Tutup modalnya, halaman kalian masih ada persis seperti sebelumnya. Ini sangat berguna saat live coding: kalian bisa debug tanpa kehilangan posisi di aplikasi."
+"Ada satu perilaku yang akan kalian temui dan mungkin membingungkan. Saat kalian panggil `dd()` di tengah request Inertia, atau server kalian melempar error fatal HTTP 500, halaman TIDAK akan berganti menjadi full page reload. Inertia menangkap respons error itu dan menampilkannya di dalam Inertia Error Modal Dialog — jendela melayang di atas halaman yang sedang terbuka. Jadi kalau kalian lihat dump variabel muncul dalam kotak melayang, itu bukan bug: itu Inertia yang bekerja. Tutup modalnya, halaman kalian masih ada persis seperti sebelumnya."
 
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Tunjukkan `dd()` di `tinker` atau di controller.
 - Tekankan `abort(404)` sudah otomatis dari route model binding.
 - Sebut: ini menggantikan `var_dump` dan `try/catch` manual.
 - Unjuk: `dd()`/HTTP 500 muncul di Inertia Error Modal, bukan reload penuh.
+
+
+
+<p class="part-label">Part 5 · Forms, Validation &amp; CRUD</p>
+
+## Checkpoint Live Coding Form &amp; CRUD
+
+<div class="checkpoint">
+<b>Error Handling &amp; Inertia Error Modal</b><br>
+Route model binding otomatis <code>abort(404)</code> saat data kosong.
+<br><br>
+<b>Checkpoint CRUD:</b> index, create, store, edit, update, destroy — enam aksi selesai. Cek aplikasi kalian: tambah, ubah, cari, hapus satu data.
+</div>
+
+<p class="fineprint">Sebelum lanjut: pastikan seluruh alur CRUD berjalan tanpa error, dan kalian paham dari mana setiap pesan validasi berasal.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Sebelum kita tutup Part 5: mari pastikan CRUD kalian benar-benar utuh. Enam aksi — index, create, store, edit, update, destroy. Semuanya kini jalan di aplikasi kalian."
+
+"Coba lakukan cepat: tambah satu data, ubah, cari lewat kolom search, lalu hapus. Kalau ada yang gagal, saatnya memakai `dd()` dan `logger()` dari slide sebelumnya. Kalau kalian lihat kotak melayang, bukan bug: itu Inertia Error Modal yang bekerja."
+
+"Dan pastikan kalian bisa menjawab: dari mana pesan validasi 'Nama wajib diisi.' berasal? Kalau kalian bisa menunjuk `validate()` di controller dan `errors.name` di React, kalian sudah paham rantai lengkapnya."
+
+**🎯 Poin Kunci di Layar:**
+- Ajak peserta cek: create, edit, search, delete satu data.
+- Pastikan pesan validasi kustom Bahasa Indonesia tampil.
+- Tutup: rantai `validate()` → `errors.name` terpahami.

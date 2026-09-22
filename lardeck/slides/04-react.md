@@ -99,26 +99,48 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 4 · Views dengan React <span class="badge badge-live">Live #4</span></p>
 
-## Layout, kondisi kosong, &amp; flash message
+## Layout Bersama di React
+
+<p class="filename">resources/js/Layouts/AppLayout.jsx</p>
+
+```jsx
+export default function AppLayout({ children }) {
+    return (
+        <div>
+            <header>Student Management</header>
+            <main>{children}</main>
+        </div>
+    );
+}
+```
+
+<p class="fineprint"><b>Layout</b> menggantikan copy-paste <code>&lt;head&gt;</code> kemarin: sekali tulis, semua halaman pakai. <b><code>children</code></b> = tempat isi halaman dimasukkan — pola komponen yang sama seperti React biasa.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Layout. Kemarin setiap file punya `<head>` copy-paste — ganti judul aplikasi berarti edit semua file. Sekarang: satu komponen `AppLayout`, dan halaman lain memakainya."
+
+"Perhatikan `{children}` — itu 'lubang' tempat isi halaman dimasukkan. Kalau kalian familiar React, ini pola yang sama persis dengan komponen React lain. Satu definisi, banyak pemakai."
+
+**🎯 Poin Kunci di Layar:**
+- [Aksi Live]: Tunjukkan `AppLayout` dan `{children}` di file asli.
+- Tekankan: sekali tulis, semua halaman memakai.
+
+
+
+<p class="part-label">Part 4 · Views dengan React <span class="badge badge-live">Live #4</span></p>
+
+## Kondisi Kosong &amp; Flash Message
 
 <div class="code-duo">
 <div>
 <p class="filename">resources/js/Layouts/AppLayout.jsx</p>
 
 ```jsx
-export default function AppLayout({ children }) {
-    const { flash } = usePage().props;
+const { flash } = usePage().props;
 
-    return (
-        <div>
-            <header>Student Management</header>
-            {flash?.success && (
-                <div className="alert">{flash.success}</div>
-            )}
-            <main>{children}</main>
-        </div>
-    );
-}
+{flash?.success && (
+    <div className="alert">{flash.success}</div>
+)}
 ```
 </div>
 <div>
@@ -136,18 +158,16 @@ export default function AppLayout({ children }) {
 </div>
 </div>
 
-<p class="fineprint"><b>Layout</b> menggantikan copy-paste <code>&lt;head&gt;</code> kemarin: sekali tulis, semua halaman pakai. <b><code>children</code></b> = tempat isi halaman dimasukkan. <b>Kondisi kosong</b> ditangani langsung di JSX dengan ternary. <b>Flash</b>: controller cukup <code>-&gt;with('success', ...)</code>, React membacanya dari <code>usePage().props.flash</code>.</p>
+<p class="fineprint"><b>Kondisi kosong</b> ditangani langsung di JSX dengan ternary. <b>Flash</b>: controller cukup <code>-&gt;with('success', ...)</code>, React membacanya dari <code>usePage().props.flash</code>.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Tiga hal sekaligus di slide ini, dan ketiganya menjawab masalah nyata dari proyek kemarin."
+"Dua hal di slide ini, dan keduanya menjawab masalah nyata dari proyek kemarin."
 
-"Pertama, Layout. Kemarin setiap file punya `<head>` copy-paste — ganti judul aplikasi berarti edit semua file. Sekarang: satu komponen `AppLayout`, dan halaman lain memakainya. Perhatikan `{children}` — itu 'lubang' tempat isi halaman dimasukkan. Kalau kalian familiar React, ini pola yang sama persis dengan komponen React lain."
+"Pertama, kondisi kosong. Perhatikan ternary di bawah: kalau `students.data.length === 0`, tampilkan pesan; kalau tidak, tampilkan tabel. Ingat `if (empty($students))` manual kemarin? Di React ini cuma ekspresi biasa — tidak perlu direktif khusus."
 
-"Kedua, kondisi kosong. Perhatikan ternary di bawah: kalau `students.data.length === 0`, tampilkan pesan; kalau tidak, tampilkan tabel. Ingat `if (empty($students))` manual kemarin? Di React ini cuma ekspresi biasa — tidak perlu direktif khusus."
-
-"Ketiga, flash message. Ingat `setFlash` dan `getFlash` yang kita bikin sendiri — lengkap dengan `unset` yang gampang lupa? Sekarang controller cukup `->with('success', 'pesan')`. Data itu otomatis dibagikan ke semua halaman lewat Inertia, dan React mengambilnya dari `usePage().props.flash`. Laravel mengurus penyimpanan dan pembersihannya."
+"Kedua, flash message. Ingat `setFlash` dan `getFlash` yang kita bikin sendiri — lengkap dengan `unset` yang gampang lupa? Sekarang controller cukup `->with('success', 'pesan')`. Data itu otomatis dibagikan ke semua halaman lewat Inertia, dan React mengambilnya dari `usePage().props.flash`. Laravel mengurus penyimpanan dan pembersihannya. Perhatikan juga `flash?.success &&` — optional chaining, supaya tidak error saat flash kosong."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Tunjukkan `AppLayout` dan `{children}` di file asli.
 - Tunjukkan ternary kondisi kosong di `Index.jsx`.
 - Tunjukkan `->with()` di controller, lalu `usePage().props.flash` di React.
+- Sebut `flash?.success` = optional chaining, aman saat kosong.
