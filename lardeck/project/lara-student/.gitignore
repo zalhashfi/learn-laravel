@@ -1,8 +1,11 @@
 *.log
 .DS_Store
 .env
+.env.*
 .env.backup
 .env.production
+.env.local
+!.env.example
 .phpactor.json
 .phpunit.result.cache
 /.fleet
@@ -22,3 +25,18 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# ==============================================================================
+# CONFIDENTIAL PLANNING & CREDENTIALS
+# ==============================================================================
+.planning/
+.gsd/
+ralph*
+prd*.json
+*credential*
+*secret*
+*.key
+*.pem
+*.pfx
+token.json
+credentials.json

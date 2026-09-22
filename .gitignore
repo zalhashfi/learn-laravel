@@ -5,10 +5,54 @@ vendor/
 # Build output (bisa dibuat ulang dengan `npm run sync-assets`)
 dist/
 
-# Environment & secrets
+# ==============================================================================
+# CONFIDENTIAL PLANNING & AGENTIC WORKFLOW (Anti-Reconnaissance & Zero-Leak)
+# ==============================================================================
+.planning/
+.gsd/
+planning/
+*.plan
+ROADMAP.md
+STATE.md
+REQUIREMENTS.md
+PROJECT.md
+SPEC.md
+RESEARCH.md
+VALIDATION.md
+prd.json
+prd-*.json
+progress.txt
+AGENTIC_WORKFLOW_GUIDE.md
+
+# Automation Runners & Loops
+ralph.ps1
+ralph.*
+*.ralph
+ralph/
+
+# ==============================================================================
+# ENVIRONMENT & SECRETS (Zero-Credential Leak Policy)
+# ==============================================================================
 .env
 .env.*
+.env.local
+.env.*.local
+*.env
 !.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+*.crt
+*credential*
+*secret*
+id_rsa*
+id_ed25519*
+service-account*.json
+token.json
+credentials.json
+auth.json
 
 # Laravel runtime
 storage/*.key
@@ -27,6 +71,8 @@ bootstrap/cache/*
 # Editor & OS
 .vscode/
 .idea/
+.fleet/
+.zed/
 .DS_Store
 Thumbs.db
 
