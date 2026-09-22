@@ -243,35 +243,35 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <div class="cmp">
 <div class="cmp-php">
-<h4>Kemarin: kredensial keras di kode</h4>
+<h4>Kemarin: kredensial di kode</h4>
 
 ```php
 // config/database.php
 $host = '127.0.0.1';
 $db   = 'student_db';
 $user = 'root';
-$pass = '';          // terlihat semua orang
+$pass = ''; // terlihat semua orang
 ```
 
-File ini ikut masuk git, dan password terpampang ke siapa pun yang punya akses repo.
+File ikut ke git; password terbuka bagi siapa pun yang clone repo.
 
 </div>
 <div class="cmp-laravel">
 <h4>Hari ini: dipisah ke `.env`</h4>
 
 ```bash
-# .env  (tidak di-commit ke git)
+# .env (otomatis di-.gitignore)
 DB_DATABASE=student_db
 DB_USERNAME=root
 APP_DEBUG=true
 ```
 
-Kredensial dipisah dari kode. `.env` masuk `.gitignore` sejak awal.
+Kredensial terpisah dari kode sumber. Aman dari riwayat git.
 
 </div>
 </div>
 
-<p class="fineprint"><code>APP_DEBUG=true</code> = padanan <code>display_errors</code> kemarin. <b>Wajib <code>false</code> di production</b>: kalau tidak, pesan error bisa membocorkan isi server. Siapkan <code>.env</code> sekarang, karena live coding berikutnya butuh koneksi database.</p>
+<p class="fineprint"><code>APP_DEBUG=true</code> = padanan <code>display_errors</code>. <b>Wajib <code>false</code> di production</b> agar tidak membocorkan server. Siapkan <code>.env</code> untuk live coding database.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Satu hal terakhir di Part 1: konfigurasi. Kemarin, kredensial database kita tulis keras di `config/database.php`. Masalahnya, file itu ikut masuk git. Artinya password database kalian bisa dilihat siapa saja yang punya akses ke repository. Itu kebiasaan yang berbahaya."

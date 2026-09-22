@@ -192,25 +192,26 @@ async function measureSlides() {
     // Tunggu reveal.js selesai merender markdown.
     await sleep(1500);
 
-    const evalExpression = `(() => {
+    const evalExpression = `(async () => {
+        Reveal.configure({ transition: 'none' });
         const cfg = Reveal.getConfig();
         // Tinggi isi yang tersedia di kanvas = kanvas dikurangi margin atas/bawah.
         const budget = Math.round(cfg.height * (1 - 2 * cfg.margin));
         const slides = Array.from(document.querySelectorAll('.reveal .slides section:not(.stack)'));
-        const measurements = slides.map((s, i) => {
+        const measurements = [];
+        for (let i = 0; i < slides.length; i++) {
+            const s = slides[i];
+            const idx = Reveal.getIndices(s);
+            Reveal.slide(idx.h, idx.v);
+            await new Promise(r => setTimeout(r, 40));
             const headingEl = s.querySelector('h2, h3, h1') || s.querySelector('.part-label');
-            return {
+            measurements.push({
                 index: i + 1,
                 heading: (headingEl?.innerText || 'Slide ' + (i + 1)).replace(/\\s+/g, ' ').trim().slice(0, 60),
-                // scrollHeight = 0 berarti reveal.js belum/ tidak menghitung layout
-                // slide non-aktif. Skrip menganggapnya "tidak terpotong" (bukan lulus
-                // palsu): slide yang terpotong SELALU melaporkan tinggi > 0 dan
-                // melewati budget. Diverifikasi manual via CDP pada slide aktif &
-                // lewat audit screenshot per slide di T4.
                 scrollHeight: s.scrollHeight,
                 clientHeight: s.clientHeight,
-            };
-        });
+            });
+        }
         return { total: slides.length, scale: Reveal.getScale(), budget, measurements };
     })()`;
 
@@ -223,7 +224,14 @@ async function measureSlides() {
     ws.close();
     chrome.kill();
 
-    return res.result.value;
+    if (res?.exceptionDetails) {
+        throw new Error('Chrome eval exception: ' + JSON.stringify(res.exceptionDetails));
+    }
+    const val = res?.result?.value !== undefined ? res.result.value : res?.value;
+    if (!val) {
+        throw new Error('Chrome eval returned empty: ' + JSON.stringify(res));
+    }
+    return val;
 }
 
 async function main() {

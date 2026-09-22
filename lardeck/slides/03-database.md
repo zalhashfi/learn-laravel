@@ -183,21 +183,15 @@ Note: **🗣️ Ngomong ke Peserta:**
 ```php
 use Inertia\Inertia;
 
-// 1. Kembalikan halaman React (paling umum)
-return Inertia::render('Students/Index', [
-    'students' => $students,
-    'q' => $q,
-]);
+// 1. Render React (kirim props)      2. Redirect (pola PRG)
+return Inertia::render('Students/Index', ['students' => $students]);
+return redirect()->route('students.index')->with('success', 'Tersimpan.');
 
-// 2. Redirect ke halaman lain (pola PRG)
-return redirect()->route('students.index')
-    ->with('success', 'Data siswa berhasil ditambahkan.');
-
-// 3. Kembalikan data mentah (untuk API / debugging)
+// 3. Raw JSON (untuk API / debugging)
 return response()->json($students);
 ```
 
-<p class="fineprint">Sekarang <b>eksplisit</b>: controller <i>mengembalikan</i> Response, dan kita pilih jenisnya. Perhatikan <code>Inertia::render()</code>: argumen kedua adalah <b>data</b> yang dikirim ke React sebagai <i>props</i>. React tidak pernah menyentuh database — dia hanya menerima.</p>
+<p class="fineprint">Controller mengembalikan Response eksplisit. Argumen kedua <code>Inertia::render()</code> adalah <b>props</b> ke React. React tidak menyentuh database — hanya menerima data.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Tanya ke peserta: Di deck lama, 'PHP mengirim output' itu seperti apa? Jawab: echo, header('Location: ...') — sekarang eksplisit jadi Response object."
