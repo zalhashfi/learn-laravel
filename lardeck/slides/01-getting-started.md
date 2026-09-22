@@ -13,9 +13,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 
 
-<p class="part-label">Part 1 · Getting Started <span class="badge badge-live">Live #1</span></p>
+<p class="part-label">Part 1 · Getting Started</p>
 
-## Composer &amp; Create a New Project
+## Kenapa Composer?
 
 <div class="cmp">
 <div class="cmp-php">
@@ -26,21 +26,40 @@ require 'config/database.php';
 include 'partials/header.php';
 ```
 
-Kita sendiri yang mengurus file mana yang dipanggil. Untuk library dari internet? Harus tulis sendiri.
+Kita sendiri yang mengurus file mana yang dipanggil. Butuh library dari internet? Unduh manual, copy ke folder, lalu `require` sendiri.
 
 </div>
 <div class="cmp-laravel">
-<h4>Laravel: Composer</h4>
+<h4>Hari ini: Composer *package manager*</h4>
 
 ```json
 // composer.json
 "require": { "laravel/framework": "^12.0" }
 ```
 
-Composer mengunduh, mengurus versi, dan menyiapkan semuanya.
+Composer mengunduh, mengurus versi, dan menyiapkan semuanya. Laravel sendiri cuma **satu paket Composer** biasa.
 
 </div>
 </div>
+
+<p class="fineprint">Composer adalah <b>package manager</b> untuk PHP — padanan <code>npm</code> di JavaScript atau <code>pip</code> di Python. Jadi begitu paham Composer, kalian paham cara memasang framework ini.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Ingat nggak waktu kita nulis `require 'config/database.php'`? Itu cara manual. Kita sendiri yang mengurus file mana yang dipanggil, dan kalau butuh library dari internet harus tulis sendiri."
+
+"Nah, Composer menggantikan itu. Dia package manager — sama seperti `npm` di JavaScript atau `pip` di Python. Bedanya, Composer khusus untuk PHP."
+
+"Dan ini bagian yang lucu: Laravel itu sendiri cuma sebuah PAKET Composer. Bukan software khusus yang harus diunduh dari situsnya. Jadi begitu kalian paham cara kerja Composer, kalian sudah paham cara memasang framework ini."
+
+**🎯 Poin Kunci di Layar:**
+- Analogi: Composer ≈ `npm` / `pip`.
+- Tekankan: Laravel = paket Composer biasa, bukan hal mistis.
+
+
+
+<p class="part-label">Part 1 · Getting Started <span class="badge badge-live">Live #1</span></p>
+
+## Create a New Project &amp; Pasang Inertia
 
 <p class="filename">terminal</p>
 
@@ -50,20 +69,27 @@ composer require inertiajs/inertia-laravel
 npm install react react-dom @inertiajs/react
 ```
 
-<p class="fineprint">Cukup <b>PHP + Composer + Node</b>. <code>composer create-project</code> membuat struktur proyek, lalu Inertia dipasang sebagai jembatan ke React. Pin ke <code>^12.0</code> agar sama dengan proyek Backend.</p>
+<div class="mock-browser">
+<div class="bar">lara-student/</div>
+<div class="body">
+Proyek Laravel siap, Inertia terpasang, React terpasang.<br>
+Belum ada satu baris kode pun yang kita tulis.
+</div>
+</div>
+
+<p class="fineprint">Cukup <b>PHP + Composer + Node</b>. Tidak ada installer global yang perlu dipasang lebih dulu. Pin ke <code>^12.0</code> agar versinya sama dengan proyek Backend kalian.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Ingat nggak waktu kita nulis `require 'config/database.php'`? Itu cara manual. Composer menggantikan itu — dia package manager, sama seperti `npm` di JavaScript atau `pip` di Python. Lucunya, Laravel itu sendiri cuma sebuah paket Composer. Jadi begitu paham Composer, kalian paham cara memasang framework ini."
+"Untuk membuat proyeknya, cukup satu perintah Composer: `composer create-project`. Tidak ada installer global yang perlu dipasang lebih dulu — modal kalian cuma PHP dan Composer. Ini juga menegaskan poin tadi: Laravel cuma paket Composer biasa."
 
-"Untuk membuat proyeknya, cukup satu perintah Composer: `composer create-project`. Tidak ada installer global yang perlu dipasang lebih dulu — modal kalian cuma PHP dan Composer. Ini juga menegaskan poinnya: Laravel cuma paket Composer biasa."
+"Perhatikan versinya: `^12.0`. Kita sengaja pakai Laravel 12 — versi yang sama dengan proyek Backend kalian. Jadi apa yang kalian pelajari hari ini langsung nyambung ke kode tim nanti."
 
-"Perhatikan versinya: `^12.0`. Kita sengaja pakai Laravel 12 — versi yang sama dengan proyek Backend kalian. Lalu kita pasang Inertia dan React. Jadi apa yang kalian pelajari hari ini langsung nyambung ke kode tim nanti."
+"Baris kedua memasang Inertia, dan baris ketiga memasang React. Inertia inilah jembatan antara Laravel dan React — tanpa dia, kita harus bikin REST API dan CORS sendiri. Nanti kita lihat cara kerjanya."
 
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Tunjukkan perintahnya, jalankan `composer create-project`.
 - Sebut nama folder `lara-student` — konsisten sepanjang sesi.
 - Tekankan versi `^12.0` = sama dengan proyek Backend.
-- Analogi: Composer ≈ `npm` / `pip`.
 
 
 
@@ -104,7 +130,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <p class="part-label">Part 1 · Getting Started</p>
 
-## Project Structure &amp; mana yang boleh disentuh
+## Struktur Folder Proyek Laravel
 
 <table class="plain">
 <tr><th>Folder</th><th>Tanggung jawab</th></tr>
@@ -113,26 +139,51 @@ Note: **🗣️ Ngomong ke Peserta:**
 <tr><td><code>resources/js/</code></td><td><b>Tampilan React</b>: <code>Pages/</code>, <code>Layouts/</code>, <code>Components/</code></td></tr>
 <tr><td><code>resources/views/</code></td><td>Cuma <code>app.blade.php</code>: kerangka kosong tempat React dipasang</td></tr>
 <tr><td><code>database/</code></td><td>Migration &amp; seeder: pengganti <code>schema.sql</code></td></tr>
-<tr><td><code>public/</code></td><td>Document root: satu-satunya folder yang dilihat browser</td></tr>
 <tr><td><code>vendor/</code></td><td>Library Composer: <b>jangan diedit / di-commit</b> (<code>composer install</code> mengembalikannya)</td></tr>
-<tr><td><code>.env</code></td><td>Konfigurasi rahasia: tidak masuk git</td></tr>
 </table>
 
-<div class="ask"><b>Di plain PHP, kenapa kita pakai <code>php -S localhost:8001 -t phpdeck/project</code>, ada flag <code>-t</code>? Apa artinya?</b></div>
-
-<p class="fineprint"><b>Inertia</b> = jembatan tanpa REST API/CORS: Controller mengirim data, React di <code>resources/js/Pages/</code> menggambar HTML. <code>resources/views/</code> cukup satu file (<code>app.blade.php</code>) sebagai penampung <code>@inertia</code>. <code>public/</code> wajib jadi document root agar <code>.env</code> aman dari browser.</p>
+<p class="fineprint">Jangan dihafal semua — cukup yang akan kita pakai hari ini. Mulai dari <code>app/</code>, lalu <code>routes/</code>, lalu <code>resources/js/</code> tempat React kalian tinggal.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Ini peta folder Laravel. Jangan dihafal semua — cukup yang akan kita pakai hari ini. `app/` itu kode kita. `routes/` itu daftar URL. `database/` itu schema dan data awal."
 
 "Perhatikan satu hal yang berbeda dari tutorial Laravel kebanyakan: `resources/views/` di proyek kita cuma berisi SATU file — `app.blade.php`. Itu bukan tampilan. Itu cuma kerangka kosong tempat React dipasang. Semua tampilan sesungguhnya ada di `resources/js/` sebagai komponen React. Jadi kalau kalian cari halaman, jangan cari di `views/` — cari di `resources/js/Pages/`."
 
-"Satu yang penting: `public/`. Ingat flag `-t` yang kita pakai untuk server PHP kemarin? Itu menandakan document root. Laravel selalu menunjuk ke `public/` — supaya file sensitif seperti `.env` tidak bisa dibuka lewat URL. Dan `vendor/` itu isi library Composer: jangan diedit, jangan di-commit, karena bisa dibuat ulang dengan `composer install`."
+"Dan `vendor/` itu isi library Composer: jangan diedit, jangan di-commit, karena bisa dibuat ulang kapan saja dengan `composer install`. Kalau kalian clone proyek orang, `vendor/` memang tidak ikut — kalian yang membuat ulang."
+
+**🎯 Poin Kunci di Layar:**
+- Tekankan `views/` cuma `app.blade.php`; tampilan sebenarnya di `resources/js/`.
+- Sebut `vendor/` = jangan diedit, jangan di-commit.
+- Sebut `storage/`, `tests/`, `bootstrap/` sekilas — tidak dibahas hari ini.
+
+
+
+<p class="part-label">Part 1 · Getting Started</p>
+
+## Document Root `public/` &amp; Kerangka Inertia
+
+<div class="ask"><b>Di plain PHP, kenapa kita pakai <code>php -S localhost:8001 -t phpdeck/project</code>, ada flag <code>-t</code>? Apa artinya?</b></div>
+
+<p class="filename">public/index.php</p>
+
+```php
+// Titik masuk TUNGGAL aplikasi Laravel.
+// Browser hanya boleh melihat isi folder public/.
+```
+
+<p class="fineprint"><b><code>-t</code> = document root.</b> Laravel selalu menunjuk ke <code>public/</code> agar file sensitif seperti <code>.env</code> tidak bisa dibuka lewat URL. <br><b>Inertia</b> = jembatan tanpa REST API/CORS: Controller mengirim data, React di <code>resources/js/Pages/</code> menggambar HTML. <code>resources/views/</code> cukup satu file (<code>app.blade.php</code>) sebagai penampung <code>@inertia</code>.</p>
+
+Note: **🗣️ Ngomong ke Peserta:**
+"Satu yang penting soal folder `public/`. Ingat flag `-t` yang kita pakai untuk server PHP kemarin? Itu menandakan document root — folder mana yang boleh dilihat browser. Laravel selalu menunjuk ke `public/`, dan itu sebabnya file sensitif seperti `.env` tidak bisa dibuka lewat URL."
+
+"Coba buka `public/index.php`. Isinya cuma beberapa baris — dia cuma titik masuk tunggal. Semua request dari browser masuk lewat sini, lalu Laravel mengarahkannya sesuai route. Ini beda besar dengan kemarin, di mana tiap halaman punya file PHP sendiri yang bisa diakses langsung."
+
+"Terakhir, soal Inertia. Inertia itu jembatan tanpa REST API dan tanpa CORS: Controller mengirim data, React di `resources/js/Pages/` yang menggambar HTML-nya. Dan `resources/views/` cukup satu file saja — `app.blade.php` — yang isinya cuma penampung `@inertia`. Jadi tidak ada duplikasi tampilan."
 
 **🎯 Poin Kunci di Layar:**
 - Jawab `.ask`: flag `-t` = document root.
-- Tekankan `views/` cuma `app.blade.php`; tampilan sebenarnya di `resources/js/`.
-- Sebut `storage/`, `tests/`, `bootstrap/` sekilas — tidak dibahas hari ini.
+- Tekankan: `public/index.php` = titik masuk tunggal.
+- Jelaskan `@inertia` di `app.blade.php` = tempat React dipasang.
 
 
 
