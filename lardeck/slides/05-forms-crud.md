@@ -268,6 +268,11 @@ abort_if(! $student, 404);  // hentikan KALAU kondisi terpenuhi
 <code>{student}</code> yang tidak ditemukan &rarr; Laravel otomatis <code>abort(404)</code>. Kita tidak perlu menulis cek manual.
 </div>
 
+<div class="checkpoint">
+<b>Kenapa <code>dd()</code> tidak mengganti halaman?</b><br>
+Karena halaman kita hidup di dalam Inertia, <code>dd()</code> dan error fatal <b>HTTP 500</b> tidak memicu reload penuh. Inertia menangkap respons server itu dan menampilkannya di dalam <b>Inertia Error Modal Dialog</b> &mdash; sebuah jendela melayang di atas halaman yang sedang aktif. Halaman tetap ada di belakangnya; kalian cukup menutup modal untuk kembali, <b>tanpa pindah halaman</b> dan tanpa kehilangan state aplikasi.
+</div>
+
 Note: **🗣️ Ngomong ke Peserta:**
 "Terakhir: bagaimana kalau ada yang salah? Kemarin alat utama kita `var_dump`. Sekarang ada `dd()` — 'dump and die'. Isi variabel, lalu hentikan program tepat di situ. Ini cara tercepat memahami apa yang terjadi di tengah alur."
 
@@ -275,7 +280,10 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 "Dan `abort(404)` — ingat route model binding tadi? Kalau `{student}` tidak ditemukan, Laravel sudah otomatis memanggil ini. Ingat `try { new PDO } catch (PDOException $e)` kemarin? Laravel juga menangkap semua exception dan menampilkan halaman error yang rapi — atau JSON untuk API."
 
+"Ada satu perilaku yang akan kalian temui dan mungkin membingungkan. Saat kalian panggil `dd()` di tengah request Inertia, atau server kalian melempar error fatal HTTP 500, halaman TIDAK akan berganti menjadi full page reload. Inertia menangkap respons error itu dan menampilkannya di dalam Inertia Error Modal Dialog — jendela melayang di atas halaman yang sedang terbuka. Jadi kalau kalian lihat dump variabel muncul dalam kotak melayang, itu bukan bug: itu Inertia yang bekerja. Tutup modalnya, halaman kalian masih ada persis seperti sebelumnya. Ini sangat berguna saat live coding: kalian bisa debug tanpa kehilangan posisi di aplikasi."
+
 **🎯 Poin Kunci di Layar:**
 - [Aksi Live]: Tunjukkan `dd()` di `tinker` atau di controller.
 - Tekankan `abort(404)` sudah otomatis dari route model binding.
 - Sebut: ini menggantikan `var_dump` dan `try/catch` manual.
+- Unjuk: `dd()`/HTTP 500 muncul di Inertia Error Modal, bukan reload penuh.

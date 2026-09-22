@@ -42,28 +42,24 @@ Composer mengunduh, mengurus versi, dan menyiapkan semuanya.
 </div>
 </div>
 
-<p class="filename">terminal (pilih salah satu)</p>
+<p class="filename">terminal</p>
 
 ```bash
-# Cara A: Laravel Installer (pasang sekali, lalu lebih singkat)
-composer global require laravel/installer
-laravel new lara-student
-
-# Cara B: Composer langsung (tanpa installer; dipakai di sesi ini)
+# Satu perintah, tanpa installer global — cukup PHP + Composer
 composer create-project laravel/laravel:^12.0 lara-student
 ```
 
-<p class="fineprint">Keduanya menghasilkan proyek yang <b>sama</b>. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan: <b>Laravel itu sendiri cuma paket Composer</b>. Kita pin ke <code>^12.0</code> agar sama dengan proyek Backend yang sudah berjalan.</p>
+<p class="fineprint">Tidak perlu alat tambahan di luar <b>PHP + Composer</b>. Perintah ini menegaskan: <b>Laravel itu sendiri cuma paket Composer</b>. Kita pin ke <code>^12.0</code> agar sama dengan proyek Backend yang sudah berjalan.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
 "Ingat nggak waktu kita nulis `require 'config/database.php'`? Itu cara manual. Composer menggantikan itu — dia package manager, sama seperti `npm` di JavaScript atau `pip` di Python. Lucunya, Laravel itu sendiri cuma sebuah paket Composer. Jadi begitu paham Composer, kalian paham cara memasang framework ini."
 
-"Ada dua cara membuat proyek. Cara A pakai Laravel Installer — pasang sekali, lalu `laravel new` lebih singkat. Cara B langsung lewat Composer: `composer create-project`. Keduanya sah dan hasilnya identik. Kita pakai Cara B karena tidak menambah langkah setup, dan menegaskan bahwa Laravel cuma paket Composer."
+"Untuk membuat proyeknya, cukup satu perintah Composer: `composer create-project`. Tidak ada installer global yang perlu dipasang lebih dulu — modal kalian cuma PHP dan Composer. Ini juga menegaskan poinnya: Laravel cuma paket Composer biasa."
 
 "Perhatikan versinya: `^12.0`. Kita sengaja pakai Laravel 12 — versi yang sama dengan proyek Backend kalian. Jadi apa yang kalian pelajari hari ini langsung nyambung ke kode tim nanti."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Tunjukkan perintahnya, pilih Cara B, jalankan.
+- [Aksi Live]: Tunjukkan perintahnya, jalankan `composer create-project`.
 - Sebut nama folder `lara-student` — konsisten sepanjang sesi.
 - Tekankan versi `^12.0` = sama dengan proyek Backend.
 - Analogi: Composer ≈ `npm` / `pip`.
@@ -123,6 +119,31 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 <div class="ask"><b>Di plain PHP, kenapa kita pakai <code>php -S localhost:8001 -t phpdeck/project</code>, ada flag <code>-t</code>? Apa artinya?</b></div>
 
+<div class="cmp">
+<div class="cmp-php">
+<h4>Yang perlu dipasang: dua sisi</h4>
+
+```bash
+composer require inertiajs/inertia-laravel  # sisi Laravel
+npm install react react-dom @inertiajs/react # sisi React
+```
+
+</div>
+<div class="cmp-laravel">
+<h4><code>resources/views/app.blade.php</code></h4>
+
+```blade
+{{-- Satu-satunya file Blade di proyek ini: kerangka kosong --}}
+<body>
+    @inertia
+</body>
+```
+
+</div>
+</div>
+
+<p class="fineprint"><b>Inertia</b> = jembatan antara Laravel dan React, dan itulah sebabnya <code>resources/views/</code> cuma berisi <code>app.blade.php</code>. Controller Laravel mengirim <b>data</b>, Inertia menyerahkannya ke komponen React di <code>resources/js/Pages/</code>, React yang menggambar HTML-nya. Tidak ada REST API terpisah, tidak ada CORS, dan routing tetap di <code>routes/web.php</code>. Tanpa jembatan ini, React dan Laravel tidak saling kenal.</p>
+
 Note: **🗣️ Ngomong ke Peserta:**
 "Ini peta folder Laravel. Jangan dihafal semua — cukup yang akan kita pakai hari ini. `app/` itu kode kita. `routes/` itu daftar URL. `database/` itu schema dan data awal."
 
@@ -137,26 +158,6 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 
 
-<p class="part-label">Part 1 · Getting Started</p>
-
-## Memasang React: Inertia sebagai jembatan
-
-<p class="filename">terminal</p>
-
-```bash
-composer require inertiajs/inertia-laravel   # sisi Laravel
-npm install react react-dom @inertiajs/react  # sisi React
-```
-
-<p class="filename">resources/views/app.blade.php</p>
-
-```blade
-{{-- Satu-satunya file Blade di proyek ini: kerangka kosong --}}
-<body>
-    @inertia
-</body>
-```
-
 <p class="filename">resources/js/app.jsx</p>
 
 ```jsx
@@ -168,21 +169,21 @@ createInertiaApp({
 });
 ```
 
-<p class="fineprint"><b>Inertia</b> = jembatan antara Laravel dan React. Controller Laravel mengirim <b>data</b>, Inertia menyerahkannya ke komponen React, React yang menggambar HTML-nya. Tidak ada REST API terpisah, tidak ada CORS, dan routing tetap di <code>routes/web.php</code>.</p>
+<p class="fineprint">Jembatan itu dipasang di dua sisi sekaligus: <code>composer require inertiajs/inertia-laravel</code> untuk Laravel, <code>npm install react react-dom @inertiajs/react</code> untuk React. Lalu <code>resources/js/app.jsx</code> memetakan nama halaman ke komponen: kalau controller bilang <code>Inertia::render('Students/Index')</code>, Inertia mencari <code>Pages/Students/Index.jsx</code>. Tidak ada REST API terpisah, tidak ada CORS, routing tetap di <code>routes/web.php</code>.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Satu pertanyaan yang mungkin sudah kalian pikirkan: React itu frontend, Laravel itu backend. Bagaimana keduanya nyambung? Jawabannya Inertia."
+"Kalian mungkin bertanya: React itu frontend, Laravel itu backend. Bagaimana keduanya nyambung? Jawabannya Inertia — dan itu sebabnya `views/` tadi cuma berisi satu file."
 
 "Cara kerjanya begini. Kalian tahu React biasanya perlu API terpisah — Laravel bikin endpoint JSON, React fetch ke situ. Itu ribet: harus atur CORS, token, dua codebase. Inertia menghilangkan semua itu. Controller Laravel cukup mengembalikan DATA, dan Inertia menyerahkannya langsung ke komponen React. Routing tetap satu tempat di `routes/web.php`. Jadi kalian tidak perlu belajar REST API dulu."
 
-"Perhatikan file `app.blade.php` di kiri. Itu SATU-SATUNYA file Blade di proyek kita, dan isinya cuma `@inertia` — semacam lubang tempat React dipasang. Di kanan, `app.jsx`: Inertia membaca folder `Pages/` dan memetakan nama halaman ke komponen React. Jadi kalau controller bilang `Inertia::render('Students/Index')`, Inertia mencari `Pages/Students/Index.jsx`."
+"Untuk memasangnya, dua sisi sekaligus: `composer require inertiajs/inertia-laravel` untuk Laravel, dan `npm install react react-dom @inertiajs/react` untuk React. Lalu lihat `resources/js/app.jsx`: Inertia membaca folder `Pages/` dan memetakan nama halaman ke komponen React. Jadi kalau controller bilang `Inertia::render('Students/Index')`, Inertia mencari `Pages/Students/Index.jsx` — itulah kenapa nama di controller harus persis sama dengan nama file."
 
 **🎯 Poin Kunci di Layar:**
 - Tekankan: Inertia = jembatan, tanpa REST API terpisah, tanpa CORS.
 - Tunjukkan `@inertia` = satu-satunya Blade; sisanya React.
 - Jelaskan pemetaan nama halaman → file JSX.
 
-
+---
 
 <p class="part-label">Part 1 · Getting Started</p>
 

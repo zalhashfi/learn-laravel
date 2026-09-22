@@ -3,19 +3,6 @@
 
 # Views dengan React
 
-## HTML yang sekarang ditulis di JavaScript
-
-Note: **🗣️ Ngomong ke Peserta:**
-"Sekarang bagian yang paling sering kalian sentuh: tampilan. Tapi kali ini berbeda dari kebanyakan tutorial Laravel. Kita TIDAK pakai Blade. Kita pakai React — dan kalian sudah familiar dengan itu. Jadi bagian ini bukan belajar hal baru; ini tentang bagaimana React dipasangkan ke Laravel."
-
-**🎯 Poin Kunci di Layar:**
-- Tegaskan: kita pakai React, bukan Blade. Audiens sudah familiar React.
-- Fokus: bagaimana data dari Laravel sampai ke React.
-
-
-
-<p class="part-label">Part 4 · Views dengan React</p>
-
 ## Props: data dari Laravel masuk ke React
 
 <p class="filename">app/Http/Controllers/StudentController.php &nbsp;&middot;&nbsp; resources/js/Pages/Students/Index.jsx</p>
