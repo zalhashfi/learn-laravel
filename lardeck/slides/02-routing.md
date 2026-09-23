@@ -52,8 +52,19 @@ Note: **🗣️ Ngomong ke Peserta:**
 "Nah, pertanyaan pentingnya: di PHP kemarin, `id` itu kita ambil dari mana? Betul — `$_GET['id']`. Sekarang Laravel yang mengambilnya dari URL dan mengoper ke function sebagai parameter. Hasilnya persis sama. Jadi tidak ada konsep baru di sini — cuma cara menuliskannya yang lebih rapi dan terbaca."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Tulis dua route di `routes/web.php`, tunjukkan di browser.
+- [Aksi Live]: Tulis route parameter di `routes/web.php`, tunjukkan di browser.
 - Tekankan: `{id}` = pengganti `$_GET['id']`.
+
+**🛠️ Aksi Nyata (File & Browser):**
+1. **Buka File:** `routes/web.php`
+2. **Tulis (Uji Coba Cepat Parameter URL):**
+   ```php
+   Route::get('/demo-student/{id}', function ($id) {
+       return "Siswa dengan ID: " . $id;
+   });
+   ```
+3. **Buka Browser:** Akses `http://localhost:8001/demo-student/42`
+   - Tunjukkan teks `"Siswa dengan ID: 42"` muncul langsung di browser tanpa perlu membuat file `demo-student.php`.
 
 
 

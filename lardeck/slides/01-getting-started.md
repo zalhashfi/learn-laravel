@@ -313,3 +313,22 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tunjukkan file `.env` asli di editor, bukan cuma mockup.
 - Tekankan `APP_DEBUG=false` di production (padanan `display_errors`).
 - Ingatkan: siapkan `.env` sekarang untuk live coding berikutnya.
+
+**🛠️ Aksi Nyata (File & Konfigurasi):**
+1. **Buka File:** `.env` di root folder `lara-student`
+2. **Sesuaikan Konfigurasi Database (Pilih salah satu sesuai environment):**
+   - **Opsi A: MySQL (Laragon / XAMPP):**
+     ```env
+     DB_CONNECTION=mysql
+     DB_HOST=127.0.0.1
+     DB_PORT=3306
+     DB_DATABASE=lara_student
+     DB_USERNAME=root
+     DB_PASSWORD=
+     ```
+     *(Pastikan MySQL di Laragon/XAMPP sudah aktif dan database `lara_student` sudah dibuat).*
+   - **Opsi B: SQLite (Bawaan default Laravel 12 jika tanpa MySQL):**
+     ```env
+     DB_CONNECTION=sqlite
+     ```
+3. **Pastikan Mode Debug:** `APP_DEBUG=true` (untuk lokal development).

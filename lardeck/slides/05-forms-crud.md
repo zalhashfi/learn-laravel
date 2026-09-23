@@ -88,6 +88,50 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tunjukkan `StudentForm.jsx` asli: satu form untuk create + edit.
 - Sebut `errors.name` = pesan validasi khusus field itu.
 
+**🛠️ Aksi Nyata (File & Kode):**
+- **Buat File:** `resources/js/Components/StudentForm.jsx`
+- **Tulis Komponen Form Bersama:**
+  ```jsx
+  import { useForm } from '@inertiajs/react';
+
+  export default function StudentForm({ student, action, method = 'post', submitLabel = 'Simpan' }) {
+      const { data, setData, post, put, processing, errors } = useForm({
+          name: student?.name ?? '',
+          email: student?.email ?? '',
+          major: student?.major ?? '',
+      });
+
+      function submit(e) {
+          e.preventDefault();
+          if (method === 'post') post(action);
+          else put(action);
+      }
+
+      return (
+          <form onSubmit={submit} className="max-w-md space-y-4 rounded-md border bg-white p-6">
+              <div>
+                  <label className="block text-sm font-medium">Nama</label>
+                  <input className="w-full rounded border p-2 text-sm" value={data.name} onChange={e => setData('name', e.target.value)} />
+                  {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+              </div>
+              <div>
+                  <label className="block text-sm font-medium">Email</label>
+                  <input type="email" className="w-full rounded border p-2 text-sm" value={data.email} onChange={e => setData('email', e.target.value)} />
+                  {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+              </div>
+              <div>
+                  <label className="block text-sm font-medium">Jurusan</label>
+                  <input className="w-full rounded border p-2 text-sm" value={data.major} onChange={e => setData('major', e.target.value)} />
+                  {errors.major && <p className="mt-1 text-sm text-red-600">{errors.major}</p>}
+              </div>
+              <button type="submit" disabled={processing} className="rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50">
+                  {submitLabel}
+              </button>
+          </form>
+      );
+  }
+  ```
+
 
 
 <p class="part-label">Part 5 · Forms, Validation &amp; CRUD <span class="badge badge-live">Live #5</span></p>
@@ -343,3 +387,23 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Ajak peserta cek: create, edit, search, delete satu data.
 - Pastikan pesan validasi kustom Bahasa Indonesia tampil.
 - Tutup: rantai `validate()` → `errors.name` terpahami.
+
+**🛠️ Aksi Nyata (Checklist Pengujian Browser):**
+1. **Tes Validasi Error (Create):**
+   - Buka `http://localhost:8001/students/create`
+   - Langsung klik tombol submit tanpa mengisi input apa pun.
+   - **Hasil Diharapkan:** Form tidak tersimpan, pesan error merah muncul di bawah input ("Nama wajib diisi", dll.).
+2. **Tes Create Sukses:**
+   - Isi form dengan data valid (Nama, Email, Jurusan).
+   - Klik submit.
+   - **Hasil Diharapkan:** Redirect ke `http://localhost:8001/students`, data baru muncul di tabel, banner hijau flash message muncul.
+3. **Tes Edit & Update:**
+   - Klik link **Edit** pada salah satu baris siswa.
+   - Ubah jurusan siswa lalu klik tombol perbarui.
+   - **Hasil Diharapkan:** Redirect ke index, data terbarui, banner flash sukses tampil.
+4. **Tes Pencarian (Search) & Pagination:**
+   - Ketik nama siswa di kolom search.
+   - **Hasil Diharapkan:** Tabel otomatis terfilter menampilkan siswa yang dicari tanpa refresh total.
+5. **Tes Delete (Hapus):**
+   - Klik tombol **Hapus** pada salah satu data siswa.
+   - **Hasil Diharapkan:** Data terhapus seketika dari tabel dan banner flash penghapusan muncul.

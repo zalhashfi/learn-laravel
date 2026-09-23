@@ -48,6 +48,21 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tekankan: nama key HARUS sama (sumber bug paling umum).
 - Tekankan: React tidak menyentuh database; dia hanya menerima props.
 
+**🛠️ Aksi Nyata (File & Browser):**
+1. **Buat File:** `resources/js/Pages/Students/Index.jsx`
+2. **Tulis Komponen Minimal:**
+   ```jsx
+   export default function Index({ students }) {
+       return (
+           <div className="p-6">
+               <h1 className="text-2xl font-bold">Daftar Siswa</h1>
+               <p>Data diterima dari Laravel controller: {students?.length ?? 0} siswa.</p>
+           </div>
+       );
+   }
+   ```
+3. **Buka Browser:** Akses `http://localhost:8001/students` untuk membuktikan komponen React berhasil di-render oleh Inertia.
+
 
 
 <p class="part-label">Part 4 · Views dengan React</p>
@@ -94,6 +109,28 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tunjuk `{s.name}` = auto-escape (payoff XSS deck lama).
 - Jelaskan `key` wajib di `map()`.
 - Sebut `dangerouslySetInnerHTML`: namanya peringatan, bukan tanpa alasan.
+
+**🛠️ Aksi Nyata (File & Kode):**
+- **Buka File:** `resources/js/Pages/Students/Index.jsx`
+- **Perbarui Isi Komponen untuk Iterasi Data:**
+  ```jsx
+  export default function Index({ students }) {
+      return (
+          <div className="p-6">
+              <h1 className="text-2xl font-bold mb-4">Daftar Siswa</h1>
+              <div className="space-y-2">
+                  {students.map((s) => (
+                      <div key={s.id} className="p-3 bg-white border rounded shadow-sm">
+                          <p className="font-semibold text-slate-800">{s.name}</p>
+                          <p className="text-sm text-slate-500">{s.email} — {s.major}</p>
+                      </div>
+                  ))}
+              </div>
+          </div>
+      );
+  }
+  ```
+- **Buka Browser:** Refresh `http://localhost:8001/students` untuk melihat daftar siswa otomatis di-loop dengan JSX yang aman dari XSS.
 
 
 
