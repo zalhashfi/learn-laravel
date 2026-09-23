@@ -89,8 +89,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 "Ingat proyek kemarin? Kita bikin `index.php`, `create.php`, `edit.php`, `delete.php` — manual satu-satu. Sekarang satu baris menggantikan semuanya. Tapi perhatikan: route ini cuma PINTU. Isi logikanya tetap harus kita tulis di controller — itu slide berikutnya."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Jalankan `make:controller --resource` — perhatikan 7 method kosong yang dibuat.
-- Sebut bahwa daftar route lengkapnya kita lihat di slide berikutnya.
+- [Aksi Live]: Jalankan `make:controller --resource` di terminal untuk membuat controller.
+- Buka `routes/web.php`, import controller, dan tulis `Route::resource('students', StudentController::class);`.
+- Jalankan `php artisan route:list` di terminal untuk membuktikan 7 route langsung muncul.
 
 
 
