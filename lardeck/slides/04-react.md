@@ -125,6 +125,20 @@ Note: **🗣️ Ngomong ke Peserta:**
 - [Aksi Live]: Tunjukkan `AppLayout` dan `{children}` di file asli.
 - Tekankan: sekali tulis, semua halaman memakai.
 
+**🛠️ Aksi Nyata (File & Kode):**
+- **Buka File:** `resources/js/Layouts/AppLayout.jsx`
+- **Tulis komponen layout:**
+  ```jsx
+  export default function AppLayout({ children }) {
+      return (
+          <div className="min-h-screen bg-slate-50">
+              <header className="border-b bg-white p-4 font-semibold">Student Management</header>
+              <main className="p-6">{children}</main>
+          </div>
+      );
+  }
+  ```
+
 
 
 <p class="part-label">Part 4 · Views dengan React <span class="badge badge-live">Live #4</span></p>
@@ -171,3 +185,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tunjukkan ternary kondisi kosong di `Index.jsx`.
 - Tunjukkan `->with()` di controller, lalu `usePage().props.flash` di React.
 - Sebut `flash?.success` = optional chaining, aman saat kosong.
+
+**🛠️ Aksi Nyata (File & Kode):**
+- **File:** `resources/js/Layouts/AppLayout.jsx` (tambahkan flash handler):
+  ```jsx
+  import { usePage } from '@inertiajs/react';
+  // di dalam AppLayout:
+  const { flash } = usePage().props;
+  {flash?.success && <div className="mb-4 rounded bg-emerald-100 p-3 text-emerald-800">{flash.success}</div>}
+  ```
+- **File:** `resources/js/Pages/Students/Index.jsx` (bungkus konten dengan `<AppLayout>`).

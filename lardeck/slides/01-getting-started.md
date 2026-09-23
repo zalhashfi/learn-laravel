@@ -99,6 +99,14 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Sebut Breeze otomatis menyiapkan React + Inertia + Tailwind v4; folder Auth dibiarkan di background.
 - Tekankan urutan: `inertia-laravel` (jembatan) dulu, baru `breeze:install react` (konfigurasi otomatis).
 
+**🛠️ Aksi Terminal (Jalankan Berurutan):**
+1. `composer create-project laravel/laravel:^12.0 lara-student`
+2. `cd lara-student`
+3. `composer require inertiajs/inertia-laravel`
+4. `composer require laravel/breeze --dev`
+5. `php artisan breeze:install react` (pilih `no` saat ditanya dark mode & Pest)
+6. `npm install`
+
 
 
 <p class="part-label">Part 1 · Getting Started <span class="badge badge-live">Live #1</span></p>
@@ -133,6 +141,11 @@ Note: **🗣️ Ngomong ke Peserta:**
 - [Aksi Live]: Buka `http://localhost:8001`, tunjukkan halaman welcome.
 - Tekankan: port 8001 (app) vs 8000 (deck).
 - Sebut dua proses: `php artisan serve` (backend) + `npm run dev` (React/Vite).
+
+**🛠️ Aksi Terminal & Browser:**
+1. **Terminal 1 (Backend):** `php artisan serve --port=8001`
+2. **Terminal 2 (Frontend Vite):** Buka tab terminal baru di folder `lara-student`, jalankan `npm run dev`
+3. **Browser:** Buka `http://localhost:8001` untuk melihat halaman sambutan bawaan Laravel + React.
 
 
 

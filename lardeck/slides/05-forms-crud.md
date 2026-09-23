@@ -139,6 +139,14 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tekankan `Inertia::render('Students/Create')` = panggil halaman React.
 - Tekankan urutan: validasi → simpan → redirect+flash.
 
+**🛠️ Aksi Nyata (File & Kode):**
+1. **File:** `app/Http/Controllers/StudentController.php`
+   - Tulis method `create()` untuk render `Students/Create`.
+   - Tulis method `store(Request $request)` lengkap dengan `$request->validate([...])` dan `Student::create($validated)`.
+2. **File:** `resources/js/Pages/Students/Create.jsx`
+   - Render form create: `<StudentForm action="/students" method="post" submitLabel="Simpan Data" />`
+3. **Browser:** Akses `http://localhost:8001/students/create`, coba submit data dan amati redirect kembali ke daftar siswa.
+
 
 
 <p class="part-label">Part 5 · Forms, Validation &amp; CRUD <span class="badge badge-live">Live #6</span></p>
@@ -187,6 +195,15 @@ Note: **🗣️ Ngomong ke Peserta:**
 - [Aksi Live]: Tulis `edit`, `update`, `destroy`.
 - Sorot `Student $student` = route model binding (404 otomatis).
 - Tekankan: WHERE id tidak bisa lupa lagi.
+
+**🛠️ Aksi Nyata (File & Kode):**
+1. **File:** `app/Http/Controllers/StudentController.php`
+   - Tulis `edit(Student $student)`: `return Inertia::render('Students/Edit', ['student' => $student]);`
+   - Tulis `update(Request $request, Student $student)`: `$student->update($validated);`
+   - Tulis `destroy(Student $student)`: `$student->delete();`
+2. **File:** `resources/js/Pages/Students/Edit.jsx`
+   - Render form edit: `<StudentForm student={student} action={`/students/${student.id}`} method="put" submitLabel="Perbarui Data" />`
+3. **Browser:** Uji tombol Edit dan Hapus di tabel daftar siswa.
 
 
 
@@ -250,6 +267,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Sambungkan ke search SQL Injection deck lama.
 - Tekankan: `students.links` datang dari Laravel; React cuma menggambar.
 
+**🛠️ Aksi Nyata (File & Kode):**
+1. **File:** `app/Http/Controllers/StudentController.php`
+   - Perbarui method `index(Request $request)` menggunakan `Student::query()->when(...)` dan `->paginate(10)->withQueryString()`.
+2. **File:** `resources/js/Pages/Students/Index.jsx`
+   - Tambahkan input search `?q=...` dan looping `students.links.map(...)` untuk pagination.
+3. **Browser:** Tes ketik kata kunci pencarian dan navigasi halaman pagination di `http://localhost:8001/students`.
+
 
 
 <p class="part-label">Part 5 · Forms, Validation &amp; CRUD <span class="badge badge-live">Live #8</span></p>
@@ -285,6 +309,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tekankan `abort(404)` sudah otomatis dari route model binding.
 - Sebut: ini menggantikan `var_dump` dan `try/catch` manual.
 - Unjuk: `dd()`/HTTP 500 muncul di Inertia Error Modal, bukan reload penuh.
+
+**🛠️ Aksi Nyata (File & Browser):**
+1. **File:** `app/Http/Controllers/StudentController.php` (pada baris pertama method `store()`):
+   - Tambahkan: `dd($request->all());`
+2. **Browser:** Buka form tambah siswa, isi lalu klik Simpan.
+3. **Tunjukkan:** Kotak dialog melayang **Inertia Error Modal Dialog** muncul tanpa reload halaman browser.
+4. **Bersihkan:** Hapus kembali baris `dd()` tersebut agar kode controller kembali normal.
 
 
 

@@ -93,6 +93,14 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Buka `routes/web.php`, import controller, dan tulis `Route::resource('students', StudentController::class);`.
 - Jalankan `php artisan route:list` di terminal untuk membuktikan 7 route langsung muncul.
 
+**🛠️ Aksi Nyata (File & Terminal):**
+1. **Terminal:** `php artisan make:controller StudentController --resource`
+2. **Buka File:** `routes/web.php`
+   - Import di atas: `use App\Http\Controllers\StudentController;`
+   - Tulis route: `Route::resource('students', StudentController::class);`
+   - (Opsional): `Route::redirect('/', '/students');`
+3. **Terminal:** Jalankan `php artisan route:list --path=students` untuk memverifikasi 7 route berhasil terdaftar.
+
 
 
 <p class="part-label">Part 2 · Routing &amp; Controllers</p>
@@ -195,6 +203,20 @@ Note: **🗣️ Ngomong ke Peserta:**
 **🎯 Poin Kunci di Layar:**
 - Bandingkan `include` manual vs `Inertia::render()`.
 - Sebut: data yang dikirim akan jadi `props` di React (Part 4).
+
+**🛠️ Aksi Nyata (File & Kode):**
+- **Buka File:** `app/Http/Controllers/StudentController.php`
+- **Import di atas:** `use App\Models\Student;`, `use Inertia\Inertia;`, `use Inertia\Response;`
+- **Tulis di method `index()`:**
+  ```php
+  public function index(): Response
+  {
+      return Inertia::render('Students/Index', [
+          'students' => Student::all(),
+      ]);
+  }
+  ```
+- *(Catatan: Model `Student` dan datanya akan dibuat pada Part 3 Database berikutnya).*
 
 
 

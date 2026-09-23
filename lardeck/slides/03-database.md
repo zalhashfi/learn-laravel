@@ -94,6 +94,20 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Tekankan `migrate:fresh --seed` sebagai "reset sekali jalan".
 - Sebut tabel `migrations` = catatan migrasi mana yang sudah jalan.
 
+**🛠️ Aksi Nyata (File & Terminal):**
+1. **Terminal:** `php artisan make:model Student -m`
+2. **Buka File:** `database/migrations/xxxx_create_students_table.php`
+   - Di method `up()`, isi:
+     ```php
+     $table->string('name');
+     $table->string('email')->unique();
+     $table->string('major');
+     ```
+3. **Buka File:** `app/Models/Student.php`
+   - Tambahkan: `protected $fillable = ['name', 'email', 'major'];`
+4. **Terminal:** `php artisan migrate`
+5. **Terminal (Reset & Seed):** `php artisan migrate:fresh --seed` jika ingin mengisi data awal seeder.
+
 
 
 <p class="part-label">Part 3 · Database &amp; Eloquent</p>
@@ -171,6 +185,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 - Sambungkan `$fillable` ke prinsip whitelist Part 9 deck lama.
 - Tekankan: sebut yang BOLEH, bukan yang dilarang.
 - `$fillable` harus sinkron dengan kolom di migration.
+
+**🛠️ Aksi Nyata (File & Kode):**
+- **Buka File:** `app/Models/Student.php`
+- **Pastikan di dalam class `Student` tertulis:**
+  ```php
+  protected $fillable = ['name', 'email', 'major'];
+  ```
 
 
 
