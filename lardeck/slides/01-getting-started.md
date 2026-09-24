@@ -322,11 +322,11 @@ Note: **🗣️ Ngomong ke Peserta:**
      DB_CONNECTION=mysql
      DB_HOST=127.0.0.1
      DB_PORT=3306
-     DB_DATABASE=lara_student
+     DB_DATABASE=student_db
      DB_USERNAME=root
      DB_PASSWORD=
      ```
-     *(Pastikan MySQL di Laragon/XAMPP sudah aktif dan database `lara_student` sudah dibuat).*
+     *(Pastikan MySQL di Laragon/XAMPP sudah aktif dan database `student_db` sudah dibuat).*
    - **Opsi B: SQLite (Bawaan default Laravel 12 jika tanpa MySQL):**
      ```env
      DB_CONNECTION=sqlite

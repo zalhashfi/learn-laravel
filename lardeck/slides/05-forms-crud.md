@@ -185,8 +185,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 **🛠️ Aksi Nyata (File & Kode):**
 1. **File:** `app/Http/Controllers/StudentController.php`
-   - Tulis method `create()` untuk render `Students/Create`.
-   - Tulis method `store(Request $request)` lengkap dengan `$request->validate([...])` dan `Student::create($validated)`.
+   - Import di atas jika belum: `use Illuminate\Http\Request;`, `use Illuminate\Http\RedirectResponse;`
+   - Tulis method `create(): Response` untuk render `Students/Create`.
+   - Tulis method `store(Request $request): RedirectResponse` lengkap dengan `$request->validate([...])` dan `Student::create($validated)`.
 2. **File:** `resources/js/Pages/Students/Create.jsx`
    - Render form create: `<StudentForm action="/students" method="post" submitLabel="Simpan Data" />`
 3. **Browser:** Akses `http://localhost:8000/students/create`, coba submit data dan amati redirect kembali ke daftar siswa.
@@ -242,9 +243,9 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 **🛠️ Aksi Nyata (File & Kode):**
 1. **File:** `app/Http/Controllers/StudentController.php`
-   - Tulis `edit(Student $student)`: `return Inertia::render('Students/Edit', ['student' => $student]);`
-   - Tulis `update(Request $request, Student $student)`: `$student->update($validated);`
-   - Tulis `destroy(Student $student)`: `$student->delete();`
+   - Tulis `edit(Student $student): Response`: `return Inertia::render('Students/Edit', ['student' => $student]);`
+   - Tulis `update(Request $request, Student $student): RedirectResponse`: `$student->update($validated);`
+   - Tulis `destroy(Student $student): RedirectResponse`: `$student->delete();`
 2. **File:** `resources/js/Pages/Students/Edit.jsx`
    - Render form edit: `<StudentForm student={student} action={`/students/${student.id}`} method="put" submitLabel="Perbarui Data" />`
 3. **Browser:** Uji tombol Edit dan Hapus di tabel daftar siswa.

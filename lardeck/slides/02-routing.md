@@ -59,12 +59,10 @@ Note: **🗣️ Ngomong ke Peserta:**
 1. **Buka File:** `routes/web.php`
 2. **Tulis (Uji Coba Cepat Parameter URL):**
    ```php
-   Route::get('/demo-student/{id}', function ($id) {
-       return "Siswa dengan ID: " . $id;
-   });
+   Route::get('/students/{id}', fn ($id) => "Siswa {$id}");
    ```
-3. **Buka Browser:** Akses `http://localhost:8000/demo-student/42`
-   - Tunjukkan teks `"Siswa dengan ID: 42"` muncul langsung di browser tanpa perlu membuat file `demo-student.php`.
+3. **Buka Browser:** Akses `http://localhost:8000/students/42`
+   - Tunjukkan teks `"Siswa 42"` muncul langsung di browser sesuai kode di layar.
 
 
 
@@ -189,7 +187,7 @@ Data mentah, template dirakit manual.
 <h4>Laravel: index() mengirim data</h4>
 
 ```php
-public function index()
+public function index(): Response
 {
     return Inertia::render('Students/Index', [
         'students' => Student::all(),

@@ -52,7 +52,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 1. **Buat File:** `resources/js/Pages/Students/Index.jsx`
 2. **Tulis Komponen Minimal:**
    ```jsx
-   export default function Index({ students }) {
+   export default function Index({ students, q }) {
        return (
            <div className="p-6">
                <h1 className="text-2xl font-bold">Daftar Siswa</h1>
@@ -114,7 +114,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 - **Buka File:** `resources/js/Pages/Students/Index.jsx`
 - **Perbarui Isi Komponen untuk Iterasi Data:**
   ```jsx
-  export default function Index({ students }) {
+  export default function Index({ students, q }) {
       return (
           <div className="p-6">
               <h1 className="text-2xl font-bold mb-4">Daftar Siswa</h1>
@@ -231,4 +231,4 @@ Note: **🗣️ Ngomong ke Peserta:**
   const { flash } = usePage().props;
   {flash?.success && <div className="mb-4 rounded bg-emerald-100 p-3 text-emerald-800">{flash.success}</div>}
   ```
-- **File:** `resources/js/Pages/Students/Index.jsx` (bungkus konten dengan `<AppLayout>`).
+- **File:** `resources/js/Pages/Students/Index.jsx` (bungkus konten dengan `<AppLayout>`. Catatan: gunakan pengecekan `(students.data ?? students).length === 0` agar aman saat data masih berupa array biasa `Student::all()` maupun setelah dipaginasi).
