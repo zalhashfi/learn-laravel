@@ -61,7 +61,7 @@ Note: **🗣️ Ngomong ke Peserta:**
        );
    }
    ```
-3. **Buka Browser:** Akses `http://localhost:8001/students` untuk membuktikan komponen React berhasil di-render oleh Inertia.
+3. **Buka Browser:** Akses `http://localhost:8000/students` untuk membuktikan komponen React berhasil di-render oleh Inertia.
 
 
 
@@ -130,7 +130,7 @@ Note: **🗣️ Ngomong ke Peserta:**
       );
   }
   ```
-- **Buka Browser:** Refresh `http://localhost:8001/students` untuk melihat daftar siswa otomatis di-loop dengan JSX yang aman dari XSS.
+- **Buka Browser:** Refresh `http://localhost:8000/students` untuk melihat daftar siswa otomatis di-loop dengan JSX yang aman dari XSS.
 
 
 

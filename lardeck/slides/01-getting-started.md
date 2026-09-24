@@ -117,35 +117,35 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ```bash
 cd lara-student
-php artisan serve --port=8001
+php artisan serve
 ```
 
 <div class="mock-browser">
-<div class="bar">localhost:8001</div>
+<div class="bar">localhost:8000</div>
 <div class="body">
 <b>Laravel</b><br>
 Halaman selamat datang bawaan: sudah rapi, sudah jalan.
 </div>
 </div>
 
-<p class="fineprint">App jalan di port <b>8001</b>, deck ini di port <b>8000</b>. Dua server, sama seperti pertemuan lalu. Kita pakai <code>php artisan serve</code> untuk backend; proses React-nya jalan terpisah lewat Vite.</p>
+<p class="fineprint">App jalan di port <b>8000</b>. Kita pakai <code>php artisan serve</code> untuk backend; proses React-nya jalan terpisah lewat Vite.</p>
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Sekarang masuk ke foldernya, lalu jalankan `php artisan serve --port=8001`. Artisan itu command-line tool bawaan Laravel — nanti kita pakai terus. Lihat hasilnya: halaman selamat datang, langsung jalan, langsung rapi. Padahal kita belum menulis satu baris kode pun."
+"Sekarang masuk ke foldernya, lalu jalankan `php artisan serve`. Artisan itu command-line tool bawaan Laravel — nanti kita pakai terus. Lihat hasilnya: halaman selamat datang, langsung jalan, langsung rapi. Padahal kita belum menulis satu baris kode pun."
 
 "Bedanya dengan kemarin: sekarang ada dua proses. Satu untuk Laravel — backend dan routing. Satu lagi untuk React — lewat Vite, yang mengompilasi JSX kalian. Kalau nanti kalian buka `composer run dev`, kedua proses ini jalan bareng. Kita mulai dengan `serve` saja dulu supaya jelas mana proses mana."
 
 "Coba renungkan: kemarin butuh 10 bagian sampai aplikasi bisa menampilkan data. Hari ini, satu perintah. Itulah yang saya maksud dengan 'alat yang tepat'."
 
 **🎯 Poin Kunci di Layar:**
-- [Aksi Live]: Buka `http://localhost:8001`, tunjukkan halaman welcome.
-- Tekankan: port 8001 (app) vs 8000 (deck).
+- [Aksi Live]: Buka `http://localhost:8000`, tunjukkan halaman welcome.
+- Tekankan: port 8000 (app).
 - Sebut dua proses: `php artisan serve` (backend) + `npm run dev` (React/Vite).
 
 **🛠️ Aksi Terminal & Browser:**
-1. **Terminal 1 (Backend):** `php artisan serve --port=8001`
+1. **Terminal 1 (Backend):** `php artisan serve`
 2. **Terminal 2 (Frontend Vite):** Buka tab terminal baru di folder `lara-student`, jalankan `npm run dev`
-3. **Browser:** Buka `http://localhost:8001` untuk melihat halaman sambutan bawaan Laravel + React.
+3. **Browser:** Buka `http://localhost:8000` untuk melihat halaman sambutan bawaan Laravel + React.
 
 
 
@@ -188,7 +188,7 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 ## Document Root `public/` &amp; Kerangka Inertia
 
-<div class="ask"><b>Di plain PHP, kenapa kita pakai <code>php -S localhost:8001 -t phpdeck/project</code>, ada flag <code>-t</code>? Apa artinya?</b></div>
+<div class="ask"><b>Di plain PHP, kenapa kita pakai <code>php -S localhost:8000 -t lara-student</code>, ada flag <code>-t</code>? Apa artinya?</b></div>
 
 <p class="filename">public/index.php</p>
 

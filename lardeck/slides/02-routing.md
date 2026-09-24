@@ -6,7 +6,7 @@
 ## Pintu masuk yang sekarang eksplisit
 
 Note: **🗣️ Ngomong ke Peserta:**
-"Di Part 1 kita sudah punya proyek Laravel yang jalan. Sekarang pertanyaannya: waktu user buka `localhost:8001/students`, apa yang terjadi? Di PHP kemarin, jawabannya sederhana: ada file bernama `index.php`. Di Laravel, jawabannya ada di satu file khusus: `routes/web.php`. Ini yang kita bongkar sekarang."
+"Di Part 1 kita sudah punya proyek Laravel yang jalan. Sekarang pertanyaannya: waktu user buka `localhost:8000/students`, apa yang terjadi? Di PHP kemarin, jawabannya sederhana: ada file bernama `index.php`. Di Laravel, jawabannya ada di satu file khusus: `routes/web.php`. Ini yang kita bongkar sekarang."
 
 **🎯 Poin Kunci di Layar:**
 - Ingatkan: dulu routing = nama file. Sekarang = daftar eksplisit.
@@ -63,7 +63,7 @@ Note: **🗣️ Ngomong ke Peserta:**
        return "Siswa dengan ID: " . $id;
    });
    ```
-3. **Buka Browser:** Akses `http://localhost:8001/demo-student/42`
+3. **Buka Browser:** Akses `http://localhost:8000/demo-student/42`
    - Tunjukkan teks `"Siswa dengan ID: 42"` muncul langsung di browser tanpa perlu membuat file `demo-student.php`.
 
 

@@ -189,7 +189,7 @@ Note: **🗣️ Ngomong ke Peserta:**
    - Tulis method `store(Request $request)` lengkap dengan `$request->validate([...])` dan `Student::create($validated)`.
 2. **File:** `resources/js/Pages/Students/Create.jsx`
    - Render form create: `<StudentForm action="/students" method="post" submitLabel="Simpan Data" />`
-3. **Browser:** Akses `http://localhost:8001/students/create`, coba submit data dan amati redirect kembali ke daftar siswa.
+3. **Browser:** Akses `http://localhost:8000/students/create`, coba submit data dan amati redirect kembali ke daftar siswa.
 
 
 
@@ -316,7 +316,7 @@ Note: **🗣️ Ngomong ke Peserta:**
    - Perbarui method `index(Request $request)` menggunakan `Student::query()->when(...)` dan `->paginate(10)->withQueryString()`.
 2. **File:** `resources/js/Pages/Students/Index.jsx`
    - Tambahkan input search `?q=...` dan looping `students.links.map(...)` untuk pagination.
-3. **Browser:** Tes ketik kata kunci pencarian dan navigasi halaman pagination di `http://localhost:8001/students`.
+3. **Browser:** Tes ketik kata kunci pencarian dan navigasi halaman pagination di `http://localhost:8000/students`.
 
 
 
@@ -390,13 +390,13 @@ Note: **🗣️ Ngomong ke Peserta:**
 
 **🛠️ Aksi Nyata (Checklist Pengujian Browser):**
 1. **Tes Validasi Error (Create):**
-   - Buka `http://localhost:8001/students/create`
+   - Buka `http://localhost:8000/students/create`
    - Langsung klik tombol submit tanpa mengisi input apa pun.
    - **Hasil Diharapkan:** Form tidak tersimpan, pesan error merah muncul di bawah input ("Nama wajib diisi", dll.).
 2. **Tes Create Sukses:**
    - Isi form dengan data valid (Nama, Email, Jurusan).
    - Klik submit.
-   - **Hasil Diharapkan:** Redirect ke `http://localhost:8001/students`, data baru muncul di tabel, banner hijau flash message muncul.
+   - **Hasil Diharapkan:** Redirect ke `http://localhost:8000/students`, data baru muncul di tabel, banner hijau flash message muncul.
 3. **Tes Edit & Update:**
    - Klik link **Edit** pada salah satu baris siswa.
    - Ubah jurusan siswa lalu klik tombol perbarui.
